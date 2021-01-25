@@ -1,0 +1,99 @@
+---
+layout: page
+title: Enterprise GIS Timeline
+permalink: /timeline/
+css: >-
+  .tile-subtitle {
+    font-size: 1rem;
+    font-weight: 600
+  }
+---
+<div class="timeline" id="timeline">
+  <div class="timeline-item" id="timeline-example-1">
+    <div class="timeline-left">
+      <a class="timeline-icon" href="#timeline-example-1"></a>
+    </div>
+    <div class="timeline-left"><a class="timeline-icon icon-lg tooltip" href="#timeline-example-2" data-tooltip="February 2017"><i class="icon icon-check"></i></a></div>
+    <div class="timeline-content">
+      <div class="tile">
+        <div class="tile-content">
+          <p class="tile-subtitle">February 2017</p>
+          <p class="tile-title">New Documents experience</p>
+          <p class="tile-title"><a href="components.html#bars">Bars</a>: represent the progress of a task</p>
+          <p class="tile-title"><a href="components.html#steps">Steps</a>: progress indicators of a sequence of task steps</p>
+          <p class="tile-title"><a href="components.html#tiles">Tiles</a>: repeatable or embeddable information blocks</p>
+        </div>
+        <div class="tile-action">
+          <button class="btn">View</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="timeline-item" id="timeline-example-2">
+    <div class="timeline-left">
+      <a class="timeline-icon icon-lg" href="#timeline-example-2">
+        <i class="icon icon-check"></i>
+      </a>
+    </div>
+    <div class="timeline-content">
+    </div>
+  </div>
+</div>
+
+<script>
+
+var timelineDiv = document.getElementById("timeline");
+
+var timeline = [
+  {
+    title: "CAD Files & Print Maps",
+    sharing: "Print Maps, Email CAD Files",
+  },
+  {
+    title: "File-Based GIS",
+    sharing: "Interactive Web Maps & Print Maps, Email GIS Data & CAD FIles",
+    complete: true
+  },
+  {
+    title: "Field Crews & Mobile Mapping",
+    "sharing": "Mobile Web Apps & Native Apps",
+  },
+  {
+    title: "Workorder Management & Mobile GIS",
+    "sharing": "Mobile Web Apps & Native Apps",
+  },
+  {
+    title: "The Future: Enterprise GIS",
+    sharing: "Interactive Web Maps & Print Maps, Interactive Online Data Extraction Tool",
+  }
+]
+
+var timelineTemplate = createTimeline(timeline);
+
+timelineDiv.innerHTML = timelineTemplate;
+
+function createTimeline(data) {
+  var template = "";
+  for (var d=0; d < data.length; d++) {
+    console.log(data[d].title)
+    template += `
+    <div class="timeline-item" id="timeline-example${d}">
+      <div class="timeline-left">
+        <a class="timeline-icon ${data[d].complete ? 'icon-lg' : ''} tooltip" href="#timeline-example-2" data-tooltip="February 2017">${data[d].complete ? '<i class="icon icon-check"></i>' : '' }</a>
+      </div>
+      <div class="timeline-content">
+        <div class="tile">
+          <div class="tile-content">
+            <p class="tile-subtitle">${data[d].title}</p>
+            <p class="tile-title">${data[d].sharing}</p>
+          </div>
+          <div class="tile-action"><button class="btn">View</button></div>
+        </div>
+      </div>
+    </div>
+    `
+  }
+  return template
+}
+
+</script>

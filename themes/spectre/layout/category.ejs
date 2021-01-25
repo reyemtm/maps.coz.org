@@ -1,0 +1,106 @@
+<style>
+  .container {
+    max-width: 860px;
+  }
+  .card img {
+    max-height: 145px;
+  }
+</style>
+
+<% var cat = (page.category) %>
+
+<!-- <%- partial('common/header', {category: cat}) %> -->
+
+<div id="content" class="category-page">
+  <div class="container">
+    <div class="columns">
+      
+      <% site.categories.sort('name', -1).map(function(category){  %>
+
+        <% if(category.name == cat && cat == "maps") { %>
+
+        <!-- public map gallery page -->
+
+          <% category.posts.sort('-date').map(function(post, i){  %>
+            <% if (post.redirect) {%><%}else{%>
+              <%- partial('common/mapcard', {map: post, index: true}) %>
+              <%- partial('common/modal', {post: post, modaltop: true}) %>
+            <%}%>
+          <% }) %>
+        <%}%>
+
+
+        <% if(cat == "internal" ) { %>
+
+        <!-- internal page shows all maps -->
+        <div class="container">
+          <div class="col-12">
+            <h3 style="text-transform:capitalize;font-weight:400;text-align:center;">
+            <% if (category.name == "internal") {%> Maps for Internal Use <%}%>
+            <% if (category.name == "maps") {%>Public Maps<%}%>
+            <% if (category.name == "development") {%>Maps in Development <%}%>
+            <% if (category.name == "apps") {%>Applications<%}%>
+            </h3>
+          </div>
+        </div>
+          <% category.posts.sort('-date').map(function(post, i){  %>
+            <% if (post.redirect) {%><%}else{%>
+              <%- partial('common/mapcard', {map: post, index: true}) %>
+              <%- partial('common/modal', {post: post, modaltop: true}) %>
+            <%}%>
+          <% }) %>
+        <%}%>
+
+        <% if(category.name == cat && cat != "maps" && cat != "internal" ) { %>
+
+        <!-- all other category pages -->
+
+          <% category.posts.sort('-date').map(function(post, i){  %>
+            <% if (post.redirect) {%><%}else{%>
+              <%- partial('common/mapcard', {map: post, index: true}) %>
+              <%- partial('common/modal', {post: post, modaltop: true}) %>
+            <%}%>
+          <% }) %>
+        <%}%>
+
+    <% }) %>
+    </div>
+  </div>
+</div>
+<div class="modal" id="coz-map-disclaimer" style="align-items: center;">
+  <a href="#close" class="modal-overlay" aria-label="Close"></a>
+  <div class="modal-container">
+    <div class="modal-header">
+      <div class="modal-title h4">
+        <!-- <span class="coz-logo"><a href="http://www.coz.org"><img style="position: relative;float:right;"src="/assets/img/coz_logo_web.jpg" alt="City of Zanesville Logo"></a></span> -->
+        <p>City of Zanesville Map Portal</p>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="content">
+        <div id="iewarning" style="display: none;">
+            <h5 class="text-danger">Browser Compatibility</h5>
+            <p>It appears you are using Internet Explorer. Although this map will run in IE 11, it may have limited functionality. Please consider switching to a modern browser such as Chrome, Edge or Firefox.</p>
+        </div>
+        <div>
+          <h5 class="text-error">In Development</h5>
+          <p>
+            The maps within this portal are in development. These maps are not for public release. To find the publicly available maps please visit <a href="http://www.coz.org/maps">www.coz.org/maps</a>.
+          </p>
+          <p>By clicking "Accept" you agree not to share the maps herein and acknoledge their state as pre-release.</p>
+        </div>
+        <!--h5 class="text-primary">Disclaimer</h5>
+        <p>
+          <span class="text-warning">The information depicted in this map viewer is for reference purposes only and is not intended to be used to determine legal boundaries or locations.</span>
+          <br><br>
+          The City of Zanesville makes every effort to ensure the accuracy and validity of published data, however the information herein is not warranted or guaranteed as such. The City of Zanesville assumes no liability regarding the use or misuse of the information
+          presented. Please direct all questions or corrections to the Division of Public Service at (740) 617-4910.
+        </p-->
+        <a href="#close" id="accept" class="modal-close"><button class="btn btn-primary">Accept</button></a>
+        <a href="http://www.coz.org"><button class="btn btn-secondary">Decline</button></a>
+      </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+  </div>
+</div>

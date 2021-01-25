@@ -1,0 +1,13 @@
+@ECHO OFF
+
+setlocal
+:PROMPT
+SET /P CONFIRM=This will BACKUP this project to the Z drive folder. Are you sure (Y/[N])?
+IF /I "%CONFIRM%" NEQ "Y" GOTO END
+
+robocopy "..\gis.coz.org_web_maps" "Z:\scans\GIS_Projects\Web Apps Production\gis.coz.org_web_maps" /MIR /FFT /Z /XA:H /W:5 /xd node_modules .git .cache vt public _scripts/layer-editor/node_modules
+
+PAUSE
+
+:END
+endlocal

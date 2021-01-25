@@ -1,0 +1,4 @@
+{
+  "pwa": "sw-precache --config=sw-precache-config.js",
+  "test": "npm run parcel-js & npm run docs & hexo generate & gulp clean-public & npm run pwa & gulp cdn & http-server -p 80 -o -c -1"
+}

@@ -1,0 +1,5290 @@
+[
+  {
+    "id": "mus_imagery_2011",
+    "type": "raster",
+    "name": "2011 Imagery",
+    "description": "Imagery",
+    "directory": "Imagery",
+    "group": "Aerial Imagery",
+    "popup": "",
+    "image": "https://gis.coz.org/map-data/preview-images/ortho.jpg",
+    "source": "mus_imagery_2011",
+    "sourceType": {
+      "type": "raster",
+      "tiles": ["https://311.coz.org/static/data/raster-tiles/img_satellite_2011_mus/{z}/{x}/{y}.webp"],
+      "tileSize": 256,
+      "attribution": "<a href='http://muskingumcountyauditor.org/Home.aspx?PageID=20' target='_blank'>Imagery &copy; 2011 Muskingum County</a>",
+      "maxzoom": 19
+    },
+    "paint": {
+      "raster-opacity": 1
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "mus_imagery_2015",
+    "type": "raster",
+    "name": "2015 Imagery",
+    "description": "Imagery",
+    "directory": "Imagery",
+    "group": "Aerial Imagery",
+    "popup": "",
+    "image": "https://gis.coz.org/map-data/preview-images/ortho.jpg",
+    "source": "imagerySource2015",
+    "sourceType": {
+      "type": "raster",
+      "tiles": ["https://311.coz.org/static/data/raster-tiles/img_satellite_2015_mus/{z}/{x}/{y}.webp"],
+      "tileSize": 256,
+      "attribution": "<a href='http://muskingumcountyauditor.org/Home.aspx?PageID=20' target='_blank'>Imagery &copy; 2015 Muskingum County</a>",
+      "maxzoom": 20
+    },
+    "paint": {
+      "raster-opacity": 1
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "mus_imagery",
+    "type": "raster",
+    "name": "2018 Imagery",
+    "directory": "Imagery",
+    "group": "Aerial Imagery",
+    "image": "https://gis.coz.org/map-data/preview-images/ortho.jpg",
+    "source": "img_satellite_2018_mus",
+    "sourceType": {
+      "type": "raster",
+      "tiles": [
+        "https://311.coz.org/static/data/raster-tiles/img_satellite_2018_mus/{z}/{x}/{y}.webp"
+      ],
+      "tileSize": 256,
+      "attribution": "<a href='http://muskingumcountyauditor.org/Home.aspx?PageID=20' target='_blank'>Imagery &copy; 2015 Muskingum County</a>",
+      "maxzoom": 20
+    },
+    "paint": {
+      "raster-opacity": 1
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "img_osip_2020",
+    "type": "raster",
+    "name": "2020 Imagery",
+    "directory": "Imagery",
+    "group": "Aerial Imagery",
+    "image": "https://gis.coz.org/map-data/preview-images/ortho.jpg",
+    "source": "img_osip_2020",
+    "sourceType": {
+      "type": "raster",
+      "tiles": [
+        "https://311.coz.org/static/data/raster-tiles/img_osip_2020/{z}/{x}/{y}.webp"
+      ],
+      "tileSize": 512,
+      "attribution": "<a href='https://ogrip.oit.ohio.gov/projectsinitiatives/statewideimagery.aspx' target='_blank'>OSIP III Imagery</a>",
+      "maxzoom": 20
+    },
+    "paint": {
+      "raster-opacity": 1
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "img_hist_maps_1832_musk_atlas",
+    "type": "raster",
+    "name": "Muskingum Co. circa 1832",
+    "source": "img_hist_maps_1832_musk_atlas",
+    "sourceType": {
+      "type": "raster",
+      "tiles": [
+        "https://311.coz.org/static/data/raster-tiles/img_hist_maps_1832_musk_atlas/{z}/{x}/{y}.png"
+      ],
+      "tileSize": 256,
+      "maxzoom": 16
+    },
+    "directory": "Historic Maps and Imagery",
+    "group": "Historic Layers",
+    "paint": {
+      "raster-opacity": 1
+    },
+    "maxzoom": 22,
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "img_hist_maps_1852_musk",
+    "type": "raster",
+    "name": "Muskingum Co. circa 1852",
+    "source": "img_hist_maps_1852_musk",
+    "sourceType": {
+      "type": "raster",
+      "tiles": [
+        "https://311.coz.org/static/data/raster-tiles/img_hist_maps_1852_musk/{z}/{x}/{y}.png"
+      ],
+      "tileSize": 256,
+      "maxzoom": 16
+    },
+    "directory": "Historic Maps and Imagery",
+    "group": "Historic Layers",
+    "paint": {
+      "raster-opacity": 1
+    },
+    "minzoom": 0,
+    "maxzoom": 22,
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "img_hist_maps_1910_usgs_24k",
+    "type": "raster",
+    "name": "USGS Topo 1910",
+    "source": "img_hist_maps_1910_usgs_24k",
+    "sourceType": {
+      "type": "raster",
+      "tiles": [
+        "https://311.coz.org/static/data/raster-tiles/img_hist_maps_1910_usgs_24k/{z}/{x}/{y}.png"
+      ],
+      "tileSize": 256,
+      "maxzoom": 16,
+      "attribution": "<a href='https://earthexplorer.usgs.gov/' target='_blank'>Imagery &copy; USGS</a>"
+    },
+    "directory": "Historic Maps and Imagery",
+    "group": "Historic Layers",
+    "paint": {
+      "raster-opacity": 1
+    },
+    "minzoom": 0,
+    "maxzoom": 22,
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "img_hist_maps_1928_street_map",
+    "type": "raster",
+    "name": "Zanesville 1928",
+    "source": "img_hist_maps_1928_street_map",
+    "sourceType": {
+      "type": "raster",
+      "tiles": [
+        "https://311.coz.org/static/data/raster-tiles/img_hist_maps_1928_street_map/{z}/{x}/{y}.png"
+      ],
+      "tileSize": 256,
+      "maxzoom": 16
+    },
+    "directory": "Historic Maps and Imagery",
+    "group": "Historic Layers",
+    "paint": {
+      "raster-opacity": 1
+    },
+    "minzoom": 0,
+    "maxzoom": 22,
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "img_hist_maps_1956_parcel_map",
+    "type": "raster",
+    "name": "Zanesville Parcel Map 1956",
+    "top": true,
+    "source": "img_hist_maps_1956_parcel_map",
+    "sourceType": {
+      "type": "raster",
+      "tiles": [
+        "https://311.coz.org/static/data/raster-tiles/img_hist_maps_1956_parcel_map/{z}/{x}/{y}.png"
+      ],
+      "tileSize": 256,
+      "maxzoom": 17
+    },
+    "directory": "Historic Maps and Imagery",
+    "group": "Historic Layers",
+    "paint": {
+      "raster-opacity": 0.8
+    },
+    "maxzoom": 22,
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "img_hist_maps_1962_usgs_24k",
+    "type": "raster",
+    "name": "USGS Topo 1960",
+    "source": "img_hist_maps_1962_usgs_24k",
+    "sourceType": {
+      "type": "raster",
+      "tiles": [
+        "https://311.coz.org/static/data/raster-tiles/img_hist_maps_1962_usgs_24k/{z}/{x}/{y}.png"
+      ],
+      "tileSize": 256,
+      "maxzoom": 16,
+      "attribution": "<a href='https://earthexplorer.usgs.gov/' target='_blank'>Topo Map &copy; USGS</a>"
+    },
+    "directory": "Historic Maps and Imagery",
+    "group": "Historic Layers",
+    "paint": {
+      "raster-opacity": 1
+    },
+    "minzoom": 0,
+    "maxzoom": 22,
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "img_hist_maps_1983_coz_downtown",
+    "type": "raster",
+    "name": "Zanesville Downtown circa 1983",
+    "source": "img_hist_maps_1983_coz_downtown",
+    "sourceType": {
+      "type": "raster",
+      "tiles": [
+        "https://311.coz.org/static/data/raster-tiles/img_hist_maps_1983_coz_downtown/{z}/{x}/{y}.png"
+      ],
+      "tileSize": 256,
+      "maxzoom": 22
+    },
+    "directory": "Historic Maps and Imagery",
+    "group": "Historic Layers",
+    "paint": {
+      "raster-opacity": 1
+    },
+    "minzoom": 0,
+    "maxzoom": 22,
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "img_hist_maps_1994_usgs_doq",
+    "type": "raster",
+    "name": "Zanesville circa 1994",
+    "source": "img_hist_maps_1994_usgs_doq",
+    "sourceType": {
+      "type": "raster",
+      "tiles": [
+        "https://311.coz.org/static/data/raster-tiles/img_hist_maps_1994_usgs_doq/{z}/{x}/{y}.png"
+      ],
+      "tileSize": 256,
+      "maxzoom": 19,
+      "attribution": "<a href='https://earthexplorer.usgs.gov/' target='_blank'>DOQ Imagery &copy; USGS</a>"
+    },
+    "directory": "Historic Maps and Imagery",
+    "group": "Historic Layers",
+    "paint": {
+      "raster-opacity": 1
+    },
+    "minzoom": 0,
+    "maxzoom": 22,
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "img_hist_maps_2004_coz_wards",
+    "type": "raster",
+    "name": "Zanesville Wards (10 Wards)",
+    "source": "img_hist_maps_2004_coz_wards",
+    "sourceType": {
+      "type": "raster",
+      "tiles": [
+        "https://311.coz.org/static/data/raster-tiles/img_hist_maps_2004_coz_wards/{z}/{x}/{y}.png"
+      ],
+      "tileSize": 256,
+      "maxzoom": 16
+    },
+    "directory": "Historic Maps and Imagery",
+    "group": "Historic Layers",
+    "paint": {
+      "raster-opacity": 1
+    },
+    "minzoom": 0,
+    "maxzoom": 22,
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "coz_zoning",
+    "type": "fill",
+    "name": "Zoning Boundaries",
+    "source": "zoningSource",
+    "directory": "Community Development",
+    "group": "Zoning",
+    "legend": "<div id='RS-1' title='Low-Density Single-Family'><span class='fa fa-square' style='color:YELLOW'></span> RS-1</div><div id='RS-2' title='Medium-Low-Density Single-Family'><span class='fa fa-square' style='color:GOLD'></span> RS-2</div><div id='RS-3' title='Medium-Density Single-Family'><span class='fa fa-square' style='color:ORANGE'></span> RS-3</div><div id='RS-4' title='Medium-High-Density Single-Family'><span class='fa fa-square' style='color:DARKORANGE'></span> RS-4</div><div id='RS-5' title='High-Density Single-Family'><span class='fa fa-square' style='color:rgb(179,78,11)'></span> RS-5</div><div id='RA-1' title='Attached Residential'><span class='fa fa-square' style='color:LIGHTBLUE'></span> RA-1</div><div id='RM-1' title='Low-Density Multi-Family'><span class='fa fa-square' style='color:DEEPSKYBLUE'></span> RM-1</div><div id='RM-2' title='High-Density Multi-Family'><span class='fa fa-square' style='color:ROYALBLUE'></span> RM-2</div><div id='C-1' title='Neighborhood Commercial'><span class='fa fa-square' style='color:pink'></span> C-1</div><div id='C-2' title='Community Commercial'><span class='fa fa-square' style='color:INDIANRED'></span> C-2</div><div id='C-3' title='Downtown Commercial'><span class='fa fa-square' style='color:CRIMSON'></span> C-3</div><div id='C-4' title='Highway Commercial'><span class='fa fa-square' style='color:MAROON'></span> C-4</div><div id='I-1' title='Industrial'><span class='fa fa-square' style='color:GRAY'></span> I-1</div><div id='O-1' title='Local Office'><span class='fa fa-square' style='color:VIOLET'></span> O-1</div><div id='O-2' title='Office Park'><span class='fa fa-square' style='color:MAGENTA'></span> O-2</div><div id='AE' title='Agriculture and Estate'><span class='fa fa-square' style='color:YELLOWGREEN'></span> AE</div><div id='PUD' title='Planned Unit Development'><span class='fa fa-square' style='color:PURPLE'></span> PUD</div>",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.dev_zoning_mview/{z}/{x}/{y}.pbf"],
+      "promoteId": "id",
+      "maxzoom": 22
+    },
+    "source-layer": "public.dev_zoning_mview",
+    "paint": {
+      "fill-color": [
+        "match",
+        [
+          "get",
+          "zoning_code"
+        ],
+        "RS-1",
+        "YELLOW",
+        "RS-2",
+        "GOLD",
+        "RS-3",
+        "ORANGE",
+        "RS-4",
+        "DARKORANGE",
+        "RS-5",
+        "rgb(179,78,11)",
+        "RA-1",
+        "LIGHTBLUE",
+        "RM-1",
+        "DEEPSKYBLUE",
+        "RM-2",
+        "ROYALBLUE",
+        "C-1",
+        "pink",
+        "C-2",
+        "INDIANRED",
+        "C-3",
+        "CRIMSON",
+        "C-4",
+        "MAROON",
+        "I-1",
+        "GRAY",
+        "O-1",
+        "VIOLET",
+        "O-2",
+        "MAGENTA",
+        "AE",
+        "YELLOWGREEN",
+        "PUD",
+        "PURPLE",
+        "9999",
+        "transparent",
+        "transparent"
+      ],
+      "fill-outline-color": "white",
+      "fill-opacity": 0.7
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup2": "<table><tr><td>Zoning Code: </td><td>{{zoning_code}}</td><tr>Parcel: </>{{parcelnum}}<br><strong>Address: </strong> {{parcel_address}}",
+      "popup3": ["parcelnum", "parcel_address","zoning_code"],
+      "popup": true,
+      "filterSchema": {
+        "zoning_code": {
+          "type": "select",
+          "options": ["", "RS-1","RS-2","RS-3","RS-4","RS-5","RA-1","RM-1","RM-2","C-1","C-2","C-3","C-4","I-1","O-1","O-2","AE","PUD"]  
+        },
+        "zoning_ord_date": {
+          "type": "date"
+        }
+      }
+    }
+  },
+  {
+    "id": "coz_zoning_labels",
+    "type": "symbol",
+    "name": "Zoning Labels",
+    "directory": "Community Development",
+    "group": "Zoning",
+    "minzoom": 16,
+    "source": "zoningSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.dev_zoning_mview/{z}/{x}/{y}.pbf"],
+      "promoteId": "id",
+      "maxzoom": 22
+    },
+    "source-layer": "public.dev_zoning_mview",
+    "paint": {
+      "text-color": "#121212",
+      "text-halo-width": 0.5,
+      "text-halo-color": "white",
+      "text-opacity": 1
+    },
+    "layout": {
+      "visibility": "none",
+      "text-anchor": "center",
+      "text-padding": 2,
+      "text-font": [
+        "DIN Offc Pro Bold"
+      ],
+      "text-field": [
+        "concat",
+        [
+          "get",
+          "zoning_code"
+        ]
+      ],
+      "text-max-width": 9,
+      "text-size": {
+        "stops": [
+          [
+            12,
+            18
+          ],
+          [
+            22,
+            22
+          ]
+        ]
+      }
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "mus_tracts",
+    "directory": "Community Development",
+    "group": "Planning",
+    "source": "mus_tracts_soure",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.adm_census_tracks/items.json?limit=50000",
+      "generateId": true
+    },
+    "name": "Opportunity Zones",
+    "type": "fill",
+    "paint": {
+      "fill-color": "firebrick",
+      "fill-opacity": 0.5
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "filter": [
+      "==",
+      "tract_status",
+      "Designated"
+    ],
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "mus_parcels_landuse",
+    "type": "fill",
+    "name": "Parcels by Land Use (LUC)",
+    "directory": "Community Development",
+    "group": "Planning",
+    "legend": "<div><span class='fa fa-square' style='color:firebrick;'></span> Vacant Parcels<br><span class='far fa-square'></span> Other Parcels</div>",
+    "source": "parcelSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.adm_mus_parcels/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "source-layer": "public.adm_mus_parcels",
+    "paint": {
+      "fill-color": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "land_use_code"
+          ],
+          100
+        ],
+        "firebrick",
+        [
+          "==",
+          [
+            "get",
+            "land_use_code"
+          ],
+          400
+        ],
+        "firebrick",
+        [
+          "==",
+          [
+            "get",
+            "land_use_code"
+          ],
+          500
+        ],
+        "firebrick",
+        [
+          "==",
+          [
+            "get",
+            "land_use_code"
+          ],
+          501
+        ],
+        "firebrick",
+        [
+          "==",
+          [
+            "get",
+            "land_use_code"
+          ],
+          502
+        ],
+        "firebrick",
+        [
+          "==",
+          [
+            "get",
+            "land_use_code"
+          ],
+          503
+        ],
+        "firebrick",
+        [
+          "==",
+          [
+            "get",
+            "land_use_code"
+          ],
+          504
+        ],
+        "firebrick",
+        [
+          "==",
+          [
+            "get",
+            "land_use_code"
+          ],
+          505
+        ],
+        "firebrick",
+        "transparent"
+      ],
+      "fill-opacity": 0.6,
+      "fill-outline-color": "#333"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "mus_parcels_delinquent",
+    "type": "fill",
+    "name": "Parcels by Delinquency",
+    "directory": "Community Development",
+    "group": "Planning",
+    "legend": "<div><span class='fa fa-square' style='color:gold;'></span> - <span class='fa fa-square' style='color:#a50f15;'></span> Tax Owed</div>",
+    "source": "parcelSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.adm_mus_parcels/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "source-layer": "public.adm_mus_parcels",
+    "paint": {
+      "fill-color": [
+        "interpolate",
+        [
+          "linear"
+        ],
+        [
+          "get",
+          "prior_tax"
+        ],
+        0,
+        "transparent",
+        1,
+        "gold",
+        80000,
+        "#a50f15"
+      ],
+      "fill-opacity": 1,
+      "fill-outline-color": "#333"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "dev_community_reinvestment_areas",
+    "type": "fill",
+    "name": "Community Reinvestment Areas",
+    "directory": "Community Development",
+    "group": "Planning",
+    "source": "dev_community_reinvestment_areas",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.dev_community_reinvestment_areas/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "fill-color": "yellow",
+      "fill-opacity": 0.5,
+      "fill-outline-color": "black"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "filter": [
+      "==",
+      "status",
+      "Existing"
+    ],
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "dev_community_reinvestment_areas_labels",
+    "type": "symbol",
+    "name": "Community Reinvestment Area Labels",
+    "directory": "Community Development",
+    "group": "Planning",
+    "source": "dev_community_reinvestment_areas",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.dev_community_reinvestment_areas/items.json?limit=50000"
+    },
+    "top": true,
+    "paint": {
+      "text-color": "#121212",
+      "text-halo-width": 0.5,
+      "text-halo-color": "white",
+      "text-opacity": 1
+    },
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Bold"
+      ],
+      "text-allow-overlap": true,
+      "text-field": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "id"
+          ],
+          3
+        ],
+        "Brighton Reinvestment Area",
+        [
+          "==",
+          [
+            "get",
+            "id"
+          ],
+          4
+        ],
+        "Putnam Reinvestment Area",
+        [
+          "==",
+          [
+            "get",
+            "id"
+          ],
+          5
+        ],
+        "Downtown Reinvestment Area",
+        [
+          "==",
+          [
+            "get",
+            "id"
+          ],
+          7
+        ],
+        "Greenwood Reinvestment Area",
+        "Fairview Road Reinvestment Area"
+      ],
+      "text-max-width": 9,
+      "text-size": {
+        "stops": [
+          [
+            12,
+            16
+          ],
+          [
+            22,
+            20
+          ]
+        ]
+      }
+    },
+    "filter": [
+      "==",
+      "status",
+      "Existing"
+    ],
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "dev_zoning_overlays",
+    "type": "fill",
+    "source": "dev_zoning_overlays",
+    "name": "Zoning Overlays",
+    "directory": "Community Development",
+    "group": "Zoning",
+    "children": true,
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.dev_zoning_overlays/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "fill-color": "wheat",
+      "fill-outline-color": "white",
+      "fill-opacity": 0.7
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "overlayLine",
+    "type": "line",
+    "source": "dev_zoning_overlays",
+    "hidden": true,
+    "parent": "dev_zoning_overlays",
+    "directory": "Community Development",
+    "group": "Zoning",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.dev_zoning_overlays/items.json?limit=50000"
+    },
+    "paint": {
+      "line-color": "maroon",
+      "line-width": 3
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "overlayLine2",
+    "type": "line",
+    "hidden": true,
+    "parent": "dev_zoning_overlays",
+    "directory": "Community Development",
+    "group": "Zoning",
+    "source": "dev_zoning_overlays",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.dev_zoning_overlays/items.json?limit=50000"
+    },
+    "paint": {
+      "line-color": "BURLYWOOD",
+      "line-width": 8,
+      "line-offset": 2,
+      "line-blur": 3,
+      "line-opacity": 0.8
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "overlayLabels",
+    "type": "symbol",
+    "source": "zoningOverlaysLabels",
+    "hidden": true,
+    "parent": "dev_zoning_overlays",
+    "directory": "Community Development",
+    "group": "Zoning",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.dev_zoning_overlays/items.json?limit=50000"
+    },
+    "paint": {
+      "text-color": "burlywood",
+      "text-halo-width": 0.5,
+      "text-halo-color": "white",
+      "text-opacity": 1
+    },
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Bold"
+      ],
+      "text-field": [
+        "concat",
+        [
+          "get",
+          "name"
+        ]
+      ],
+      "text-max-width": 9,
+      "text-size": {
+        "stops": [
+          [
+            12,
+            18
+          ],
+          [
+            22,
+            22
+          ]
+        ]
+      }
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "Parcels2017",
+    "type": "fill",
+    "name": "Parcels 2017",
+    "directory": "Administrative Layers",
+    "source": "parcel2017Source",
+    "group": "Tax Parcels",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.adm_mus_parcels_2017/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "source-layer": "public.adm_mus_parcels_2017",
+    "paint": {
+      "fill-color": "fuchsia",
+      "fill-opacity": 0.2,
+      "fill-outline-color": "black"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "filter": [
+      "!=",
+      "PARCELNUM",
+      "WW"
+    ],
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "Parcels2018",
+    "type": "fill",
+    "name": "Parcels 2018",
+    "directory": "Administrative Layers",
+    "group": "Tax Parcels",
+    "legend": "",
+    "source": "parcel2018Source",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.adm_mus_parcels_2018/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "source-layer": "public.adm_mus_parcels_2018",
+    "paint": {
+      "fill-color": "orange",
+      "fill-opacity": 0.3,
+      "fill-outline-color": "black"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "filter": [
+      "!=",
+      "PARCELNUM",
+      "WW"
+    ],
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "adm_mus_parcels",
+    "type": "fill",
+    "name": "Parcels",
+    "directory": "Administrative Layers",
+    "group": "Tax Parcels",
+    "source": "parcelSource",
+    "children": true,
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.adm_mus_parcels/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "minzoom": 15,
+    "source-layer": "public.adm_mus_parcels",
+    "paint": {
+      "fill-color": "lightgray",
+      "fill-opacity": 0.1,
+      "fill-outline-color": "white"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "filter": [
+      "!=",
+      "PARCELNUM",
+      "WW"
+    ],
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "adm_mus_parcels_outline",
+    "type": "line",
+    "name": "Parcels Outline",
+    "directory": "Administrative Layers",
+    "group": "Tax Parcels",
+    "parent": "adm_mus_parcels",
+    "hidden": true,
+    "source": "parcelSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.adm_mus_parcels/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "minzoom": 15,
+    "source-layer": "public.adm_mus_parcels",
+    "paint": {
+      "line-color": [
+        "case",
+        [
+          "==",
+          [
+            "feature-state",
+            "hover"
+          ],
+          1
+        ],
+        "black",
+        "rgba(255,255,255,1)"
+      ],
+      "line-width": [
+        "case",
+        [
+          "==",
+          [
+            "feature-state",
+            "hover"
+          ],
+          2
+        ],
+        2,
+        2
+      ],
+      "line-opacity": {
+        "stops": [
+          [
+            13,
+            0.1
+          ],
+          [
+            16,
+            1
+          ]
+        ]
+      }
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "filter": [
+      "!=",
+      "PARCELNUM",
+      "WW"
+    ],
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "ParcelsLabels",
+    "type": "symbol",
+    "name": "Parcel Labels",
+    "directory": "Administrative Layers",
+    "group": "Tax Parcels",
+    "source": "parcelLabelsSource",
+    "minzoom": 19,
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.adm_mus_parcels_centroids/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "source-layer": "public.adm_mus_parcels_centroids",
+    "paint": {
+      "text-color": "gray",
+      "text-halo-color": "white",
+      "text-halo-width": 1.5,
+      "text-halo-blur": 0
+    },
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Bold"
+      ],
+      "text-field": "{parcelnum}",
+      "text-anchor": "center",
+      "text-size": {
+        "stops": [
+          [
+            17,
+            12
+          ],
+          [
+            22,
+            16
+          ]
+        ]
+      },
+      "text-padding": 6
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "eng_mus_annexations",
+    "name": "Annexations",
+    "directory": "Administrative Layers",
+    "group": "Administrative Boundaries",
+    "children": true,
+    "legend": "<span class='fa fa-square' style='color:fuchsia;'></span> Zanesville<br><span class='fa fa-square' style='color:gray;'></span> Other",
+    "type": "fill",
+    "source": "eng_mus_annexations",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.eng_mus_annexations/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "fill-color": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "to_"
+          ],
+          "ZANESVILLE"
+        ],
+        "fuchsia",
+        "gray"
+      ],
+      "fill-opacity": 0.6,
+      "fill-outline-color": "black"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "adm_wards",
+    "name": "Wards",
+    "directory": "Administrative Layers",
+    "group": "Administrative Boundaries",
+    "children": true,
+    "type": "fill",
+    "source": "adm_wards",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.adm_wards/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "fill-color": "skyblue",
+      "fill-opacity": 0.8,
+      "fill-outline-color": "white"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "coz_wards_outline",
+    "type": "line",
+    "directory": "Administrative Layers",
+    "group": "Administrative Boundaries",
+    "hidden": true,
+    "parent": "adm_wards",
+    "source": "adm_wards",
+    "paint": {
+      "line-color": "white",
+      "line-opacity": 1,
+      "line-width": 6
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "coz_wards_labels",
+    "name": "Ward Labels",
+    "directory": "Administrative Layers",
+    "group": "Administrative Boundaries",
+    "hidden": true,
+    "parent": "adm_wards",
+    "type": "symbol",
+    "source": "adm_wards_labels",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.adm_wards/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "text-color": "black",
+      "text-halo-color": "white",
+      "text-halo-width": 2,
+      "text-halo-blur": 0
+    },
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Regular"
+      ],
+      "text-field": [
+        "concat",
+        "Ward ",
+        [
+          "get",
+          "ward"
+        ]
+      ],
+      "text-anchor": "center",
+      "text-size": {
+        "stops": [
+          [
+            17,
+            18
+          ],
+          [
+            22,
+            22
+          ]
+        ]
+      },
+      "text-padding": 6
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "admin-outline",
+    "type": "line",
+    "directory": "Administrative Layers",
+    "group": "Administrative Boundaries",
+    "name": "City and Township Boundaries",
+    "children": true,
+    "source": "adminSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.adm_admin_boundaries/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "source-layer": "public.adm_admin_boundaries",
+    "paint": {
+      "line-color": "rgb(6,77,129)",
+      "line-width": 6,
+      "line-opacity": 0.6
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "admin-dash",
+    "type": "line",
+    "directory": "Administrative Layers",
+    "group": "Administrative Boundaries",
+    "parent": "admin-outline",
+    "hidden": true,
+    "source": "adminSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.adm_admin_boundaries/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "source-layer": "public.adm_admin_boundaries",
+    "paint": {
+      "line-color": "white",
+      "line-width": 3,
+      "line-dasharray": [
+        2,
+        4
+      ]
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "AddressPoints",
+    "name": "Address Points",
+    "directory": "Administrative Layers",
+    "group": "Administrative Boundaries",
+    "children": true,
+    "type": "circle",
+    "source": "addressSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.adm_mus_addresses/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "source-layer": "public.adm_mus_addresses",
+    "paint": {
+      "circle-color": "#333",
+      "circle-stroke-width": 1,
+      "circle-radius": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            13,
+            1
+          ],
+          [
+            16,
+            3
+          ]
+        ]
+      },
+      "circle-stroke-color": "white",
+      "circle-pitch-scale": "map",
+      "circle-pitch-alignment": "map"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": ["lsn"]
+    }
+  },
+  {
+    "id": "AddressLabels",
+    "type": "symbol",
+    "directory": "Administrative Layers",
+    "group": "Administrative Boundaries",
+    "name": "Address Labels",
+    "hidden": true,
+    "parent": "AddressPoints",
+    "source": "addressSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.adm_mus_addresses/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "source-layer": "public.adm_mus_addresses",
+    "paint": {
+      "text-color": "black",
+      "text-halo-color": "white",
+      "text-halo-width": 2,
+      "text-halo-blur": 0
+    },
+    "minzoom": 17.1,
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Regular"
+      ],
+      "text-field": "{lsn}",
+      "text-anchor": "bottom-left",
+      "text-size": 14,
+      "text-offset": [
+        0.5,
+        0
+      ]
+    },
+    "metadata": {
+      "popup": ["lsn"]
+    }
+  },
+  {
+    "id": "coz-impervious",
+    "type": "fill",
+    "name": "Impervious",
+    "source": "coz-impervious-source",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_stormwater_impervious_view/items.json?limit=50000",
+      "generateId": true
+    },
+    "group": "Impervious Surface Layers",
+    "directory": "Impervious Surface",
+    "paint": {
+      "fill-color": "orange",
+      "fill-outline-color": "white",
+      "fill-opacity": 0.5
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": ["imp_eru", "imp_master", "imp_total_area"],
+      "filterSchema": {
+        "imp_total_area": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  {
+    "id": "eng_building_footprints",
+    "type": "fill",
+    "name": "Building Footprints",
+    "group": "Impervious Surface Layers",
+    "directory": "Impervious Surface",
+    "source": "eng_building_footprints",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.eng_building_footprints/{z}/{x}/{y}.pbf"
+      ],
+      "minzoom": 15,
+      "maxzoom": 22
+    },
+    "source-layer": "public.eng_building_footprints",
+    "paint": {
+      "fill-color": "whitesmoke",
+      "fill-opacity": 0.6,
+      "fill-outline-color": "gray"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "rec_parks",
+    "name": "Parks and Trails",
+    "type": "fill",
+    "directory": "Parks and Recreation",
+    "group": "Parks",
+    "children": true,
+    "source": "rec_parks",
+    "legend": "<span class='fa fa-square' style='color:darkgreen;'></span> City Parks<br><span class='fa fa-square' style='color:yellowgreen;'></span> Other Parks<br><span class='fa fa-minus' style='color:darkgreen;'></span> Trails",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.rec_parks/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "fill-color": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "owner"
+          ],
+          "City of Zanesville"
+        ],
+        "darkgreen",
+        "yellowgreen"
+      ],
+      "fill-outline-color": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "owner"
+          ],
+          "City of Zanesville"
+        ],
+        "forestgreen",
+        "lightgreen"
+      ],
+      "fill-opacity": [
+        "case",
+        [
+          "==",
+          [
+            "feature-state",
+            "hover"
+          ],
+          1
+        ],
+        0.8,
+        0.3
+      ]
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": ["acres", "amenities", "img", "info", "location", "name", "owner"]
+    }
+  },
+  {
+    "id": "rec_parks_case",
+    "type": "line",
+    "name": "Parks Outline",
+    "metadata": {
+      "directory": "Parks and Recreation",
+      "group": "Parks",
+      "hidden": true,
+      "parent": "rec_parks",
+      "popup": false
+    },
+    "directory": "Parks and Recreation",
+    "group": "Parks",
+    "hidden": true,
+    "parent": "rec_parks",
+    "source": "rec_parks",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.rec_parks/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "line-color": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "owner"
+          ],
+          "City of Zanesville"
+        ],
+        "darkgreen",
+        "yellowgreen"
+      ],
+      "line-width": 2,
+      "line-opacity": [
+        "case",
+        [
+          "==",
+          [
+            "feature-state",
+            "hover"
+          ],
+          1
+        ],
+        1,
+        0.8
+      ]
+    },
+    "layout": {
+      "visibility": "none"
+    }
+  },
+  {
+    "id": "rec_parks_outline",
+    "type": "line",
+    "name": "Parks Outline Inner",
+    "directory": "Parks and Recreation",
+    "group": "Parks",
+    "hidden": true,
+    "parent": "rec_parks",
+    "source": "rec_parks",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.rec_parks/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "line-color": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "owner"
+          ],
+          "City of Zanesville"
+        ],
+        "darkgreen",
+        "yellowgreen"
+      ],
+      "line-width": 6,
+      "line-offset": 2,
+      "line-blur": 3,
+      "line-opacity": 0.4
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "TrailsBackground",
+    "type": "line",
+    "name": "Trail (Background)",
+    "directory": "Parks and Recreation",
+    "group": "Parks",
+    "parent": "rec_parks",
+    "hidden": true,
+    "source": "trailsSource",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.rec_parks_trails/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "line-color": "white",
+      "line-width": 4,
+      "line-opacity": 0.8
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "Trails",
+    "type": "line",
+    "name": "Trails",
+    "directory": "Parks and Recreation",
+    "group": "Parks",
+    "hidden": true,
+    "parent": "rec_parks",
+    "source": "trailsSource",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.rec_parks_trails/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "line-color": [
+        "case",
+        [
+          "==",
+          [
+            "feature-state",
+            "hover"
+          ],
+          1
+        ],
+        "yellow",
+        "forestgreen"
+      ],
+      "line-width": 2,
+      "line-dasharray": [
+        5,
+        5
+      ]
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "rec_parks_tree_inventory",
+    "type": "circle",
+    "name": "Tree Inventory (Draft)",
+    "directory": "Parks and Recreation",
+    "group": "Parks",
+    "source": "rec_parks_tree_inventory",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.rec_parks_tree_inventory/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "source-layer": "public.rec_parks_tree_inventory",
+    "paint": {
+      "circle-color": "green",
+      "circle-radius": {
+        "stops": [
+          [
+            14,
+            3
+          ],
+          [
+            18,
+            8
+          ]
+        ]
+      },
+      "circle-stroke-color": "white",
+      "circle-stroke-width": {
+        "stops": [
+          [
+            14,
+            2
+          ],
+          [
+            18,
+            4
+          ]
+        ]
+      },
+      "circle-stroke-opacity": 0.6,
+      "circle-pitch-scale": "map",
+      "circle-pitch-alignment": "map"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "rec_parks_labels",
+    "type": "symbol",
+    "name": "Park Labels",
+    "directory": "Parks and Recreation",
+    "group": "Parks",
+    "hidden": true,
+    "parent": "rec_parks",
+    "source": "rec_parks",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.rec_parks/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "text-color": "darkgreen",
+      "text-halo-width": 1.5,
+      "text-halo-color": "white",
+      "text-opacity": 1
+    },
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Regular"
+      ],
+      "text-field": [
+        "concat",
+        [
+          "get",
+          "name"
+        ]
+      ],
+      "text-max-width": 9,
+      "text-size": {
+        "stops": [
+          [
+            12,
+            8
+          ],
+          [
+            22,
+            18
+          ]
+        ]
+      }
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "contours",
+    "type": "line",
+    "name": "2ft Contours (City Only)",
+    "source": "contoursSource",
+    "directory": "Environmental",
+    "group": "Topography",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.env_mus_contours_2ft_clipped/{z}/{x}/{y}.pbf"
+      ],
+      "minzoom": 15
+    },
+    "source-layer": "public.env_mus_contours_2ft_clipped",
+    "paint": {
+      "line-color": "tan",
+      "line-width": 1,
+      "line-dasharray": [
+        3,
+        1,
+        2,
+        1
+      ]
+    },
+    "minzoom": 15,
+    "layout": {
+      "visibility": "none",
+      "line-join": "round",
+      "line-cap": "round"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "env_contours_10ft_simplified",
+    "type": "line",
+    "name": "10ft Contours",
+    "group": "Topography",
+    "source": "env_contours_10ft_simplified",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.env_contours_10ft_simplified/{z}/{x}/{y}.pbf"
+      ],
+      "minzoom": 15
+    },
+    "source-layer": "public.env_contours_10ft_simplified",
+    "directory": "Environmental",
+    "layout": {
+      "visibility": "none",
+      "line-join": "round",
+      "line-cap": "round"
+    },
+    "line-color": "#877b59",
+    "paint": {
+      "line-color": "tan",
+      "line-width": 1.8
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+
+  {
+    "id": "wetlands",
+    "type": "fill",
+    "name": "Wetlands",
+    "directory": "Environmental",
+    "group": "Hydrology",
+    "source": "wetlandsource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.env_usfw_national_wetland_inventory/{z}/{x}/{y}.pbf"]
+    },
+    "source-layer": "public.env_usfw_national_wetland_inventory",
+    "paint": {
+      "fill-color": "#48C9B0",
+      "fill-opacity": 0.3,
+      "fill-outline-color": "#117864"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": ["attribute","wetland_type"]
+    },
+    "filter": ["any",
+      ["==", ["get", "wetland_ty"], "Freshwater Emergent Wetland"],
+      ["==", ["get", "wetland_ty"], "Freshwater Forested/Shrub Wetland"],
+      ["==", ["get", "wetland_ty"], "Freshwater Pond"]
+    ]
+  },
+  {
+    "id": "env_hydro_polygons",
+    "type": "fill",
+    "name": "Wetlands",
+    "directory": "Environmental",
+    "group": "Hydrology",
+    "parent": "nhd_flowline",
+    "hidden": true,
+    "backgroundLayer": true,
+    "source": "env_hydro_polygons",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.env_hydro_polygons/{z}/{x}/{y}.pbf"]
+    },
+    "source-layer": "public.env_hydro_polygons",
+    "paint": {
+      "fill-color": "#8dcbf7",
+      "fill-opacity": {"stops": [
+        [11,0],
+        [18,0.4]
+      ]
+      },
+      "fill-outline-color": "transparent"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "nhd_flowline",
+    "name": "Hydro",
+    "directory": "Environmental",
+    "group": "Hydrology",
+    "children": true,
+    "backgroundLayer": true,
+    "source": "nhd_flowline_source",
+    "type": "line",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.env_nhd_flowline/{z}/{x}/{y}.pbf"]
+    },
+    "source-layer": "public.env_nhd_flowline",
+    "paint": {
+      "line-color": "#8dcbf7",
+      "line-width": 2,
+      "line-opacity": {"stops": [
+          [12,0],
+          [18,0.2]
+        ]
+      }
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "filter": [
+      "!in",
+      "gnis_name",
+      "Muskingum River",
+      "Licking River"
+    ],
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "nfhl",
+    "type": "fill",
+    "name": "Flood Hazard Zones",
+    "group": "Hazards",
+    "legend": "<div><span class='fa fa-square' style='color:DODGERBLUE;'></span> Floodway<br><span class='fa fa-square' style='color:turquoise;'></span> 100 Year Flood Zone<br><span class='fa fa-square' style='color:orangered;'></span> 0.2 PCT Annual Chance Flood Hazard<br><span class='fa fa-square' style='color:mediumvioletred;'></span> Reduced Risk Due to Levee<br></div>",
+    "directory": "Environmental",
+    "source": "nfhl_zource",
+    "source-layer": "public.env_nfhl_flood_hazard_areas",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.env_nfhl_flood_hazard_areas/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "paint": {
+      "fill-color": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "zone_subty"
+          ],
+          "FLOODWAY"
+        ],
+        "DODGERBLUE",
+        [
+          "==",
+          [
+            "get",
+            "zone_subty"
+          ],
+          "0.2 PCT ANNUAL CHANCE FLOOD HAZARD"
+        ],
+        "orangered",
+        [
+          "==",
+          [
+            "get",
+            "zone_subty"
+          ],
+          "AREA WITH REDUCED RISK DUE TO LEVEE"
+        ],
+        "MEDIUMVIOLETRED",
+        "turquoise"
+      ],
+      "fill-opacity": 0.5,
+      "fill-outline-color": "white"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": ["zone_subty", "fld_zone", "dfirm_id", "fld_ar_id"]
+    }
+  },
+  {
+    "id": "adtsmall",
+    "name": "AADTsmall",
+    "directory": "Engineering",
+    "group": "Roadway Data",
+    "hidden": true,
+    "parent": "adt",
+    "type": "line",
+    "source": "public.eng_odot_traffic_segments",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.eng_odot_traffic_segments/{z}/{x}/{y}.pbf"]
+    },
+    "source-layer": "public.eng_odot_traffic_segments",
+    "paint": {
+      "line-width": {
+        "property": "aadt_total",
+        "stops": [
+          [
+            0,
+            5
+          ],
+          [
+            55056,
+            11
+          ]
+        ]
+      },
+      "line-color": "gray"
+    },
+    "layout": {
+      "line-join": "round",
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "adt",
+    "name": "Average Annual Daily Traffic",
+    "type": "line",
+    "children": true,
+    "directory": "Engineering",
+    "group": "Roadway Data",
+    "legend": "<div><span class='fa fa-minus' style='color:firebrick;'></span> High ADT<br><span class='fa fa-minus' style='color:orange;'></span> Med ADT<br><span class='fa fa-minus' style='color:blue;'></span> Low ADT<br></div>",
+    "source": "public.eng_odot_traffic_segments",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.eng_odot_traffic_segments/{z}/{x}/{y}.pbf"]
+    },
+    "source-layer": "public.eng_odot_traffic_segments",
+    "paint": {
+      "line-color": {
+        "property": "aadt_total",
+        "stops": [
+          [
+            0,
+            "#2166ac"
+          ],
+          [
+            2275,
+            "#67a9cf"
+          ],
+          [
+            5892,
+            "#d1e5f0"
+          ],
+          [
+            10188,
+            "orange"
+          ],
+          [
+            16498,
+            "darkorange"
+          ],
+          [
+            26291,
+            "#b2182b"
+          ]
+        ]
+      },
+      "line-width": {
+        "property": "aadt_total",
+        "stops": [
+          [
+            0,
+            3
+          ],
+          [
+            16498,
+            9
+          ]
+        ]
+      },
+      "line-opacity": {
+        "property": "aadt_total",
+        "stops": [
+          [
+            0,
+            0.6
+          ],
+          [
+            16498,
+            1
+          ]
+        ]
+      }
+    },
+    "layout": {
+      "line-join": "round",
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "mapillaryLinesOuter",
+    "type": "line",
+    "source": "mapillary",
+    "parent": "mapillaryLinesInner",
+    "hidden": true,
+    "directory": "Engineering",
+    "group": "Mapillary",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://tiles3.mapillary.com/v0.1/{z}/{x}/{y}.mvt"
+      ],
+      "minzoom": 0,
+      "maxzoom": 14,
+      "promoteId": "key"
+    },
+    "source-layer": "mapillary-sequences",
+    "paint": {
+      "line-opacity": 0.9,
+      "line-color": "white",
+      "line-gap-width": 3,
+      "line-width": 2
+    },
+    "layout": {
+      "visibility": "none",
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "filter": [
+      "all",
+      [
+        "==",
+        [
+          "get",
+          "userkey"
+        ],
+        "WpzhyQeWLPnZ_TwvxcdU_w"
+      ],
+      [
+        "==",
+        [
+          "get",
+          "pano"
+        ],
+        1
+      ]
+    ],
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "mapillaryLinesInner",
+    "children": true,
+    "name": "COZ Street View",
+    "directory": "Engineering",
+    "group": "Mapillary",
+    "type": "line",
+    "source": "mapillary",
+    "source-layer": "mapillary-sequences",
+    "paint": {
+      "line-opacity": 0.6,
+      "line-color": "#b53f51",
+      "line-width": 3
+    },
+    "layout": {
+      "visibility": "none",
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "filter": [
+      "all",
+      [
+        "==",
+        [
+          "get",
+          "userkey"
+        ],
+        "WpzhyQeWLPnZ_TwvxcdU_w"
+      ],
+      [
+        "==",
+        [
+          "get",
+          "pano"
+        ],
+        1
+      ]
+    ],
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "mapillary_imagepoints",
+    "directory": "Engineering",
+    "group": "Mapillary",
+    "name": "COZ Street View Images",
+    "type": "circle",
+    "source": "mapillary",
+    "source-layer": "mapillary-images",
+    "paint": {
+      "circle-color": "#b53f51",
+      "circle-stroke-color": "white",
+      "circle-stroke-width": 1,
+      "circle-pitch-scale": "map",
+      "circle-pitch-alignment": "map"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "filter": [
+      "all",
+      [
+        "==",
+        [
+          "get",
+          "userkey"
+        ],
+        "WpzhyQeWLPnZ_TwvxcdU_w"
+      ],
+      [
+        "==",
+        [
+          "get",
+          "pano"
+        ],
+        1
+      ]
+    ],
+    "metadata": {
+      "popup": true
+    }
+  },
+  
+  {
+    "id": "public.eng_paver_pci_view_case",
+    "name": "PCI Case",
+    "directory": "Engineering",
+    "group": "Pavement Condition",
+    "hidden": true,
+    "parent": "public.eng_paver_pci_view",
+    "type": "line",
+    "source": "public.eng_paver_pci_view",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.eng_paver_pci_view/{z}/{x}/{y}.pbf"],
+      "promoteId": "id"
+    },
+    "source-layer": "public.eng_paver_pci_view",
+    "paint": {
+      "line-color": "WHITE",
+      "line-opacity": 1,
+      "line-width": ["case",
+        ["in", ["get", "road_type"], ["literal", ["Service", "Alley", "Trail"] ] ], 7,
+        10
+      ]
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "public.eng_paver_pci_view",
+    "name": "PCI (Predicted)",
+    "directory": "Engineering",
+    "group": "Pavement Condition",
+    "children": true,
+    "type": "line",
+    "source": "public.eng_paver_pci_view",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.eng_paver_pci_view/{z}/{x}/{y}.pbf"],
+      "promoteId": "id"
+    },
+    "source-layer": "public.eng_paver_pci_view",
+    "legend": "<div><span class='fa fa-minus' style='color:#009392'></span> Excellent <br> <span class='fa fa-minus' style='color:#39b185'></span> Very Good   <br>    <span class='fa fa-minus' style='color:#9ccb86'></span> Good   <br>    <span class='fa fa-minus' style='color:#e9e29c'></span> Fair    <br>  <span class='fa fa-minus' style='color:orange'></span> Poor    <br> <span class='fa fa-minus' style='color:red'></span> Very Poor <br><span class='fa fa-minus' style='color:darkred'></span> Failed</div>",
+    "paint": {
+      "line-color": [
+        "case",
+        ["==",["get", "pci_predicted_category"],"EXCELLENT"],"#009392",
+        ["==",["get", "pci_predicted_category"],"VERY GOOD"],"#39b185",
+        ["==",["get", "pci_predicted_category"],"GOOD"],"#9ccb86",
+        ["==",["get", "pci_predicted_category"],"FAIR"],"#e9e29c",
+        ["==",["get", "pci_predicted_category"],"POOR"],"orange",
+        ["==",["get", "pci_predicted_category"],"VERY POOR"],"red",
+        ["==",["get", "pci_predicted_category"],"FAILED"],"darkred",         
+        "gray"
+      ],
+      "line-opacity": 1,
+      "line-width": ["case",
+        ["in", ["get", "road_type"], ["literal", ["Service", "Alley", "Trail"] ] ], 4,
+        6
+      ]
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true,
+      "filterSchema": {
+        "date_last_paved": {
+          "type": "date"
+        },
+        "pci_predicted_category": {
+          "type": "select",
+          "options": ["", "EXCELLENT", "VERY GOOD", "GOOD", "FAIR", "POOR", "VERY POOR", "FAILED"]
+        }
+      }
+    }
+  },
+  {
+    "id": "public.eng_paver_pci_view_simple",
+    "name": "Road Paving (Last 5 YRS)",
+    "directory": "Engineering",
+    "group": "Pavement Condition",
+    "legend": "<div><span class='fa fa-minus' style='color:firebrick'></span> City Streets <br> <span class='fa fa-minus' style='color:blue'></span> Alleys, Service Rds & Trails</div>",
+    "type": "line",
+    "source": "public.eng_paver_pci_view",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.eng_paver_pci_view/{z}/{x}/{y}.pbf"],
+      "promoteId": "id"
+    },
+    "source-layer": "public.eng_paver_pci_view",
+    "paint": {
+      "line-color": ["case",
+        ["in", ["get", "road_type"], ["literal", ["Service", "Alley", "Trail"] ] ], "blue",
+        "firebrick"
+      ],
+      "line-opacity": 1,
+      "line-width": 6
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": ["name", "date_last_paved", "road_type"]
+    },
+    "filter": [">=", ["get", "date_last_paved"], "2016-01-01"]
+  },
+  {
+    "id": "utl_mus_sanitary_lines",
+    "name": "utl_mus_sanitary_lines_inner",
+    "directory": "County Utilities",
+    "group": "County Sewer",
+    "hidden": true,
+    "parent": "utl_mus_sanitary_lines_outer",
+    "type": "line",
+    "source": "utl_mus_sanitary_lines",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.utl_mus_sanitary_lines/{z}/{x}/{y}.pbf"]
+    },
+    "source-layer": "public.utl_mus_sanitary_lines",
+    "paint": {
+      "line-width": 8,
+      "line-color": "white"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_mus_sanitary_lines_outer",
+    "name": "County Sewer Lines",
+    "directory": "County Utilities",
+    "group": "County Sewer",
+    "children": true,
+    "type": "line",
+    "source": "utl_mus_sanitary_lines",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.utl_mus_sanitary_lines/{z}/{x}/{y}.pbf"]
+    },
+    "source-layer": "public.utl_mus_sanitary_lines",
+    "paint": {
+      "line-width": 4,
+      "line-color": "firebrick"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_mus_sanitary_points",
+    "type": "circle",
+    "name": "County Sewer Structures",
+    "directory": "County Utilities",
+    "group": "County Sewer",
+    "source": "utl_mus_sanitary_points",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.utl_mus_sanitary_points/{z}/{x}/{y}.pbf"]
+    },
+    "source-layer": "public.utl_mus_sanitary_points",
+    "paint": {
+      "circle-radius": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            2
+          ],
+          [
+            16,
+            5
+          ]
+        ]
+      },
+      "circle-color": "firebrick",
+      "circle-stroke-color": "white",
+      "circle-stroke-width": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            1
+          ],
+          [
+            16,
+            2
+          ]
+        ]
+      },
+      "circle-pitch-scale": "map",
+      "circle-pitch-alignment": "map"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_mus_sanitary_lift_stations",
+    "name": "County Lift Stations",
+    "directory": "County Utilities",
+    "group": "County Sewer",
+    "type": "circle",
+    "source": "utl_mus_sanitary_lift_stations",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://services5.arcgis.com/N1ybEAKiuuUIL8Mz/ArcGIS/rest/services/MuskingumCoWaterDept/FeatureServer/1/query?where=OBJECTID%3E0&f=geojson&fields=*",
+      "generateId": true
+    },
+    "paint": {
+      "circle-radius": 6,
+      "circle-stroke-width": 2,
+      "circle-stroke-color": "black",
+      "circle-color": "firebrick"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_mus_water_lines",
+    "name": "County Water Lines",
+    "directory": "County Utilities",
+    "group": "County Water",
+    "type": "line",
+    "source": "utl_mus_water_lines",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://services5.arcgis.com/N1ybEAKiuuUIL8Mz/ArcGIS/rest/services/MuskingumCoWaterDept/FeatureServer/9/query?where=OBJECTID%3E0&f=geojson&fields=*",
+      "generateId": true
+    },
+    "paint": {
+      "line-width": 5,
+      "line-color": "skyblue"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_water_laterals",
+    "name": "Laterals",
+    "type": "line",
+    "directory": "City Water System",
+    "group": "Water Layers",
+    "source": "wLateralSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/static/data/vector-tiles/utl_water_agol_lateral/{z}/{x}/{y}.mvt"
+      ],
+      "maxzoom": 17
+    },
+    "source-layer": "utl_water_agol_lateral",
+    "paint": {
+      "line-width": 2,
+      "line-color": "MEDIUMSPRINGGREEN",
+      "line-dasharray": [
+        2,
+        1
+      ]
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_water_meters",
+    "directory": "City Water System",
+    "group": "Water Layers",
+    "type": "symbol",
+    "name": "Water Meters (From Cell Location)",
+    "legend": "<span class='fa fa-square fa-sm' style='color:#00ffc5;'></span> Residential<br><span class='fa fa-square fa-sm' style='color:#fce205;'></span> Commercial",
+    "children": true,
+    "source": "utl_water_meters",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/static/data/vector-tiles/utl_water_agol_meters/{z}/{x}/{y}.mvt"
+      ],
+      "maxzoom": 17
+    },
+    "source-layer": "utl_water_agol_meters",
+    "layout": {
+      "symbol-z-order": "source",
+      "icon-allow-overlap": true,
+      "icon-ignore-placement": true,
+      "icon-image": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "SERVICETYPE"
+          ],
+          "Domestic"
+        ],
+        "square-cyan",
+        [
+          "==",
+          [
+            "get",
+            "SERVICETYPE"
+          ],
+          "Commercial"
+        ],
+        "square-yellow",
+        "circle-black2"
+      ],
+      "icon-size": [
+        "interpolate",
+        [
+          "linear"
+        ],
+        [
+          "zoom"
+        ],
+        14,
+        0.4,
+        17,
+        0.7
+      ],
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_water_meters_labels",
+    "directory": "City Water System",
+    "group": "Water Layers",
+    "type": "symbol",
+    "top": true,
+    "parent": "utl_water_meters",
+    "hidden": true,
+    "name": "Water Meter Labels",
+    "source": "utl_water_meters",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/static/data/vector-tiles/utl_water_agol_meters/{z}/{x}/{y}.mvt"
+      ],
+      "maxzoom": 17
+    },
+    "minzoom": 17,
+    "source-layer": "utl_water_agol_meters",
+    "paint": {
+      "text-color": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "SERVICETYPE"
+          ],
+          "Domestic"
+        ],
+        "#00ffc5",
+        [
+          "==",
+          [
+            "get",
+            "SERVICETYPE"
+          ],
+          "Commercial"
+        ],
+        "#fce205",
+        "black"
+      ],
+      "text-halo-color": "black",
+      "text-halo-width": 1.5,
+      "text-halo-blur": 0
+    },
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Bold"
+      ],
+      "text-field": "{ADDRESS}",
+      "text-anchor": "bottom-left",
+      "text-size": 13,
+      "text-offset": [
+        0.4,
+        -0.4
+      ]
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_mus_water_valves",
+    "name": "County Water Valves",
+    "directory": "County Utilities",
+    "group": "County Water",
+    "type": "circle",
+    "source": "utl_mus_water_valves",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://services5.arcgis.com/N1ybEAKiuuUIL8Mz/ArcGIS/rest/services/MuskingumCoWaterDept/FeatureServer/6/query?where=OBJECTID%3E0&f=geojson&fields=*",
+      "generateId": true
+    },
+    "paint": {
+      "circle-radius": 5,
+      "circle-stroke-width": 1,
+      "circle-stroke-color": "white",
+      "circle-color": "blue"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_mus_water_hydrants",
+    "name": "County Hydrants",
+    "directory": "County Utilities",
+    "group": "County Water",
+    "type": "circle",
+    "source": "utl_mus_water_hydrants",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://services5.arcgis.com/N1ybEAKiuuUIL8Mz/ArcGIS/rest/services/MuskingumCoWaterDept/FeatureServer/4/query?where=OBJECTID%3E0&f=geojson&fields=*",
+      "generateId": true
+    },
+    "paint": {
+      "circle-radius": 6,
+      "circle-stroke-width": 2,
+      "circle-stroke-color": "white",
+      "circle-color": "red"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_mus_water_customers",
+    "name": "County Water Customers",
+    "directory": "County Utilities",
+    "group": "County Water",
+    "type": "circle",
+    "source": "utl_mus_water_customers",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/static/data/vector-tiles/utl_mus_water_customers/{z}/{x}/{y}.mvt"
+      ],
+      "maxzoom": 17
+    },
+    "source-layer": "utl_mus_water_customers",
+    "paint": {
+      "circle-radius": 5,
+      "circle-stroke-width": 1,
+      "circle-stroke-color": "white",
+      "circle-color": "aquamarine"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_water_mains",
+    "name": "wMainOuter",
+    "hidden": true,
+    "parent": "wMainInner",
+    "type": "line",
+    "directory": "City Water System",
+    "group": "Water Layers",
+    "source": "wMainSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/static/data/vector-tiles/utl_water_agol_main/{z}/{x}/{y}.mvt"
+      ],
+      "maxzoom": 17
+    },
+    "source-layer": "utl_water_agol_main",
+    "paint": {
+      "line-width": [
+        "case",
+        [
+          ">",
+          [
+            "get",
+            "DIAMETER"
+          ],
+          19
+        ],
+        10,
+        [
+          ">",
+          [
+            "get",
+            "DIAMETER"
+          ],
+          11
+        ],
+        8,
+        6
+      ],
+      "line-color": "white"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "wMainInner",
+    "name": "Water Mains",
+    "type": "line",
+    "directory": "City Water System",
+    "children": true,
+    "legend": "<div><span class='fa fa-minus' style='color:#0062ff;'></span> High Pressure System<br><span class='fa fa-minus' style='color:#26d9d0;'></span> Low Pressure System</div>",
+    "group": "Water Layers",
+    "source": "wMainSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/static/data/vector-tiles/utl_water_agol_main/{z}/{x}/{y}.mvt"
+      ],
+      "maxzoom": 17
+    },
+    "source-layer": "utl_water_agol_main",
+    "paint": {
+      "line-width": [
+        "case",
+        [
+          ">",
+          [
+            "get",
+            "DIAMETER"
+          ],
+          19
+        ],
+        7,
+        [
+          ">",
+          [
+            "get",
+            "DIAMETER"
+          ],
+          11
+        ],
+        5,
+        3
+      ],
+      "line-color": [
+        "case",
+        [
+          "in",
+          "LP",
+          [
+            "get",
+            "FACILITYID"
+          ]
+        ],
+        "#26d9d0",
+        "#0062ff"
+      ]
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "wMainLabels",
+    "type": "symbol",
+    "source": "wMainSource",
+    "name": "Water Main Labels",
+    "directory": "City Water System",
+    "group": "Water Layers",
+    "sourceType": {
+      "type": "geojson",
+      "tiles": [
+        "https://311.coz.org/static/data/vector-tiles/utl_water_agol_main/{z}/{x}/{y}.mvt"
+      ],
+      "maxzoom": 17
+    },
+    "source-layer": "utl_water_agol_main",
+    "paint": {
+      "text-color": "#121212",
+      "text-halo-color": "white",
+      "text-halo-width": 1.5,
+      "text-halo-blur": 0
+    },
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Bold"
+      ],
+      "text-field": [
+        "concat",
+        [
+          "get",
+          "DIAMETER"
+        ],
+        "in"
+      ],
+      "symbol-placement": "line",
+      "symbol-spacing": 500,
+      "text-anchor": "center",
+      "text-offset": [
+        0,
+        0
+      ],
+      "text-allow-overlap": true,
+      "text-ignore-placement": true,
+      "text-size": {
+        "stops": [
+          [
+            17,
+            12
+          ],
+          [
+            22,
+            16
+          ]
+        ]
+      },
+      "text-padding": 0
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_water_system_valves",
+    "type": "circle",
+    "name": "System Valves",
+    "directory": "City Water System",
+    "group": "Water Layers",
+    "children": true,
+    "legend":"<span class='fa fa-circle fa-sm' style='color:deepskyblue;'></span> Main Valve<br><span class='fa fa-circle fa-sm' style='color:red;'></span> Hydrant Valve<br><span class='fa fa-circle fa-sm' style='color:orange;'></span> Plug Valve<br><span class='fa fa-circle fa-sm' style='color:yellow;'></span> Fire Line Valve<br><span class='fa fa-circle fa-sm' style='color:fuchsia;'></span> Boundary Valve<br>",
+    "source": "wSystemValveSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/static/data/vector-tiles/utl_water_agol_system_valve/{z}/{x}/{y}.mvt"
+      ],
+      "maxzoom": 17
+    },
+    "source-layer": "utl_water_agol_system_valve",
+    "paint": {
+      "circle-radius": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            1
+          ],
+          [
+            16,
+            6
+          ]
+        ]
+      },
+      "circle-color": ["case",
+        ["==", ["get", "VALVETYPE"], "Main"], "#00C5FF",
+        ["==", ["get", "VALVETYPE"], "Hydrant"], "red",
+        ["==", ["get", "VALVETYPE"], "Plug"], "orange",
+        ["==", ["get", "VALVETYPE"], "Fire Line"], "yellow",
+        ["==", ["get", "VALVETYPE"], "Butterfly"], "white",
+        ["==", ["get", "VALVETYPE"], "Boundary Valve"], "fuchsia",
+          "black"],
+      "circle-stroke-color": ["case",
+        ["has", "VALVETYPE"], "black",
+          "red"],
+      "circle-stroke-width": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            16,
+            2
+          ]
+        ]
+      },
+      "circle-pitch-scale": "map",
+      "circle-pitch-alignment": "map"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_water_system_valves_interior",
+    "type": "circle",
+    "directory": "City Water System",
+    "group": "Water Layers",
+    "hidden": true,
+    "parent": "utl_water_system_valves",
+    "source": "wSystemValveSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/static/data/vector-tiles/utl_water_agol_system_valve/{z}/{x}/{y}.mvt"
+      ],
+      "maxzoom": 17
+    },
+    "source-layer": "utl_water_agol_system_valve",
+    "paint": {
+      "circle-radius": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            0.5
+          ],
+          [
+            16,
+            3
+          ]
+        ]
+      },
+      "circle-color": ["case",
+        ["==", ["get", "VALVETYPE"], "Boundary Valve"], "black",
+          "black"],
+      "circle-pitch-scale": "map",
+      "circle-pitch-alignment": "map"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "utl_water_control_valves",
+    "type": "circle",
+    "directory": "City Water System",
+    "group": "Water Layers",
+    "name": "Control Valves",
+    "source": "wControlValve",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/static/data/geojson/utl_water_agol_control_valve.geojson"
+    },
+    "paint": {
+      "circle-radius": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            1
+          ],
+          [
+            16,
+            5
+          ]
+        ]
+      },
+      "circle-color": "whitesmoke",
+      "circle-stroke-color": "royalblue",
+      "circle-stroke-width": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            16,
+            2
+          ]
+        ]
+      },
+      "circle-pitch-scale": "map",
+      "circle-pitch-alignment": "map"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "wCurbStopValve",
+    "name": "Curb Boxes",
+    "directory": "City Water System",
+    "group": "Water Layers",
+    "legend": "<div><span class='fa fa-circle' style='color:MEDIUMSPRINGGREEN'></span> Curb Stop<br><spanmg src='/assets/symbols/triangle-seagreen.png' height='16'/> Meter Pit</div>",
+    "type": "symbol",
+    "source": "wCurbStopValveSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/static/data/vector-tiles/utl_water_agol_curb_stop_valve/{z}/{x}/{y}.mvt"
+      ],
+      "maxzoom": 17
+    },
+    "source-layer": "utl_water_agol_curb_stop_valve",
+    "layout": {
+      "symbol-z-order": "source",
+      "icon-allow-overlap": true,
+      "icon-ignore-placement": true,
+      "icon-image": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "ACCESS_TYPE"
+          ],
+          "Curb Stop Valve"
+        ],
+        "circle-seagreen2",
+        [
+          "==",
+          [
+            "get",
+            "ACCESS_TYPE"
+          ],
+          "Meter Pit"
+        ],
+        "triangle-seagreen2",
+        "circle-black2"
+      ],
+      "icon-size": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "ACCESS_TYPE"
+          ],
+          "Curb Stop Valve"
+        ],
+        0.7,
+        [
+          "==",
+          [
+            "get",
+            "ACCESS_TYPE"
+          ],
+          "Meter Pit"
+        ],
+        1,
+        0.7
+      ],
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_water_hydrants",
+    "name": "Hydrants",
+    "directory": "City Water System",
+    "group": "Water Layers",
+    "type": "circle",
+    "source": "wHydrantSource",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/static/data/geojson/utl_water_agol_hydrant.geojson",
+      "generateId": true
+    },
+    "paint": {
+      "circle-radius": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            2
+          ],
+          [
+            16,
+            7
+          ]
+        ]
+      },
+      "circle-color": "red",
+      "circle-stroke-color": "white",
+      "circle-stroke-opacity": 1,
+      "circle-stroke-width": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            2
+          ],
+          [
+            16,
+            3
+          ]
+        ]
+      },
+      "circle-pitch-scale": "map",
+      "circle-pitch-alignment": "map"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_water_hydrants_labels",
+    "name": "Hydrant Labels",
+    "directory": "City Water System",
+    "group": "Water Layers",
+    "type": "symbol",
+    "top": true,
+    "source": "wHydrantSource",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/static/data/geojson/utl_water_agol_hydrant.geojson"
+    },
+    "paint": {
+      "text-color": "black",
+      "text-halo-color": "white",
+      "text-halo-width": 1.5,
+      "text-halo-blur": 0
+    },
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Bold"
+      ],
+      "text-field": "{FACILITYID}",
+      "text-anchor": "bottom-left",
+      "text-size": 14,
+      "text-offset": [
+        0.5,
+        -0.4
+      ]
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_water_index_map",
+    "name": "Water Print Map Index",
+    "directory": "City Water System",
+    "group": "Water Layers",
+    "type": "fill",
+    "source": "utl_water_index_map",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_water_index_map/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "fill-color": "firebrick",
+      "fill-opacity": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "missing"
+          ],
+          1
+        ],
+        0.9,
+        0.4
+      ],
+      "fill-outline-color": "white"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_water_critical_users",
+    "name": "Critical Users",
+    "directory": "City Water System",
+    "group": "Water Layers",
+    "type": "circle",
+    "source": "utl_water_critical_users",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_water_critical_users/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "circle-radius": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            4
+          ],
+          [
+            16,
+            12
+          ]
+        ]
+      },
+      "circle-color": "red",
+      "circle-stroke-color": "black",
+      "circle-stroke-opacity": 1,
+      "circle-stroke-width": 2
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": ["address", "name", "type"]
+    }
+  },
+  {
+    "id": "utl_sanitary_east_end_grid",
+    "type": "fill",
+    "directory": "City Sewer System",
+    "group": "East End Sewers",
+    "name": "East End Sewer Map",
+    "source": "utl_sanitary_east_end_grid",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_east_end_grid/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "fill-color": "firebrick",
+      "fill-opacity": 0.6
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_sanitary_east_end_parcels",
+    "type": "fill",
+    "directory": "City Sewer System",
+    "group": "East End Sewers",
+    "name": "East End Sewer Parcels",
+    "source": "utl_sanitary_east_end_parcels",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_east_end_parcels/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "fill-color": "purple",
+      "fill-outline-color": "white",
+      "fill-opacity": 0.5
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_sanitary_cso_areas",
+    "type": "fill",
+    "directory": "City Sewer System",
+    "group": "CSO",
+    "name": "CSO Area Boundaries",
+    "legend": "<span class='fa fa-square' style='color:red'></span> Not Separated<br><span class='fa fa-square' style='color:purple'></span> Planned Separation<br><span class='fa fa-square' style='color:green'></span> Separated<br>",
+    "source": "utl_sanitary_cso_areas",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_cso_areas/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "fill-color": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "separated"
+          ],
+          "No"
+        ],
+        "red",
+        [
+          "==",
+          [
+            "get",
+            "separated"
+          ],
+          "Yes"
+        ],
+        "green",
+        "purple"
+      ],
+      "fill-outline-color": "white",
+      "fill-opacity": 0.5
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_sanitary_cso_areas_labels",
+    "type": "symbol",
+    "top": true,
+    "directory": "City Sewer System",
+    "group": "CSO",
+    "name": "CSO Area Labels",
+    "source": "utl_sanitary_cso_areas",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_cso_areas/items.json?limit=50000"
+    },
+    "paint": {
+      "text-color": "black",
+      "text-halo-color": "white",
+      "text-halo-width": 1.5,
+      "text-halo-blur": 0
+    },
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Bold"
+      ],
+      "text-field": "{cso_area}"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "sanLinesOuter",
+    "name": "sanLinesOuter",
+    "directory": "City Sewer System",
+    "group": "Sanitary Sewer Layers",
+    "hidden": true,
+    "parent": "sanLinesInner",
+    "type": "line",
+    "source": "sanitaryLinesSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.utl_sanitary_lines/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "source-layer": "public.utl_sanitary_lines",
+    "paint": {
+      "line-width": [
+        "case",
+        [
+          ">",
+          [
+            "get",
+            "diameter"
+          ],
+          24
+        ],
+        8,
+        [
+          ">",
+          [
+            "get",
+            "diameter"
+          ],
+          11
+        ],
+        6,
+        5
+      ],
+      "line-color": "white"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "sanLinesInner",
+    "name": "Sanitary Lines",
+    "directory": "City Sewer System",
+    "group": "Sanitary Sewer Layers",
+    "children": true,
+    "legend": "<span class='fa fa-minus' style='color:darkgreen;'></span> Interceptor<br><span class='fa fa-minus' style='color:limegreen;'></span> Sanitary Main<br><span class='fa fa-minus' style='color:sienna;'></span> Combo Line<br><span class='fa fa-minus' style='color:black;'></span> Force Main<br><span class='fa fa-minus' style='color:gray;'></span> Abandoned<br><span class='fa fa-minus' style='color:lightgray;'></span> Other (Lateral/Unknown)",
+    "type": "line",
+    "source": "sanitaryLinesSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.utl_sanitary_lines/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "source-layer": "public.utl_sanitary_lines",
+    "paint": {
+      "line-width": [
+        "case",
+        [
+          ">",
+          [
+            "get",
+            "diameter"
+          ],
+          24
+        ],
+        6,
+        [
+          ">",
+          [
+            "get",
+            "diameter"
+          ],
+          11
+        ],
+        4,
+        3
+      ],
+      "line-color": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "subclass"
+          ],
+          "Interceptor"
+        ],
+        "darkgreen",
+        [
+          "==",
+          [
+            "get",
+            "subclass"
+          ],
+          "Sanitary"
+        ],
+        "limegreen",
+        [
+          "==",
+          [
+            "get",
+            "subclass"
+          ],
+          "Combination"
+        ],
+        "sienna",
+        [
+          "==",
+          [
+            "get",
+            "subclass"
+          ],
+          "Abandoned"
+        ],
+        "gray",
+        [
+          "==",
+          [
+            "get",
+            "subclass"
+          ],
+          "Force Main"
+        ],
+        "#202020",
+        "lightgray"
+      ]
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true,
+      "filterSchema": {
+        "subclass": {
+          "type": "select",
+          "options": ["", "Interceptor", "Sanitary", "Combination", "Force Main"]
+        }
+      }
+    }
+  },
+  {
+    "id": "sanLinesArrow",
+    "type": "symbol",
+    "directory": "City Sewer System",
+    "group": "Sanitary Sewer Layers",
+    "name": "Sanitary Flow Direction",
+    "parent": "sanLinesInner",
+    "hidden": true,
+    "source": "sanitaryLinesSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.utl_sanitary_lines/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "source-layer": "public.utl_sanitary_lines",
+    "layout": {
+      "symbol-placement": "line",
+      "symbol-spacing": 1,
+      "icon-allow-overlap": true,
+      "icon-ignore-placement": true,
+      "icon-padding": 0,
+      "icon-image": "arrow",
+      "icon-size": 0.05,
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_sanitary_laterals_case",
+    "name": "Sanitary Laterals",
+    "directory": "City Sewer System",
+    "group": "Sanitary Sewer Layers",
+    "hidden": true,
+    "parent": "utl_sanitary_laterals",
+    "type": "line",
+    "source": "utl_sanitary_laterals",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.utl_sanitary_laterals/{z}/{x}/{y}.pbf"],
+      "maxzoom": 22
+    },
+    "source-layer": "public.utl_sanitary_laterals",
+    "paint": {
+      "line-width": 5,
+      "line-color": "white"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_sanitary_laterals",
+    "name": "Sanitary Laterals",
+    "directory": "City Sewer System",
+    "group": "Sanitary Sewer Layers",
+    "legend": "<span class='fa fa-minus' style='color:orange;'></span> Active<br><span class='fa fa-minus' style='color:red;'></span> Unknown<br><span class='fa fa-minus' style='color:black;'></span> Capped",
+    "children": true,
+    "type": "line",
+    "source": "utl_sanitary_laterals",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.utl_sanitary_laterals/{z}/{x}/{y}.pbf"],
+      "maxzoom": 22
+    },
+    "source-layer": "public.utl_sanitary_laterals",
+    "paint": {
+      "line-width": 3,
+      "line-color": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "status"
+          ],
+          "active"
+        ],
+        "orange",
+        [
+          "==",
+          [
+            "get",
+            "status"
+          ],
+          "capped"
+        ],
+        "gray",
+        [
+          "==",
+          [
+            "get",
+            "class"
+          ],
+          "storm"
+        ],
+        "fuchsia",
+        "red"
+      ]
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_sanitary_laterals_points",
+    "name": "Sanitary Laterals",
+    "directory": "City Sewer System",
+    "group": "Sanitary Sewer Layers",
+    "hidden": true,
+    "parent": "utl_sanitary_laterals",
+    "type": "circle",
+    "source": "utl_sanitary_laterals",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.utl_sanitary_laterals/{z}/{x}/{y}.pbf"],
+      "maxzoom": 22
+    },
+    "source-layer": "public.utl_sanitary_laterals",
+    "paint": {
+      "circle-radius": 4,
+      "circle-color": "white",
+      "circle-stroke-color": "#121212",
+      "circle-stroke-width": 1
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "sanLinesLabels",
+    "type": "symbol",
+    "directory": "City Sewer System",
+    "group": "Sanitary Sewer Layers",
+    "name": "Sanitary Line Labels",
+    "children": true,
+    "source": "sanitaryArrowSource",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.utl_sanitary_lines/{z}/{x}/{y}.pbf"
+      ],
+      "maxzoom": 22
+    },
+    "source-layer": "public.utl_sanitary_lines",
+    "paint": {
+      "text-color": "black",
+      "text-halo-color": "white",
+      "text-halo-width": 1.5,
+      "text-halo-blur": 0
+    },
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Bold"
+      ],
+      "text-field": [
+        "concat",
+        [
+          "get",
+          "diameter"
+        ],
+        "in"
+      ],
+      "symbol-placement": "line",
+      "symbol-spacing": 500,
+      "text-anchor": "top",
+      "text-offset": [
+        0,
+        0.5
+      ],
+      "text-allow-overlap": true,
+      "text-ignore-placement": true,
+      "text-size": {
+        "stops": [
+          [
+            17,
+            12
+          ],
+          [
+            22,
+            16
+          ]
+        ]
+      },
+      "text-padding": 0
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "sanitarystructures",
+    "type": "circle",
+    "name": "Sanitary Structures",
+    "directory": "City Sewer System",
+    "group": "Sanitary Sewer Layers",
+    "source": "sanitaryStructuresSource",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_points/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "circle-radius": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            2
+          ],
+          [
+            16,
+            5
+          ]
+        ]
+      },
+      "circle-color": [
+        "case", ["==", ["get", "class"], "MH"], "limegreen",
+        "black"
+      ],
+      "circle-stroke-color": "white",
+      "circle-stroke-width": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            1
+          ],
+          [
+            16,
+            2
+          ]
+        ]
+      },
+      "circle-pitch-scale": "map",
+      "circle-pitch-alignment": "map"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "sanitaryManholeLabels",
+    "type": "symbol",
+    "directory": "City Sewer System",
+    "group": "Sanitary Sewer Layers",
+    "name": "Sanitary Structure Labels",
+    "source": "sanitaryLabelsSource",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_points/items.json?limit=50000",
+      "maxzoom": 22
+    },
+    "paint": {
+      "text-color": "black",
+      "text-halo-color": "white",
+      "text-halo-width": 2,
+      "text-halo-blur": 0
+    },
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Bold"
+      ],
+      "text-field": "{fieldid}",
+      "text-anchor": "bottom-left",
+      "text-size": 14,
+      "text-offset": [
+        0.5,
+        -0.2
+      ]
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_sanitary_master_meters",
+    "type": "circle",
+    "name": "Sanitary Master Meters",
+    "directory": "City Sewer System",
+    "group": "Sanitary Sewer Layers",
+    "metadata": {
+      "popup": [
+        "name",
+        "source",
+        "created"
+      ]
+    },
+    "source": "utl_sanitary_master_meters",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_master_meters/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "circle-radius": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            4
+          ],
+          [
+            16,
+            8
+          ]
+        ]
+      },
+      "circle-color": "firebrick",
+      "circle-stroke-color": "white",
+      "circle-stroke-width": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            1
+          ],
+          [
+            16,
+            2
+          ]
+        ]
+      },
+      "circle-pitch-scale": "map",
+      "circle-pitch-alignment": "map"
+    },
+    "layout": {
+      "visibility": "none"
+    }
+  },
+  {
+    "id": "utl_sanitary_regulators",
+    "type": "circle",
+    "directory": "City Sewer System",
+    "group": "CSO",
+    "name": "CSO Regulators",
+    "source": "utl_sanitary_regulators",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_regulators/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "circle-radius": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            6
+          ],
+          [
+            16,
+            10
+          ]
+        ]
+      },
+      "circle-color": [
+        "case",
+        [
+          "in",
+          [
+            "get",
+            "rack_id"
+          ],
+          [
+            "literal",
+            [
+              "R-15",
+              "R-17",
+              "R-18",
+              "R-19",
+              "R-07",
+              "R-02",
+              "R-04",
+              "R-05"
+            ]
+          ]
+        ],
+        "green",
+        [
+          "in",
+          [
+            "get",
+            "rack_id"
+          ],
+          [
+            "literal",
+            [
+              "R-11",
+              "R-10",
+              "R-09",
+              "R-08",
+              "R-06"
+            ]
+          ]
+        ],
+        "purple",
+        "red"
+      ],
+      "circle-stroke-color": "white",
+      "circle-stroke-width": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            1
+          ],
+          [
+            16,
+            2
+          ]
+        ]
+      },
+      "circle-opacity": 0.8
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_sanitary_regulators_labels",
+    "type": "symbol",
+    "directory": "City Sewer System",
+    "group": "CSO",
+    "name": "CSO Regulators Labels",
+    "top": true,
+    "source": "utl_sanitary_regulators",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_regulators/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "text-color": [
+        "case",
+        [
+          "in",
+          [
+            "get",
+            "rack_id"
+          ],
+          [
+            "literal",
+            [
+              "R-15",
+              "R-17",
+              "R-18",
+              "R-19",
+              "R-07",
+              "R-02",
+              "R-04",
+              "R-05"
+            ]
+          ]
+        ],
+        "green",
+        [
+          "in",
+          [
+            "get",
+            "rack_id"
+          ],
+          [
+            "literal",
+            [
+              "R-11",
+              "R-10",
+              "R-09",
+              "R-08",
+              "R-06"
+            ]
+          ]
+        ],
+        "purple",
+        "red"
+      ],
+      "text-halo-color": "white",
+      "text-halo-width": 2,
+      "text-halo-blur": 0
+    },
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Bold"
+      ],
+      "text-field": "{rack_id}",
+      "text-anchor": "bottom-left",
+      "text-size": 16,
+      "text-offset": [
+        0.5,
+        -0.2
+      ]
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "utl_stormwater_rcap_streets",
+    "name": "RCAP Project Status",
+    "directory": "City Sewer System",
+    "group": "Storm Sewer Layers",
+    "legend": "<div><span class='fa fa-minus' style='color:red;'></span> Marked<br><span class='fa fa-minus' style='color:orange;'></span> Queued<br><span class='fa fa-minus' style='color:green;'></span> Collected</div>",
+    "type": "line",
+    "source": "utl_stormwater_rcap_streets",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.utl_stormwater_rcap_streets/{z}/{x}/{y}.pbf"],
+      "maxzoom": 22
+    },
+    "source-layer": "public.utl_stormwater_rcap_streets",
+    "paint": {
+      "line-width": 8,
+      "line-color": ["case", 
+        ["==", ["get", "status"], "queued"], "goldenrod",
+        ["==", ["get", "status"], "marked"], "red",
+        ["==", ["get", "status"], "collected"], "green",
+        "transparent"
+      ],
+      "line-opacity": 0.5
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": ["lsn", "int_from", "int_to", "status"]
+    }
+  },
+  {
+    "id": "stmLinesOuter",
+    "name": "stmLinesOuter",
+    "directory": "City Sewer System",
+    "group": "Storm Sewer Layers",
+    "parent": "stmLinesInner",
+    "hidden": true,
+    "type": "line",
+    "source": "stormLinesSource",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_stormwater_stm_lines/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "line-width": 6,
+      "line-color": "white"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "filter": [
+      "!=",
+      "feature",
+      "Abandoned"
+    ],
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "stmLinesInner",
+    "name": "Legacy Storm Lines",
+    "directory": "City Sewer System",
+    "group": "Storm Sewer Layers",
+    "children": true,
+    "type": "line",
+    "source": "stormLinesSource",
+    "legend": "<div><span class='fa fa-minus' style='color:goldenrod'></span> Private</div> <div><span class='fa fa-minus' style='color:#fb00ff'></span> Storm Main</div> <div><span class='fa fa-minus' style='color:sienna'></span> Combination</div> <div><span class='fa fa-minus' style='color:#00a9e6'></span> Stream</div>    <div><span class='fa fa-minus' style='color:#00ffc5'></span> Ditch</div>    <div><span class='fa fa-minus' style='color:#333'></span> Culvert</div>    <div><span class='fa fa-minus' style='color:gray'></span> Abandoned/Unknown</div>",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_stormwater_stm_lines/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "line-width": 4,
+      "line-color": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "class"
+          ],
+          "Private"
+        ],
+        "goldenrod",
+        [
+          "==",
+          [
+            "get",
+            "class"
+          ],
+          "Storm Main"
+        ],
+        "#FB00FF",
+        [
+          "==",
+          [
+            "get",
+            "class"
+          ],
+          "Combination"
+        ],
+        "sienna",
+        [
+          "==",
+          [
+            "get",
+            "class"
+          ],
+          "Stream"
+        ],
+        "rgb(0,169,230)",
+        [
+          "==",
+          [
+            "get",
+            "class"
+          ],
+          "Ditch"
+        ],
+        "rgb(0,255,197)",
+        [
+          "==",
+          [
+            "get",
+            "class"
+          ],
+          "Culvert"
+        ],
+        "#333",
+        [
+          "==",
+          [
+            "get",
+            "class"
+          ],
+          "Abandoned"
+        ],
+        "gray",
+        "gray"
+      ],
+      "line-opacity": 0.3
+
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "filter": [
+      "!in",
+      "class",
+      "Ditch",
+      "Stream",
+      "Stream CSO Outfall"
+    ],
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "stmLinesInnerStreams",
+    "directory": "City Sewer System",
+    "group": "Storm Sewer Layers",
+    "parent": "stmLinesInner",
+    "hidden": true,
+    "type": "line",
+    "source": "stormLinesSource",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_stormwater_stm_lines/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "line-width": 4,
+      "line-dasharray": [
+        3,
+        2
+      ],
+      "line-color": [
+        "case",
+        [
+          "==",
+          [
+            "get",
+            "class"
+          ],
+          "Stream"
+        ],
+        "rgb(0,169,230)",
+        [
+          "==",
+          [
+            "get",
+            "class"
+          ],
+          "Ditch"
+        ],
+        "rgb(0,255,197)",
+        [
+          "==",
+          [
+            "get",
+            "class"
+          ],
+          "Stream CSO Outfall"
+        ],
+        "darkorange",
+        "gray"
+      ],
+      "line-opacity": 0.6
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "filter": [
+      "in",
+      "class",
+      "Ditch",
+      "Stream",
+      "Stream CSO Outfall"
+    ],
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "stormLinesArrow",
+    "type": "symbol",
+    "directory": "City Sewer System",
+    "group": "Storm Sewer Layers",
+    "name": "Sanitary Flow Direction",
+    "parent": "stmLinesInner",
+    "hidden": true,
+    "source": "stormLinesSource",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_stormwater_stm_lines/items.json?limit=50000",
+      "generateId": true
+    },
+    "layout": {
+      "symbol-placement": "line",
+      "icon-allow-overlap": true,
+      "icon-ignore-placement": true,
+      "icon-padding": 0,
+      "icon-image": "arrow",
+      "icon-size": 0.05,
+      "icon-anchor": "center",
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "stormStructures",
+    "directory": "City Sewer System",
+    "group": "Storm Sewer Layers",
+    "type": "circle",
+    "name": "Legacy Storm Structures",
+    "children": true,
+    "legend": "<span class='fa fa-circle fa-sm' style='color:fuchsia;'></span> Inlets<br><span class='fa fa-square fa-sm' style='color:dodgerblue;transform:rotate(45deg)'></span> Outfall<br><span class='fa fa-square fa-sm' style='color:darkorange;transform:rotate(45deg)'></span> CSO Outfall<br><span class='fa fa-circle fa-sm' style='color:black;'></span> Manholes/Other",
+    "source": "stmStructuresSource",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_stormwater_stm_points/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "circle-color": ["case", 
+        ["==", ["get", "class"], "Inlet"], "fuchsia",
+        "black"
+      ],
+      "circle-radius": 5,
+      "circle-opacity": 0.3,
+      "circle-stroke-color": "white",
+      "circle-stroke-width": 2
+    },
+    "filter": ["all", ["!=", ["get", "class"], "CSO Outfall"], ["!=", ["get", "class"], "Outfall"]],
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+    {
+      "id": "stormStructuresIcons",
+      "directory": "City Sewer System",
+      "group": "Storm Sewer Layers",
+      "parent": "stormStructures",
+      "hidden": true,
+      "type": "symbol",
+      "source": "stmStructuresSource",
+      "sourceType": {
+        "type": "geojson",
+        "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_stormwater_stm_points/items.json?limit=50000",
+        "generateId": true
+      },
+      "layout": {
+        "icon-image": ["case",
+          ["==", ["get", "class"], "CSO Outfall"], "diamond-orange-24",
+          "diamond-blue-24"
+        ],
+        "icon-allow-overlap": true,
+        "icon-size": {
+          "stops": [
+            [14,0.7],
+            [18,0.9]
+          ]
+        },
+        "visibility": "none"
+      },
+      "filter": ["in", "class", "CSO Outfall", "Outfall"],
+      "metadata": {
+        "popup": true
+      }
+  },
+  {
+    "id": "utl_sanitary_flow_monitors",
+    "type": "circle",
+    "name": "AECOM Flow Monitors",
+    "directory": "City Sewer System",
+    "group": "Sanitary Sewer Layers",
+    "children": true,
+    "metadata": {
+      "popup": [
+        "name",
+        "source",
+        "created"
+      ]
+    },
+    "source": "utl_sanitary_flow_monitors",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_flow_monitors/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "circle-radius": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            6
+          ],
+          [
+            16,
+            10
+          ]
+        ]
+      },
+      "circle-color": "rgba(0,0,0,0.5)",
+      "circle-stroke-color": "fuchsia",
+      "circle-stroke-width": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            3
+          ],
+          [
+            16,
+            4
+          ]
+        ]
+      },
+      "circle-pitch-scale": "map",
+      "circle-pitch-alignment": "map"
+    },
+    "layout": {
+      "visibility": "none"
+    }
+  },
+  {
+    "id": "utl_sanitary_flow_monitors_labels",
+    "type": "symbol",
+    "name": "AECOM Flow Monitor Labels",
+    "directory": "City Sewer System",
+    "parent": "utl_sanitary_flow_monitors",
+    "top": true,
+    "hidden": true,
+    "group": "Sanitary Sewer Layers",
+    "metadata": {
+      "popup": false
+    },
+    "source": "utl_sanitary_flow_monitors",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_flow_monitors/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "text-color": "#121212",
+      "text-halo-color": "white",
+      "text-halo-width": 2,
+      "text-halo-blur": 0
+    },
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Bold"
+      ],
+      "text-field": "FM-{name}",
+      "text-anchor": "bottom-left",
+      "text-size": 16,
+      "text-offset": [
+        0.7,
+        -0.2
+      ]
+    }
+  },
+  {
+    "id": "public.utl_sanitary_plans_view",
+    "type": "fill",
+    "name": "Sanitary Plan Polygons",
+    "directory": "City Sewer System",
+    "group": "Sanitary Sewer Plans",
+    "metadata": {
+      "popup": true
+    },
+    "source": "public.utl_sanitary_plans_view",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_plans_view/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "fill-color": "whitesmoke",
+      "fill-outline-color": "red",
+      "fill-opacity": 0.7
+    },
+    "layout": {
+      "visibility": "none"
+    }
+  },
+  {
+    "id": "utl_wastewater_manhole_inspections",
+    "name": "Manhole Inspections",
+    "directory": "City Sewer System",
+    "group": "Inspection Layers",
+    "type": "circle",
+    "source": "utl_wastewater_manhole_inspections",
+    "sourceType": {
+      "type": "geojson",
+      "data": {
+        "type": "FeatureCollection",
+        "features": []
+      }
+    },
+    "paint": {
+      "circle-radius": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            8
+          ],
+          [
+            16,
+            16
+          ]
+        ]
+      },
+      "circle-color": "red",
+      "circle-opacity": 0.7,
+      "circle-stroke-color": "white",
+      "circle-stroke-opacity": 0.5,
+      "circle-stroke-width": {
+        "stops": [
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            2
+          ],
+          [
+            16,
+            3
+          ]
+        ]
+      },
+      "circle-pitch-scale": "map",
+      "circle-pitch-alignment": "map"
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true,
+      "lazyLoading": false
+    }
+  },
+  {
+    "id": "utl_stormwater_agol_storm_water_catch_basin",
+    "name": "Storm Points",
+    "directory": "City Storm Sewer (In Progress)",
+    "group": "Storm Sewer",
+    "children": true,
+    "legend": "<span class='fa fa-square fa-sm' style='color:fuchsia;'></span> Inlet<br><span class='fa fa-square fa-sm' style='color:dodgerblue;transform:rotate(45deg)'></span> Outfall<br><span class='fa fa-circle fa-sm' style='color:magenta;'></span> Manhole",
+    "source": "utl_stormwater_agol_storm_water_catch_basin",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/static/data/geojson/utl_stormwater_agol_storm_water_catch_basin.geojson",
+      "generateId": true
+    },
+    "type": "symbol",
+    "layout": {
+      "symbol-z-order": "source",
+      "icon-allow-overlap": true,
+      "icon-ignore-placement": true,
+      "icon-image": "square-purple",
+      "icon-size": [
+        "interpolate",
+        [
+          "linear"
+        ],
+        [
+          "zoom"
+        ],
+        14,
+        0.4,
+        17,
+        0.7
+      ],
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true,
+      "filterSchema": {
+        "LASTUPDATE": {
+          "type": "date",
+          "epoch": true
+        }
+      }
+    }
+  },
+  {
+    "id": "utl_stormwater_agol_storm_water_culvert_point",
+    "name": "Storm Points",
+    "directory": "City Storm Sewer (In Progress)",
+    "group": "Storm Sewer",
+    "parent": "utl_stormwater_agol_storm_water_catch_basin",
+    "hidden": true,
+    "source": "utl_stormwater_agol_storm_water_culvert_point",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/static/data/geojson/utl_stormwater_agol_storm_water_culvert_point.geojson",
+      "generateId": true
+    },
+    "type": "circle",
+    "paint": {
+      "circle-color": "black",
+      "circle-radius": 5,
+      "circle-stroke-color": "white",
+      "circle-stroke-width": 2
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_stormwater_agol_storm_water_discharge_point",
+    "name": "Storm Points",
+    "directory": "City Storm Sewer (In Progress)",
+    "group": "Storm Sewer",
+    "parent": "utl_stormwater_agol_storm_water_catch_basin",
+    "hidden": true,
+    "source": "utl_stormwater_agol_storm_water_discharge_point",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/static/data/geojson/utl_stormwater_agol_storm_water_discharge_point.geojson",
+      "generateId": true
+    },
+    "type": "symbol",
+    "layout": {
+      "icon-image": "diamond-blue-24",
+      "icon-allow-overlap": true,
+      "icon-size": {
+        "stops": [
+          [14,0.7],
+          [18,0.9]
+        ]
+      },
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "utl_stormwater_agol_storm_water_manhole",
+    "name": "Storm Points",
+    "directory": "City Storm Sewer (In Progress)",
+    "group": "Storm Sewer",
+    "parent": "utl_stormwater_agol_storm_water_catch_basin",
+    "hidden": true,
+    "source": "utl_stormwater_agol_storm_water_manhole",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/static/data/geojson/utl_stormwater_agol_storm_water_manhole.geojson",
+      "generateId": true
+    },
+    "type": "circle",
+    "paint": {
+      "circle-color": "magenta",
+      "circle-radius": 5,
+      "circle-stroke-color": "black",
+      "circle-stroke-width": 2
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "eng_building_footprints_3d",
+    "type": "fill-extrusion",
+    "name": "Building Footprints 3D",
+    "group": "Impervious Surface Layers",
+    "directory": "Impervious Surface",
+    "source": "eng_building_footprints",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.eng_building_footprints/{z}/{x}/{y}.pbf"
+      ],
+      "minzoom": 15,
+      "maxzoom": 22
+    },
+    "source-layer": "public.eng_building_footprints",
+    "paint": {
+      "fill-extrusion-color": "whitesmoke",
+      "fill-extrusion-opacity": 0.6,
+      "fill-extrusion-height": [
+        "case",
+        [
+          ">",
+          [
+            "get",
+            "extrudeheight"
+          ],
+          10
+        ],
+        18,
+        [
+          ">",
+          [
+            "get",
+            "extrudeheight"
+          ],
+          20
+        ],
+        26,
+        [
+          ">",
+          [
+            "get",
+            "extrudeheight"
+          ],
+          30
+        ],
+        34,
+        [
+          ">",
+          [
+            "get",
+            "extrudeheight"
+          ],
+          40
+        ],
+        42,
+        [
+          ">",
+          [
+            "get",
+            "extrudeheight"
+          ],
+          50
+        ],
+        52,
+        8
+      ]
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "plus_codes",
+    "type": "raster",
+    "name": "Plus Code Location Grid",
+    "directory": "Auditor",
+    "group": "Plus Codes",
+    "source": "plus_codes",
+    "sourceType": {
+      "type": "raster",
+      "tiles": [
+        "https://a-grid.plus.codes/grid/tms/{z}/{x}/{y}.png?col=red",
+        "https://b-grid.plus.codes/grid/tms/{z}/{x}/{y}.png?col=red",
+        "https://c-grid.plus.codes/grid/tms/{z}/{x}/{y}.png?col=red"
+      ],
+      "scheme": "tms",
+      "tileSize": 256,
+      "attribution": "<a href='https://plus.codes'>plus codes</a>"
+    },
+    "paint": {
+      "raster-opacity": 1
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "eng_coz_structures",
+    "type": "fill-extrusion",
+    "name": "City Building Assets",
+    "group": "Auditor",
+    "directory": "Auditor",
+    "source": "public.eng_coz_structures",
+    "sourceType": {
+      "type": "vector",
+      "tiles": [
+        "https://311.coz.org/api/v1/vector-tiles/public.eng_coz_structures/{z}/{x}/{y}.pbf"
+       ],
+      "maxzoom": 22
+    },
+    "source-layer": "public.eng_coz_structures",
+    "paint": {
+      "fill-extrusion-color": "#02EEE6",
+      "fill-extrusion-opacity": 0.6,
+      "fill-extrusion-height": [
+        "case",
+        [
+          ">",
+          [
+            "get",
+            "extrudeheight"
+          ],
+          10
+        ],
+        18,
+        [
+          ">",
+          [
+            "get",
+            "extrudeheight"
+          ],
+          20
+        ],
+        26,
+        [
+          ">",
+          [
+            "get",
+            "extrudeheight"
+          ],
+          30
+        ],
+        34,
+        [
+          ">",
+          [
+            "get",
+            "extrudeheight"
+          ],
+          40
+        ],
+        42,
+        [
+          ">",
+          [
+            "get",
+            "extrudeheight"
+          ],
+          50
+        ],
+        52,
+        8
+      ]
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "eng_coz_ward_lookup_mview",
+    "type": "circle",
+    "name": "City Services by Address",
+    "children": true,
+    "directory": "City Places & Services",
+    "group": "City Services by Address",
+    "metadata": {
+      "popup": true
+    },
+    "source": "eng_coz_ward_lookup_mview",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.eng_coz_ward_lookup_mview/{z}/{x}/{y}.pbf"],
+      "promoteId": "id",
+      "maxzoom": 22
+    },
+    "source-layer": "public.eng_coz_ward_lookup_mview",
+    "paint": {
+      "circle-color": "whitesmoke",
+      "circle-stroke-color": "#333",
+      "circle-stroke-width": 2,
+      "circle-radius": {
+        "stops": [
+          [14,2],
+          [18,4]
+        ]
+      }
+    },
+    "layout": {
+      "visibility": "none"
+    }
+  },
+  {
+    "id": "eng_coz_ward_lookup_mview_labels",
+    "type": "symbol",
+    "name": "City Services by Address",
+    "hidden": true,
+    "directory": "City Places & Services",
+    "group": "City Services by Address",
+    "parent": "eng_coz_ward_lookup_mview",
+    "source": "eng_coz_ward_lookup_mview",
+    "sourceType": {
+      "type": "vector",
+      "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.eng_coz_ward_lookup_mview/{z}/{x}/{y}.pbf"],
+      "promoteId": "id",
+      "maxzoom": 22
+    },
+    "source-layer": "public.eng_coz_ward_lookup_mview",
+    "paint": {
+      "text-color": "black",
+      "text-halo-color": "white",
+      "text-halo-width": 2,
+      "text-halo-blur": 0
+    },
+    "minzoom": 17.1,
+    "layout": {
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Regular"
+      ],
+      "text-field": "{address}",
+      "text-anchor": "bottom-left",
+      "text-size": 14,
+      "text-offset": [
+        0.5,
+        0
+      ]
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "eng_coz_pois",
+    "type": "circle",
+    "name": "City POIS",
+    "children": true,
+    "directory": "City Places & Services",
+    "group": "City POIS",
+    "metadata": {
+      "popup": ["name", "images", "address"]
+    },
+    "source": "eng_coz_pois_source",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.eng_coz_pois/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "circle-color": ["case", 
+        ["==", ["get", "icon"], "fire-24"], "hsl(0, 100%, 90%)",
+        ["==", ["get", "category"], "parks"], "hsl(120, 100%, 95%)",
+        ["==", ["get", "category"], "historic"], "hsl(19, 26%, 95%)",
+        ["==", ["get", "category"], "municipal"], "hsl(187, 82%, 95%)",
+        ["==", ["get", "category"], "cemeteries"], "hsl(187, 82%, 95%)",
+        ["==", ["get", "category"], "public"], "hsl(187, 82%, 95%)",
+        "white"  
+      ],
+      "circle-stroke-color": ["case", 
+        ["==", ["get", "icon"], "fire-24"], "red",
+        ["==", ["get", "category"], "parks"], "green",
+        ["==", ["get", "category"], "historic"], "hsl(19, 26%, 28%)",
+        ["==", ["get", "category"], "municipal"], "#0079a2",
+        ["==", ["get", "category"], "cemeteries"], "#0079a2",
+        ["==", ["get", "category"], "public"], "#0079a2",
+  
+        "#333"  
+      ],
+      "circle-stroke-width": 2,
+      "circle-radius": {
+        "stops": [
+          [14,10],
+          [18,13]
+        ]
+      }
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "filter": ["all",
+      ["!=", ["get", "icon"], null],
+      ["!=", ["get", "icon"], ""],
+      ["!=", ["get", "type"], "Park"]
+    ]
+  },
+  
+  {
+    "id": "eng_coz_pois_icon",
+    "type": "symbol",
+    "hidden": true,
+    "parent": "eng_coz_pois",
+    "directory": "City Places & Services",
+    "group": "City POIS",
+    "source": "eng_coz_pois_source",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.eng_coz_pois/items.json?limit=50000",
+      "generateId": true
+    },
+    "metadata": {
+      "popup": ["name", "images", "address", "website"]
+    },
+    "layout": {
+      "icon-image": "{icon}",
+      "icon-allow-overlap": true,
+      "icon-size": {
+        "stops": [
+          [14,0.7],
+          [18,0.9]
+        ]
+      },
+      "visibility": "none"
+    },
+    "filter": ["all",
+      ["!=", ["get", "icon"], null],
+      ["!=", ["get", "icon"], ""],
+      ["!=", ["get", "type"], "Park"]
+    ]
+  },
+  
+  {
+    "id": "eng_coz_pois_labels",
+    "type": "symbol",
+    "hidden": true,
+    "parent": "eng_coz_pois",
+    "directory": "City Places & Services",
+    "group": "City POIS",
+    "metadata": {
+      "popup": ["name", "images", "address"]
+    },
+    "source": "eng_coz_pois_source",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.eng_coz_pois/items.json?limit=50000",
+      "generateId": true
+    },
+    "minzoom": 16,
+    "paint": {
+      "text-color": ["case", 
+        ["==", ["get", "icon"], "fire-24"], "red",
+        ["==", ["get", "category"], "parks"], "green",
+        ["==", ["get", "category"], "historic"], "hsl(19, 26%, 28%)",
+        ["==", ["get", "category"], "municipal"], "#005673",
+        ["==", ["get", "category"], "cemeteries"], "#005673",
+        ["==", ["get", "category"], "public"], "#005673",
+  
+        "#333"  
+      ],
+      "text-halo-color": "white",
+      "text-halo-width": 2,
+      "text-halo-blur": 0
+    },
+    "layout": {
+      "icon-allow-overlap": false,
+      "visibility": "none",
+      "text-font": [
+        "DIN Offc Pro Regular"
+      ],
+      "text-field": "{name}",
+      "text-anchor": "bottom-left",
+      "text-offset": [0.6, -0.5],
+      "text-size": {
+        "stops": [
+          [14, 12],
+          [18, 14]
+        ]
+      }
+    },
+    "filter": ["all",
+      ["!=", ["get", "icon"], null],
+      ["!=", ["get", "icon"], ""],
+      ["!=", ["get", "type"], "Park"]
+    ]
+  },
+  {
+    "id": "eng_road_closures",
+    "type": "line",
+    "name": "Active Road Closures",
+    "group": "Road Closures",
+    "directory": "Engineering",
+    "legend":"<div><span class='fa fa-minus' style='color:orange;'></span> Alternate Routes<br><span class='fa fa-minus' style='color:red;'></span> Road Closed</div>",
+    "source": "eng_road_closures",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.eng_road_closures/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "line-color": ["case",
+        ["==", ["get", "type"], "detour"], "orange",
+        ["==", ["get", "type"], "closed"], "red",
+        "#000"
+      ],
+      "line-width": 6
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": ["title", "description"]
+    },
+    "filter": ["==", ["get", "status"], "active"]
+  },
+  {
+    "id": "tmp_trail_expansion_case",
+    "type": "line",
+    "name": "Test Route",
+    "group": "Development",
+    "directory": "Engineering",
+    "hidden": true,
+    "parent": "tmp_trail_expansion",
+    "source": "tmp_trail_expansion",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.tmp_trail_expansion/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "line-color":"red",
+      "line-width": 10
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "tmp_trail_expansion",
+    "type": "line",
+    "name": "Test Route",
+    "group": "Development",
+    "directory": "Engineering",
+    "children": true,
+    "source": "tmp_trail_expansion",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.tmp_trail_expansion/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "line-color":"white",
+      "line-width": 4,
+      "line-dasharray": [2,1]
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  },
+  {
+    "id": "eng_bikeped_case",
+    "type": "line",
+    "name": "Sidewalks and Trails",
+    "group": "Development",
+    "directory": "Engineering",
+    "hidden": true,
+    "parent": "eng_bikeped",
+    "source": "eng_bikeped",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.eng_bikeped/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "line-color":"#121212",
+      "line-width": 6
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": false
+    }
+  },
+  {
+    "id": "eng_bikeped",
+    "type": "line",
+    "name": "Sidewalks and Trails",
+    "group": "Development",
+    "directory": "Engineering",
+    "children": true,
+    "source": "eng_bikeped",
+    "sourceType": {
+      "type": "geojson",
+      "data": "https://311.coz.org/api/v1/feature-server/collections/public.eng_bikeped/items.json?limit=50000",
+      "generateId": true
+    },
+    "paint": {
+      "line-color":["case", 
+        ["==", ["get", "footway"], "sidewalk"], "goldenrod",
+        "white"
+      ],
+      "line-width": 4,
+      "line-dasharray": [2,1]
+    },
+    "layout": {
+      "visibility": "none"
+    },
+    "metadata": {
+      "popup": true
+    }
+  }
+]

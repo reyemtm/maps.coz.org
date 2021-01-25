@@ -1,0 +1,394 @@
+layout: map
+title: Capital Projects
+subtitle: Proposed 2018 Capital Projects
+img: 2018-capital-projects-img.png
+btn: Launch
+about: >-
+  Proposed 2018 Capital Projects
+category: development
+header: >-
+  <!--script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@14/dist/smooth-scroll.polyfills.min.js"></script-->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.6/turf.min.js'></script>
+css: >-
+  #sidebarId {
+    display: none;
+  }
+  #map {
+    left:0;
+    width: 100%;
+  }
+  #story {
+    width: 33%;
+    margin-left: calc(67% - 60px);
+    overflow: auto;
+    overflow-x: hidden;
+    background-color: white;
+    position: absolute;
+    height: 306px;
+    right: 3rem;
+    top: 8px;
+    border-radius: 2px;
+    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .2), 0 1px 8px 0 rgba(0, 0, 0, .12);
+  }
+
+  #story section {
+    padding:  25px 50px 36px;
+    line-height: 25px;
+    border-bottom: 1px solid #ddd;
+    opacity: 0.25;
+    font-size: 13px;
+  }
+  #story section.active {
+    opacity: 1;
+  }
+  #story section:last-child {
+    border-bottom: none;
+    margin-bottom: 200px;
+  }
+  #story .story-body {
+    font-size: 1rem;
+  }
+
+  #story .btn {
+    width: 2rem;
+  }
+
+  @media screen and (max-width: 960px) {
+    #story {
+      width: calc(100vw - 68px);
+      z-index: 2;
+    }
+  }
+---
+<div id='story' class="scroller">
+</div>
+<script>
+  var mapLayers = [],
+    layerTreeLayers = [],
+    directoryOptions = [];
+
+  mapboxgl.accessToken = cozMAP.token;
+  var gltoken = mapboxgl.accessToken;
+
+  var projectsGeo = {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [-82.012103, 39.974275],
+            [-82.01172, 39.973428],
+            [-82.011473, 39.972953],
+            [-82.011253, 39.972495],
+            [-82.010372, 39.970857],
+            [-82.009957, 39.970049]
+          ]
+        }
+      }
+    ]
+  }
+
+  function mapAssignMapLayers() {
+    if (!mapLayers.OrthoLocal) {
+      mapLayers.OrthoLocal = {
+          'id': 'OrthoLocal',
+          'type': 'raster',
+          "name": "2015 Imagery",
+          'source': 'orthoLocalSource',
+          'sourceType': {
+            'type': 'raster',
+            //'tiles': ['https://cozortho.firebaseapp.com/ohmusk15_4inch_jpg/{z}/{x}/{y}.jpg'],
+            'tiles':[
+              "https://a.tiles.mapbox.com/v4/cozgis.c901r8pz/{z}/{x}/{y}.png?access_token="+gltoken,
+              "https://b.tiles.mapbox.com/v4/cozgis.c901r8pz/{z}/{x}/{y}.png?access_token="+gltoken,
+              "https://c.tiles.mapbox.com/v4/cozgis.c901r8pz/{z}/{x}/{y}.png?access_token="+gltoken
+              ],
+            // 'url':'mapbox://cozgis.c901r8pz',
+            'tileSize': 256,
+            attribution: '<a href="http://muskingumcountyauditor.org/Home.aspx?PageID=20" target="_blank">Imagery &copy; 2015 Muskingum County</a>'
+            // 'scheme':'tms',
+            //'maxzoom':18
+          },
+          'directory': 'Map Layers',
+          'paint': {
+            'raster-opacity': 1
+          },
+          'layout': {
+            'visibility': 'visible'
+          }
+        }
+
+      mapLayers.parcelLineLayer = {
+        'id': 'ParcelsOutline',
+        'type': 'line',
+        'name': 'Parcels Outline',
+        'source': 'parcelSource',
+        'directory': 'Map Layers',
+        'sourceType': {
+          "type": "vector",
+          "tiles": ["https://311.coz.org/data/vt/adm_mus_parcels/{z}/{x}/{y}.mvt"],
+          "maxzoom": 17
+        },
+        'source-layer': 'adm_mus_parcels',
+        'paint': {
+          'line-color': 'rgba(255,255,255,0.5)',
+          'line-width': 1,
+          'line-dasharray': [5,5],
+        },
+        'layout': {
+          'visibility': 'none'
+        }
+      }
+
+      mapLayers.contours = {
+        'id': 'contours',
+        'type': 'line',
+        'name': 'Contours',
+        'source': 'contoursSource',
+        'directory': 'Map Layers',
+        'sourceType': {
+          "type": "vector",
+          url: 'mapbox://cozgis.dvfxrwd1'
+        },
+        'source-layer': 'Contours_Clipped_Zanesville_w-bysucb',
+        'paint': {
+          'line-color': 'rgba(255,255,255,0.3)',
+          'line-width': 1,
+          'line-dasharray': [3,1,2,1],
+        }
+      }
+
+      mapLayers.buildings = {
+        // edfe74b0
+        'id': 'BuildingsOutline',
+        'type': 'fill',
+        'name': 'Buildings Outline',
+        'source': 'buildingSource',
+        'sourceType': {
+          "type": "vector",
+          "url": "mapbox://cozgis.edfe74b0"
+          // url: 'mapbox://cozgis.c96d1993'
+        },
+        'minzoom': 15,
+        'maxzoom': 17,
+        'source-layer': 'COZ_Buildings_wgs84',
+        'paint': {
+          'fill-color': 'rgba(255,255,255,0.2)',
+          'fill-outline-color': 'rgba(255,255,255,0)'
+        },
+        'layout': {
+          'visibility': 'none'
+        }
+      }
+
+      // mapLayers.buildings3d = {
+      // "id": "buildings3d",
+      // "type": "fill-extrusion",
+      // "source": "buildingSource",
+      // "source-layer": "COZ_Buildings_wgs84",
+      // 'minzoom': 17,
+      // "paint": {
+      //   "fill-extrusion-color": "white",
+      //   "fill-extrusion-height": {
+      //     "property": "ELEV",
+      //     "stops": [
+      //       [0, 8],
+      //       [700,8],
+      //       [1300, 16]
+      //     ]
+      //   },
+      //   'fill-extrusion-opacity': 0.2
+      //   }
+      // }
+      
+
+
+
+      
+
+
+    }
+  }
+  mapAssignMapLayers()
+
+
+
+  /*
+  initiate map
+  */
+
+  var map = new mapboxgl.Map({
+    container: 'map',
+    hash: true,
+    // style: "http://127.0.0.1:4000/assets/map-styles/blueprint.geojson",
+    style: "mapbox://styles/mapbox/outdoors-v9",
+    center: [-82.002606, 39.9344403],
+    zoom: 17.91,
+    minZoom: 0,
+    preserveDrawingBuffer: true
+  });
+
+  /*
+  map event listeners
+  */
+
+  map.on('load', function () {
+    cozMAP.mapPrint(map, "Map Title")
+    cozMAP.mapCheckLoading(map);
+
+    map.addSource("projects", {
+          "type": "geojson",
+          "data": 'https://311.coz.org/data/geojson/eng_capital_projects_draft.geojson'
+        })
+
+    map.addLayer({
+        'id': 'projectsOuter',
+        "type": "line",
+        "source": "projects",
+        "paint": {
+          "line-color": "white",
+          "line-width": 14,
+          "line-opacity": 1
+        }
+      })
+
+      map.addLayer({
+        'id': 'projects',
+        "type": "line",
+        "source": "projects",
+        "paint": {
+          "line-color": "firebrick",
+          "line-width": 10,
+          "line-opacity": 0.8
+        }
+      })
+
+    cozMAP.mapAddControls(map);
+    map.flyTo({center:[-82.002606, 39.9344403], zoom: 17.91});
+  })
+
+  var activeprojectName = 'project0';
+
+  var projectListNew = [];
+
+  cozMAP.getJSON("https://311.coz.org/data/geojson/eng_capital_projects_draft.geojson", function(data) {
+    populateProjects(data)
+  });
+  
+  function populateProjects(geojson) {
+    console.log(geojson);
+    geojson.features.map(function(feature) {
+      var center = turf.center(feature);
+      console.log(center.geometry.coordinates)
+      var bounds = turf.bbox(feature);
+      var p = feature.properties;
+      var info = (p.Info != null) ? p.Info : "";
+      projectListNew.push({
+        title: p.name,
+        body: "Length: " + p.length + "'&nbsp;&nbsp;Cost: " + p.cost + "<br><br>" + info,
+        center: center.geometry.coordinates,
+        bearing: (p.bearing != null) ? p.bearing : 0,
+        pitch: (p.pitch != null) ? p.pitch : 0,
+        zoom: (p.zoom != null) ? p.zoom : 16,
+        speed: 0.7
+      });
+    });
+
+    console.log(projectListNew)
+    for (var i = 0; i < projectListNew.length; i++) {
+      var next = i + 1;
+      var prev = i - 1;
+      if (i === (projectListNew.length -1)) {
+        var next = 0;
+      }
+      if (i === 0) {
+        var prev = projectListNew.length - 1;
+      }
+      createProjectList("story", projectListNew[i], i, next, prev);
+      
+      var projects = document.getElementById('story');
+  
+      var firstProject = projects.children[0];
+      firstProject.classList.add('active')
+      projects.setAttribute('style','height:' + (firstProject.clientHeight) + "px");
+
+      projects.onscroll = function () {
+        for (var i = 0; i < projectListNew.length; i++) {
+          var projectName = "project" + i;
+          if (isElementOnScreen(projectName)) {
+            setActiveChapter(projectName, i);
+            break;
+          }
+        }
+      };
+    }
+  }
+
+  /*
+  functions
+  */
+
+  function createProjectList(div, p, id, next, prev) {
+    var project = document.createElement('section');
+    project.id = "project" + id;
+    project.classList.add("project");
+    var title = document.createElement('h3');
+    title.textContent = p.title;
+    title.classList.add('story-title');
+    var body = document.createElement('div');
+    body.classList.add('story-body');
+    body.innerHTML = p.body;
+    var nextlink = document.createElement('a');
+    nextlink.href="#project" + next;
+    nextlink.textContent = ">";
+    nextlink.classList.add("btn");
+    nextlink.classList.add("btn-secondary");
+    nextlink.setAttribute("data-scroll", "");
+
+    if (prev != null) {
+      nextlink.style.float = "right";
+      var prevlink = document.createElement('a');
+      prevlink.classList.add("btn");
+      prevlink.classList.add("btn-secondary");
+      prevlink.setAttribute("data-scroll", "");
+      prevlink.href="#project" + prev;
+      prevlink.textContent = "<";
+    }
+
+    project.appendChild(title);
+    project.appendChild(body);
+    if (prev != null) {
+      project.appendChild(prevlink);
+    }
+    project.appendChild(nextlink);
+    var div = document.getElementById(div);
+    div.appendChild(project)
+  }
+
+  function setActiveChapter(projectName, number) {
+    if (projectName === activeprojectName) return;
+    var f = document.getElementById("story");
+    var p = document.getElementById(projectName);
+    f.setAttribute('style','height:' + (p.clientHeight - 10) + "px");
+    console.log(projectListNew[number], projectListNew[number].center)
+    map.flyTo({
+      center: projectListNew[number].center,
+      speed: 0.7
+    });
+    document.getElementById(projectName).setAttribute('class', 'active');
+    document.getElementById(activeprojectName).setAttribute('class', '');
+
+    activeprojectName = projectName;
+  }
+
+  function isElementOnScreen(id) {
+    var element = document.getElementById(id);
+    var bounds = element.getBoundingClientRect();
+    return bounds.top < window.innerHeight && bounds.bottom > 20;
+  }
+  // window.onresize = setActiveChapter(activeprojectName)
+
+</script>

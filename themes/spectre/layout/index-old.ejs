@@ -1,0 +1,16 @@
+<% site.categories.sort('name', -1).map(function(category){  %>
+  <% var title = (category.name) %>
+  <div class="category">
+    <div id="<%- titlecase(title) %>">
+      <a href="/<%- title %>"><h2 class="text-center"><% if (title == "maps") { %>City of Zanesville Public Map Portal<%}%><% if (title == "internal") {%>Internal Applications<%}%><% if (title == "development") {%>Applications in Development<%}%></h2></a>
+    </div>
+    <div class="columns">
+      <% category.posts.sort('-date').map(function(post, i){  %>
+      <% if (post.redirect) {%><%}else{%>
+      <%- partial('common/mapcard', {map: post, index: true}) %>
+      <%- partial('common/modal', {post: post}) %>
+      <%}%>
+      <% }) %>
+    </div>
+  </div>
+<% }) %>

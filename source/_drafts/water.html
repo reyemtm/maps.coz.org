@@ -1,0 +1,222 @@
+---
+layout: map
+title: City Water System
+subtitle: >-
+  City of Zanesville Water System
+img: water-img.png
+link: "/internal/water/?wMainInner=true&utl_water_mains=true&layers=wCurbStopValve&lng=-81.98825499469802&lat=39.939251102974&utl_water_curb_boxes=true&mus_imagery=true&utl_water_control_valves=true&utl_water_system_valves=true&wMainLabels=true&utl_water_hydrants=true&AddressPoints=true&AddressLabels=true#17.67/39.950898/-82.004927"
+pwa: sewers
+about: >-
+  An interactive map of the water network in the City of Zanesville. The network is not complete and should be considered
+  draft. Please contact City of Zanesville Water for any questions.
+  <h5>Planned Updates</h5>
+  <li>Enable search on Hydrants by Hydrant ID</li>
+  <li>Enable search on Curb Boxes by Billing Code</li>
+  <li>Link to a Valve Exercising Form from the valve info box</li>
+  <li>Link to a Main Break form on the Water Main info box</li>
+  <li>Link to a Hydrant Flushing form on the Hydrant info box</li>
+header: >-
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+  <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
+    type='text/css' />
+category: internal
+---
+<script>
+  
+  mapboxgl.accessToken = cozMAP.token;
+
+  map = new mapboxgl.Map({
+    container: 'map',
+    hash: true,
+    style: "mapbox://styles/cozgis/cjoyj0loid3mp2rpb6eczup77",
+    center: [-82.011, 39.9416],
+    zoom: 15.16,
+    debug: 2,
+    minzoom: 10,
+    preserveDrawingBuffer: true,
+    maxBounds: cozMAP.maxBounds
+  });
+
+  map.on('load', function () {
+
+    cozMAP.mapCheckLoading(map);
+
+    fetch("/map-layers-config.json")
+    .then(res => {
+      return res.json()
+    })
+    .then(data => {
+      var layers = data.filter(function(layer) {
+        return (layer.directory === "City Water System" || layer.directory === "Imagery" || layer.directory === "Administrative Layers")
+      });
+      // layers.push({
+      //   "id": "hydrant_inspections",
+      //   "name": "Hydrant Inspections",
+      //   "directory": "City Water System",
+      //   "group": "Inspection Layers",
+      //   "type": "circle",
+      //   "source": "hydrant_inspections",
+      //   "sourceType": {
+      //     "type": "geojson",
+      //     "data": {
+      //       "type": "FeatureCollection",
+      //       "features": []
+      //     }
+      //   },
+      //   "paint": {
+      //     "circle-radius": {
+      //       "stops": [
+      //         [0, 0],
+      //         [12, 8],
+      //         [16, 16]
+      //       ]
+      //     },
+      //     "circle-color": "red",
+      //     "circle-opacity": 0.7,
+      //     "circle-stroke-color": "white",
+      //     "circle-stroke-opacity": 0.5,
+      //     "circle-stroke-width": {
+      //       "stops": [
+      //         [0, 0],
+      //         [12, 2],
+      //         [16, 3]
+      //       ]
+      //     },
+      //     "circle-pitch-scale": "map",
+      //     "circle-pitch-alignment": "map"
+      //   },
+      //   "layout": {
+      //     "visibility": "none"
+      //   }
+      // });
+
+      map.loadImage('/assets/symbols/circle-black.png', function(err, img) {
+        map.addImage('circle-black2', img);
+      });
+
+      map.loadImage('/assets/symbols/circle-seagreen.png', function(err, img) {
+        map.addImage('circle-seagreen2', img);
+      });
+
+      map.loadImage('/assets/symbols/triangle-seagreen.png', function(err, img) {
+        map.addImage('triangle-seagreen2', img);
+      });
+
+      map.loadImage('/assets/symbols/square-yellow.png', function(err, img) {
+        map.addImage('square-yellow', img);
+      });
+
+      map.loadImage('/assets/symbols/square-cyan.png', function(err, img) {
+        map.addImage('square-cyan', img);
+      });
+
+
+      cozMAP.mapAddLayers(map, layers);
+
+      var lc = new cozMAP.layerControlGrouped({
+        options: {
+          collapsed: false
+        },
+        layers: layers
+      });
+
+      document.querySelector("#coz-sidebar--layerControl").appendChild(lc.onAdd(map));
+
+    })
+   
+    /**
+     * [ ] TODO MAKE ALL THESE JUST cozMAP.addControls(), with options for not adding some
+     * */
+    cozMAP.mapAddControls(map, {
+      t: cozMAP.token
+    });
+    map.addControl(new cozMAP.mapPrintControl(), 'top-right');
+    // map.addControl(new cozMAP.mglStreetViewControl(), 'top-right');
+    map.addControl(new cozMAP.target());
+    // map.addControl(new cozMAP.mapMeasureControl(), 'top-right');
+
+    map.on('click', function(e) {
+
+      // var feature = cozMAP.getFeature(map, e);
+      // console.log(feature)
+
+      var features = cozMAP.getFeatures(map, e);
+      cozMAP.popup(map, features)
+
+      // cozMAP.highlight(map, features[0]);
+
+      // console.log(features[0])
+
+      // if (features[0] && features[0].layer.source === "wHydrantSource") {
+      //   cozMAP.mapGetInfo(map, e, features[0], null, null, function() {
+      //     var feature = features[0];
+      //     var popupImageDesktop = document.getElementById("map--info-window-image")
+      //     var popupImageMobile = document.getElementById("modal-popup-image");
+      //     var hydimgurl = feature.properties.img_url;
+
+      //     if (popupImageDesktop.children[0]) {
+      //       popupImageDesktop.children[0].src = " ";
+      //     }
+
+      //     if (hydimgurl) {
+      //       if (popupImageDesktop.children[0]) {
+      //         popupImageDesktop.children[0].src = hydimgurl;
+      //         popupImageDesktop.children[0].style.width="100%";
+      //         popupImageDesktop.children[0].style.display="block";
+      //       }
+      //       popupImageMobile.children[0].src = hydimgurl;
+      //     }else{
+      //       if (popupImageDesktop.children[0]) {
+      //         popupImageDesktop.children[0].src = '/assets/img/no-image-available.png';
+      //         popupImageDesktop.children[0].style.width="200px";
+      //         popupImageDesktop.children[0].style.display="block";
+      //       }
+      //       popupImageMobile.children[0].src = '/assets/img/no-image-available.png';
+      //     }
+
+      //     // var hydId = (!feature.properties.facilityid) ? "9999" : feature.properties.facilityid;
+      //     // var lnglat = feature.geometry.coordinates[0] + "," + feature.geometry.coordinates[1];
+      //     // var center = feature.geometry.coordinates[1] + "," + feature.geometry.coordinates[0];
+      //     // var html = `<a class="btn btn-primary btn-sm btn-block" href="https://survey123.arcgis.com/share/fdd877c0cbef4bd380875e2c9e17b361?field:flush_hydrant_id=${hydId}&field:coordinates=${lnglat}&center=${center}" target="_blank">Create Hydrant Inspection<a/>`;
+      //     // popupDesktop.children[1].innerHTML += '<br><br>' + html;
+      //     // popupMobile.innerHTML = html;
+      //   });
+
+      // }else{
+
+      //   var popupImageDesktop = document.getElementById("map--info-window-image")
+      //   var popupImageMobile = document.getElementById("modal-popup-image");
+      //   if (popupImageDesktop.children[0]) {
+      //     popupImageDesktop.children[0].style.display="none";
+      //     popupImageDesktop.children[0].src = " ";
+      //   }
+      //   popupImageMobile.children[0].src = " ";
+
+
+      // }
+
+
+    });
+
+    // document.addEventListener("mapIsLoaded", function() {
+    //   fetch("https://services9.arcgis.com/IUhP9plEzDTayUVC/arcgis/rest/services/Hydrant_Inspection_Survey_123_Form_Read_Only_View/FeatureServer/0/query?where=OBJECTID%3E0&outFields=*&f=geojson")
+    //   .then(res => {
+    //     return res.json()
+    //   })
+    //   .then(data => {
+    //     data.features.map(function(f) {
+    //       if (f.properties.coordinates) {
+    //         var coords = (f.properties.coordinates).split(",");
+    //         coords = [Number(coords[0]), Number(coords[1])]
+    //         f.geometry.coordinates = coords;
+    //       }
+    //     });
+    //     map.getSource("hydrant_inspections").setData(data);
+    //   })
+    //   .catch(err => {
+    //     console.log(err)
+    //   })
+    // })
+  });
+
+</script>

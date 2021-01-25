@@ -1,0 +1,464 @@
+---
+layout: map
+title: Zoning
+subtitle: Interactive Zoning Map with Zoning Lookup by Address
+img: zoning-img-766x430.png
+btn: Launch
+about: >-
+ This map shows the Zoning Codes and Zoning Overlay Districts for the City of Zanesville. The map legend also works as a filter for one or more zoning codes. To find the zoning code for a specific address, click the 'Find Zoning Code' button on the sidebar then enter the address.<br><br><span class="text-danger">All final zoning decisions are made by the Public Service Department.</span>
+category: internal
+link: "/internal/zoning/?coz_zoning=true#15.9/39.941244/-82.013248"
+header: >-
+  <script
+  src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+  <link rel='stylesheet'
+  href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
+  type='text/css'/>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.6/turf.min.js'></script>
+css: >-
+  #coz-sidebar--button {  border-bottom: solid thin #dfe0e1;}
+  .h5, h5 {
+    margin-top: 1rem;
+  }
+  #addressInput {
+    min-height: 250px;
+  }
+  #addressInput .mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
+    width:98%!important;
+    max-width:100%;
+  }
+  .coz-mgl-legend >div {
+    cursor: crosshair;
+    min-width:60px;
+  }
+  .coz-mgl-legend .active {
+    background: lightgray;
+  }
+  .btn.modal-open.zoning-btn {
+    margin: 20px 0 20px;
+    border: .05rem solid #0d84b3;
+  }
+  .mapboxgl-ctrl-geocoder, .mapboxgl-ctrl-geocoder ul {
+    box-shadow: none;
+    border: solid thin lightgray;
+  }
+  #coz-sidebar--legend .btn {
+    margin: 1rem;
+  }
+---
+<script>
+  //GLOBAL VARIABLES
+
+  var legendValues2 = {
+      "RS-1": "YELLOW",
+      "RS-2": "GOLD",
+      "RS-3": "ORANGE",
+      "RS-4": "DARKORANGE",
+      "RS-5": "rgb(179,78,11)",
+      "RA-1": "LIGHTBLUE",
+      "RM-1": "DEEPSKYBLUE",
+      "RM-2": "ROYALBLUE",
+      "C-1": "pink",
+      "C-2": "INDIANRED",
+      "C-3": "CRIMSON",
+      "C-4": "MAROON",
+      "I-1": "GRAY",
+      "O-1": "VIOLET",
+      "O-2": "MAGENTA",
+      "AE": 'YELLOWGREEN',
+      "PUD": "PURPLE"
+    };
+
+    var legendTitles = {
+      "AE": "Agriculture and Estate",
+      "C-1": "Neighborhood Commercial",
+      "C-2": "Community Commercial",
+      "C-3": "Downtown Commercial",
+      "C-4": "Highway Commercial",
+      "I-1": "Industrial",
+      "O-1": "Local Office",
+      "O-2": "Office Park",
+      "PUD": "Planned Unit Development",
+      "RA-1": "Attached Residential",
+      "RM-1": "Low-Density Multi-Family",
+      "RM-2": "High-Density Multi-Family",
+      "RS-1": "Low-Density Single-Family",
+      "RS-2": "Medium-Low-Density Single-Family",
+      "RS-3": "Medium-Density Single-Family",
+      "RS-4": "Medium-High-Density Single-Family",
+      "RS-5": "High-Density Single-Family"
+    }
+  /**
+   * TO DO
+   * Move zoning geocoder to the custom geocoder
+   * break out more of the code to functions
+   * get rid of the zoningPoly global variable
+   */
+
+  var zoningPoly = [];
+
+  var map = initMap();
+
+  map.on('load', function() {
+    // initFindZoningCode();
+    initMapLayers(this);
+    initMapClick(this);
+    initMousemove(this);
+  });
+
+  function initMap() {
+
+    console.log('init map')
+
+    mapboxgl.accessToken = cozMAP.token;
+
+    var _mapbox = new mapboxgl.Map({
+      container: 'map',
+      hash: true,
+      style: "mapbox://styles/cozgis/cjoyj0loid3mp2rpb6eczup77",
+      // style: "/assets/map-styles/coz-omt-bright.json",
+      center: [-81.9981, 39.9657],
+      zoom: 13.51,
+      debug: 2,
+      minzoom: 10,
+      preserveDrawingBuffer: true,
+      maxBounds: cozMAP.maxBounds
+    })
+
+    return _mapbox
+
+  }
+
+  function initFindZoningCode() {
+    var buttonDiv = document.getElementById("coz-sidebar--button");
+    var link = document.createElement('a');
+    link.href = "#";
+    var newBtn = document.createElement("button");
+    newBtn.className = "btn modal-open zoning-btn";
+    newBtn.id = 4;
+    newBtn.innerHTML = '<i class="icon icon-search"></i> Find Zoning Code';
+    newBtn.onclick = function () {
+      alert("This function is under construction. :(")
+      //TODO REPLACE THE CODE BELOW WITH TILEQUERY AND TILEJOIN - FOR TILEJOIN SEE HIGHLIGHT FUNCTION IN THE ZONING EDIT APP ON THE 311 SEVER
+      // if (!zoningPoly.features) {
+      //   cozMAP.getJSON('/assets/map-data/geojson/COZ_Zoning_Dissolve_wgs84.geojson', function (data) {
+      //     zoningPoly = data;
+      //     console.log('zoning data loaded')
+      //   })
+      // }
+      // var g = document.querySelector('.mapboxgl-ctrl-geocoder');
+      // g.children[1].autofocus = true;
+      // g.children[1].focus();
+    }
+    link.appendChild(newBtn);
+    buttonDiv.appendChild(link);
+  }
+
+  function initMapLayers(map) {
+    console.log('init map layers')
+
+    cozMAP.mapCheckLoading(map);
+
+    function importMapLayers(layer, master, layers) {
+      for (var newImportLayer in master) {
+        if (master[newImportLayer].id === layer) {
+          layers.push(master[newImportLayer])
+        }
+      }
+    }
+
+    cozMAP.getJSON('/map-layers-config.json', function (data) {
+      var mapLayers = [
+        "mus_imagery",
+        "mus_imagery_2015",
+        "img_osip_2020"
+      ];
+      // cozMAP.mapCreateLayerTree(map, mapLayers, directoryOptions, layerTreeLayers,
+      //   'coz-sidebar--layerControl');
+
+      var layers = data.filter(function(layer, i) {
+        return ((mapLayers.indexOf(layer.id) > -1) || layer.directory === "Parks and Recreation" || layer.directory === "Community Development" || layer.directory === "Administrative Layers")
+      })
+
+      cozMAP.mapAddLayers(map, layers);
+
+      var lc = new cozMAP.layerControlGrouped({
+        options: {
+          collapsed: false
+        },
+        layers: layers
+      });
+      document.querySelector("#coz-sidebar--layerControl").appendChild(lc.onAdd(map));
+      var controls = document.querySelectorAll(".mgl-layerControlDirectory");
+      for (var i=0; i < controls.length; i++) {
+        controls[i].children[0].click();
+      };
+    });
+
+    /* end add layers */
+
+
+    /*
+    fn to find and show the zoning code of a found point
+    */
+
+    function getZoningCode(f, p, r) {
+      // console.log(f)
+      var code = "";
+      f.features.map(function (poly) {
+        if (turf.booleanContains(poly, p)) {
+          // console.log(poly);
+          code = poly.properties.zoning_code;
+          showZoningCode(poly, r)
+        } else {
+          var elem = document.getElementById("zoningResult");
+          var addr = (r.result["place_name"]).split(",");
+          elem.innerHTML = "<h5>No zoning code for <span class='text-primary'>" + addr[0] + "</h5>";
+        }
+      })
+    }
+
+    /*
+    create popup variable to access later
+    */
+    var zoningPopup = new mapboxgl.Popup();
+
+    zoningPopup.on('close', function () {
+      map.setLayoutProperty('zoningGeocodePoint', 'visibility', 'none');
+    });
+
+    function showZoningCode(z, r) {
+      zoningPopup.remove();
+      setTimeout(function () {
+        var elem = document.getElementById("zoningResult");
+        var addr = (r.result["place_name"]).split(",");
+        elem.innerHTML = "<h5>Your zoning code for <span class='text-primary'>" + addr[0] +
+          "</span> is <span class='text-primary'>" + z.properties.zoning_code + "</span></h5>";
+        zoningPopup.setLngLat(r.result.geometry.coordinates)
+          .setHTML(addr[0] + '<br>Zoning Code: ' + z.properties.zoning_code)
+          .addTo(map);
+        map.setLayoutProperty('zoningGeocodePoint', 'visibility', 'visible');
+      }, 100);
+    }
+
+    cozMAP.mapAddControls(map, {
+      t: cozMAP.token,
+      f: false
+    });
+    map.addControl(new cozMAP.mapPrintControl(), 'top-right');
+      // cozMAP.cozMapboxPrintSetup(map);
+    map.addControl(new cozMAP.mglStreetViewControl({
+      mapillaryAlias: "COZ"
+    }), 'top-right');
+    map.addControl(new cozMAP.mapMeasureControl(), 'top-right');
+
+    var geocoderZoningModal =  new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      flyTo: false,
+      placeholder: 'Address Search',
+      bbox: [-82.628, 39.738,-81.58,40.21],
+      trackProximity: false,
+      minLength: 2,
+      limit: 10,
+      country: 'us',
+      marker: false
+    });
+
+    document.getElementById("addressInput").appendChild(geocoderZoningModal.onAdd(map));
+
+    geocoderZoningModal.on('result', function (result) {
+      console.log('found')
+      map.flyTo({
+        center: result.result.geometry.coordinates,
+        zoom: 17
+      });
+      var emptyObj = {
+        "type": "FeatureCollection",
+        "features": []
+      }
+
+      if (!map.getSource('zoningGeocodePointSource')) {
+        map.addSource("zoningGeocodePointSource", {
+          "type": "geojson",
+          "data": emptyObj
+        });
+        map.addLayer({
+          "id": "zoningGeocodePoint",
+          "source": "zoningGeocodePointSource",
+          "type": "circle",
+          "paint": {
+            "circle-radius": 30,
+            "circle-color": "rgba(0, 124, 191,0.7)",
+            "circle-stroke-color": "#007CBF",
+            "circle-stroke-width": 2
+          },
+          "layout": {
+            "visibility": "visible"
+          }
+        });
+      }
+
+      /*
+      use turf booleanWithin to find the zoning polygon for the resulting address
+      */
+      // console.log(result);
+      var foundPoint = result.result.geometry;
+      map.getSource('zoningGeocodePointSource').setData(result.result.geometry);
+      // console.log(foundPoint);
+      getZoningCode(zoningPoly, foundPoint, result)
+
+      /*
+      try querying rendered features - failed not sure why but using turf!!
+      */
+
+      // var checkZoningTries = 0;
+
+      // var checkZoning = setInterval(function(){ checkZoningTimer() }, 500);
+
+      // function clearZoningTimer() {
+      //   clearInterval(checkZoning);
+      // }
+
+      // function checkZoningTimer() {
+      //   checkZoningTries = checkZoningTries + 1;
+      //   var geocoderClickedFeatures = map.queryRenderedFeatures(foundPoint, {layers:['Zoning']});
+      //   console.log(geocoderClickedFeatures)
+      //   if (geocoderClickedFeatures.length > 0 || checkZoningTries === 20) {
+      //     clearZoningTimer()
+      //   }
+      // }
+
+    });
+
+    document.querySelector(".mapboxgl-ctrl-geocoder input").addEventListener("keyup", function () {
+      var elem2 = document.getElementById("zoningResult");
+      elem2.innerHTML = "";
+    });
+
+    var lc = document.getElementById("coz-sidebar--legend");
+
+    var mapFilter = ['in', 'zoning_code'];
+
+    function clearActive(elem) {
+      map.setFilter('coz_zoning')
+      mapFilter = ['in', 'zoning_code'];
+      var filters = elem.querySelectorAll('div');
+      for (var i = 0; i < filters.length; i++) {
+        filters[i].classList.remove('active')
+      }
+    }
+
+    function arrayRemove(arr, value) {
+      return arr.filter(function (ele) {
+        return ele != value;
+      });
+    }
+
+    var legendTitle = document.createElement('div');
+    legendTitle.classList.add("text-center");
+    legendTitle.innerHTML = "<h5>Zoning Codes</h5><em>Click to filter the map by code.</em>";
+    lc.appendChild(legendTitle);
+    var ul = document.createElement('div');
+    ul.classList.add('coz-mgl-legend');
+    for (v in legendValues2) {
+      var li = document.createElement('div');
+      li.style.margin = "7px 0 7px 24px";
+      li.style.display = "inline-block";
+      li.id = v;
+      li.title = legendTitles[v];
+      li.innerHTML = '<i class="fa fa-square" style="color:' + legendValues2[v] + '"></i> ' + v;
+      li.onclick = function () {
+        if (mapFilter.includes(this.id)) {
+          mapFilter = arrayRemove(mapFilter, this.id);
+          this.classList.remove('active');
+          // console.log(mapFilter);
+          if (mapFilter.length === 2) {
+            map.setFilter('coz_zoning');
+          } else {
+            map.setFilter('coz_zoning', mapFilter);
+          }
+        } else {
+          mapFilter.push(this.id);
+          // console.log(mapFilter);
+          map.setFilter('coz_zoning', mapFilter);
+          this.classList.add('active');
+        }
+      };
+      ul.appendChild(li);
+    }
+    lc.appendChild(ul);
+    var btn = document.createElement('button');
+    btn.classList.add("btn")
+    btn.classList.add("btn-sm");
+    btn.innerHTML = "Reset Filter";
+    btn.onclick = function () {
+      clearActive(lc);
+    };
+    var btnDiv = document.createElement('div');
+    btnDiv.style.clear = "both";
+    btnDiv.classList.add("text-center");
+    btnDiv.appendChild(btn);
+    lc.appendChild(btnDiv);
+  }
+
+  function initMapClick(map) {
+    console.log('init map click')
+
+    map.on('click', function (e) {
+      cozMAP.popup(map, cozMAP.getFeatures(map, e))
+    })
+  }
+
+  /**
+   */
+
+  function initMousemove(map) {
+    console.log('init mousemove')
+
+    var infoMiniDiv = document.createElement('div');
+    infoMiniDiv.classList.add('measure-container');
+    var mapDiv = document.getElementById('map');
+    mapDiv.appendChild(infoMiniDiv);
+
+    var infoMini = document.querySelector('.measure-container');
+
+    map.on('mousemove', 'coz_zoning', function (e) {
+      var feature = cozMAP.getFeature(map, e, ['coz_zoning']);
+      var currentLayers = cozMAP.getLayers(map)
+      if (feature && currentLayers.indexOf("gl-draw-polygon-fill-inactive.cold") < 0) {
+        infoMini.innerHTML = '<p>' + feature.properties.zoning_code + '</p>';
+      }
+    });
+  }
+
+  /****
+   * METHOD FOR ADDING QUERY PARAMS FOR SURVEY123 AND OPERATIONS DASHBOARD
+   * ***/
+
+  document.addEventListener("mapIsLoaded", function() {
+    // var params = cozMAP.getQuery((window.location.search).substring(1));
+
+    // console.log("params", params)
+
+    // if (params && params.dashboard) {
+    //   var query = params.dashboard.split(":");
+    //   var result = cozMAP.parcelData.filter(function(parcel) {
+    //     return parcel.p === query[1]
+    //   })
+    //   if (result.length) {
+    //     // console.log(result);
+    //     map.flyTo({
+    //       center: [result[0].x,result[0].y],
+    //       zoom: 18
+    //     });
+    //     var result = result;
+    //     setTimeout(function() {
+    //       map.fire('click', {lngLat: {"lng": result[0].x, "lat": result[0].y}});
+    //     }, 2000);
+    //   }else{
+    //     alert("No parcel found in the parcel geocoder, you will have to find it yourself. Please tell the admin about this issue.")
+    //   }
+    // }
+  })
+
+</script>

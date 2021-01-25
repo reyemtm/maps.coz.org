@@ -1,0 +1,53 @@
+  <!-- print modal-->
+  <div id="modal-print" class="modal">
+    <a href="#close" class="modal-overlay" aria-label="Close"></a>
+    <div class="modal-container" style="width:auto;max-width:100%;">
+      <div class="modal-body">
+        <div class="modal-header" style="padding-right:0;padding-left:0;">
+          <a href="#" class="btn btn-clear float-right modal-close" aria-label="Close"></a>
+          <div class="modal-title h5">Print Configuration</div>
+        </div>
+        <div id="map-print-modal--preview" style="display: none;"></div>
+        <div class="content">
+          <div id="export-loader" class="loading-lg centered"></div>
+          <br>
+          <form name="print" id="print-form">
+
+            <div class="form-group">
+              <label class="form-label" for="formTitle">Map Title</label>
+              <input class="form-input" type="text" id="export-title" name="export-title" placeholder="" maxlength="90">
+            </div>
+
+            <label for="map-print--modal-format">Map Format</label><br>
+            <div class="input-group" style="margin:10px 0;">
+              <select class="form-select select-sm" id="map-print--modal-format">
+                <option value="letter">Letter Landscape (Default)</option>
+                <option value="tabloid">Tabloid Landscape</option>
+              </select>
+              <label class="form-checkbox" style="margin:0 0 0 4px;">
+                <input id="map-print--modal-legend" type="checkbox"><i class="form-icon"></i> Include Legend
+              </label>
+            </div>
+
+            <div class="form-group">
+              <select class="form-select select-sm" id="map-print--modal-scale">
+                <option value="1">Map Scale (Beta)</option>
+                <option value="20">1" ~ 20'</option>
+                <option value="50">1" ~ 50'</option>
+                <option value="100">1" ~ 100'</option>
+                <option value="200">1" ~ 200'</option>
+              </select>
+            </div>
+            <br>
+            <a href="#close"><button class="btn btn-outline" style="width:100%" type="button">Adjust Map Area</button></a>
+            <br>
+            <br>
+            <button type="button" id="export-map" class="btn btn-success">Export Map</button>
+            <button type="button" style="float:right;"class="btn btn-error"  onclick="if(document.querySelector('#cozPrintArea')){document.querySelector('#cozPrintArea').remove();}" >Clear Print Bounding Box</button>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>

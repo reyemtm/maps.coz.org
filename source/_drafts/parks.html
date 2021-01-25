@@ -1,0 +1,517 @@
+---
+layout: map
+title: Zanesville Parks
+subtitle: City of Zaneville & Muskingum County Parks
+img: parks-img.png
+about: >-
+  This map contains parks and recreational opportunities in the City of Zaneville and Muskingum County. Clicking on a park will give you information on park ownership and amenities, as well as links to more details about the park.
+linkTitle: City of Zanesville Parks
+header: <script src='https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.6/turf.min.js'></script>
+link: "/maps/parks/?rec_parks=true&rec_parks_labels=true&Trails=true&TrailsBackground=true&rec_parks_outline=true&rec_parks_case=true#13.51/39.9657/-81.9981"
+css: >-
+  #coz-sidebar--info {
+    overflow-y: auto;
+    height: calc(100vh - 360px);
+  }
+  .container #coz-sidebar--info {
+    margin-right: -0.4rem;;
+  }
+  #coz-sidebar--info a {
+    display: block;
+  }
+  li {
+    list-style: none;
+  }
+  #coz-sidebar--info {
+    display: block;
+  }
+  #coz-sidebar--info-close {
+    display: none;
+  }
+---
+
+<script>
+ 
+  mapboxgl.accessToken = cozMAP.token;
+  var gltoken = mapboxgl.accessToken;
+
+
+  var mapLayers = [],
+      layerTreeLayers = [],
+      directoryOptions = [];
+
+  var localPrintOptions = {
+    disclaimer: 'City of Zanesville does not guarantee the accuracy of this data. This map is subject to all terms and conditions of the disclaimer posted on this website.',
+    northArrow: '/assets/img/north_arrow.svg',
+    logo: '/assets/img/coz_logo_bw.png',
+    defaultTitle: "City & County parks",
+    info: "&nbsp;",
+    previewContainer: "map-print-modal--preview"
+  };
+
+
+  var parks,
+  parksList = [];
+
+  var amenities = {};
+
+  cozMAP.getJSON('https://311.coz.org/data/geojson/eng_coz_pois.geojson', function(json) {
+    amenities = json;
+    console.log(amenities);
+    amenities.features.map(function(f) {
+      if (parksList.indexOf(f.properties.type) === -1) { 
+        parksList.push(f.properties.type)
+      }
+    })
+  });
+  
+  /*
+  initiate map
+  */
+
+  mapboxgl.accessToken = cozMAP.token;
+  var map = new mapboxgl.Map({
+    container: 'map',
+    hash: true,
+    // style: "http://127.0.0.1:4000/assets/map-styles/coz-omt-bright.json",
+    style: "mapbox://styles/cozgis/cjoyj0loid3mp2rpb6eczup77",
+    center: [-81.9981, 39.9657],
+    zoom: 13.51,
+    minZoom: 10,
+    preserveDrawingBuffer: true
+  });
+
+  /*
+  global map variables
+  */
+
+  var selectedId = 0;
+  var selectedFeature = [];
+  var clicked = false;
+  var loader = document.getElementById('loading');
+  var modalPopupLoader = document.getElementById("modal-popup-loader");
+  var modalPopup = document.getElementById('modal-popup'); 
+  var modalPopupBody = document.getElementById('modal-popup-body');
+  var modalPopupTitle = document.getElementById('modal-popup-title');
+
+  function clearModal() {
+    modalPopupBody.innerHTML = ""
+  }
+
+  var modalPopupClose = modalPopup.getElementsByClassName("modal-overlay");
+  var modalPopupCloseBtn = modalPopup.getElementsByClassName('modal-close');
+  modalPopupClose[0].onclick = clearModal;
+  modalPopupCloseBtn[0].onclick = clearModal;
+
+  /*
+  map event listeners
+  */
+
+  map.on('load', function () {
+    cozMAP.mapSelectOnLoad(map);
+    cozMAP.mapCheckLoading(map);
+
+    fetch("/map-layers-config.json")
+    .then(res => {
+      return res.json()
+    })
+    .then(data => {
+      var layers = data.filter(function(layer) {
+        return (layer.directory === "Parks and Recreation" || layer.directory === "Imagery" || layer.directory === "Administrative Layers")
+      });
+
+      cozMAP.mapAddLayers(map, layers);
+      var lc = new cozMAP.layerControlGrouped({
+        options: {
+          collapsed: false
+        },
+        layers: layers
+      });
+      document.querySelector("#coz-sidebar--layerControl").appendChild(lc.onAdd(map));
+
+      var controls = document.querySelectorAll(".mgl-layerControlDirectory");
+      for (var i=0; i < controls.length; i++) {
+        controls[i].children[0].click();
+      };
+    })
+
+    cozMAP.mapAddControls(map, {geocoder:false});
+    map.addControl(new cozMAP.mapPrintControl(), 'top-right');
+    map.addControl(new cozMAP.mapStreeviewControl(), 'top-right');
+    createGeocoder();
+
+    cozMAP.mapCheckRendered(map);
+    // document.addEventListener('mapIsRendered', function () {
+    //   cozMAP.mapCheckToggleLayers();
+    // });
+
+    var currentFeature = 999999;
+
+    // function clearHighlight(map, l) {
+    //   map.setFeatureState({
+    //     source: 'rec_parks_source',
+    //     sourceLayer: 'rec_parks',
+    //     id: currentFeature
+    //   }, { 'hover': 0 })
+    //   localPrintOptions.defaultTitle = "City & County Parks";
+    // }
+
+    // map.on('mousemove', function(e) {
+    //   if (document.getElementsByClassName("mapboxgl-popup").length === 0) {
+    //     var feature = cozMAP.getFeature(map, e, ['Parks']);
+    //     if (feature == null) {
+    //       clearHighlight(map, 'Parks');
+    //       currentFeature = 999999;
+    //     }
+    //     var id = !feature ? 999999 : feature.id
+    //     if (id != 999999 && id != currentFeature) {
+    //       cozMAP.highlightFeatureState(map, feature)
+    //       currentFeature = feature.id;
+    //     }
+    //    }
+    // })
+  });
+
+  map.on('click', function(e) {
+    var clickableLayers = ['rec_parks'];
+    if (e.point && e.lngLat) {
+      var point = e.point;
+      var lngLat = e.lngLat;
+    }
+    if (!e.point && e.lngLat) {
+      var lngLat = e.lngLat;
+      var point = map.project(e.lngLat);
+    }
+
+    var feature = cozMAP.getFeature(map, e, clickableLayers);
+    cozMAP.highlightFeatureState(map, feature);
+    cozMAP.mapGetInfo(map, e, feature, null, true)
+    mapPopup(point, lngLat, feature)
+  })
+
+  function mapPopup(e, loc, feature) {
+
+    if (feature != null) {
+      selectedId = feature.id;
+      setTimeout(function() {
+        buildPopupTxt(e, loc, feature)
+      }, 0)
+    }
+  }
+
+  function buildPopupTxt(e, loc, feature) {
+    console.log(feature)
+    var popupTxt = "";
+
+    var f = feature;
+    var p = feature.properties;
+    var name, info, url, img, location, owner, amenities, imgsrc;
+    
+    name = p.name ? p.name : null;
+    info = (p.info && p.info != "null") ? p.info : null;
+    url = (p.url && p.url != "null") ? p.url : null;
+    owner = (p.owner && p.owner != "null") ? p.owner : null;
+    amenities = (p.amenities && p.amenities != "null") ? "Amenities: " + p.amenities : null;
+    imgsrc = (!p.img) ? [] : p.img.split(",");
+
+    console.log(imgsrc)
+
+    var slides = document.createElement('div')
+    slides.classList.add("carousel");
+    var slidesContainer = document.createElement('div');
+    slidesContainer.classList.add("carousel-container");
+    var slidesNav = document.createElement('div');
+    slidesNav.classList.add('carousel-nav');
+
+
+    for (var i = 0; i < imgsrc.length; i++) {
+      var previmg = (i === 0) ? imgsrc.length - 1 : i - 1;
+      var nextimg = (i === imgsrc.length - 1) ? 0 : i + 1;
+
+      if (i === 0) {
+        slides.innerHTML += '<input class="carousel-locator" id="slide-' + i + '" type="radio" name="carousel-radio" hidden="" checked="">'
+      }else{
+        slides.innerHTML += '<input class="carousel-locator" id="slide-' + i + '" type="radio" name="carousel-radio" hidden="">';
+      }
+      slidesContainer.innerHTML += '<figure class="carousel-item"> \
+      <label class="item-prev btn btn-action btn-lg" for="slide-' + previmg + '"><i class="icon icon-arrow-left"></i></label> \
+      <label class="item-next btn btn-action btn-lg" for="slide-' + nextimg + '"><i class="icon icon-arrow-right"></i></label> \
+      <img class="img-responsive rounded" src="' + imgsrc[i] + '" alt="image"> \
+      </figure>'
+      slidesNav.innerHTML += '<label class="nav-item text-hide c-hand" for="slide-' + i + '">1</label>'
+
+    }
+
+    slides.appendChild(slidesContainer);
+    slides.appendChild(slidesNav);
+
+    popupTxt += "<h5>" + name + "</h5>"
+    if (owner) { popupTxt += "<em>" + owner + "</em><br><br>"}
+    if (info != null) { popupTxt += "<p>" + info + "</p>"};
+    if (amenities != null) { popupTxt += "<p>" + amenities + "</p>"};
+    if (url) { popupTxt += "<p><a href='" + url + "' target='blank'>Park Website</a>"}  
+    popupTxt += "<p><a href='https://www.google.com/maps/dir/?api=1&amp;?saddr=My+Location&amp;destination=" + loc.lat +"," + loc.lng + "' target='_blank'><i class='fas fa-external-link-alt'></i>&nbsp;Google Directions</a></p>";
+    if (window.innerWidth > 768) {
+      var parkPopup = new mapboxgl.Popup()
+        .setLngLat(loc)
+        .setHTML(popupTxt)
+        .on('open', function(e) {
+          if (imgsrc.length > 0) {
+            this._content.innerHTML = '<button class="mapboxgl-popup-close-button" type="button" aria-label="Close popup">×</button>';
+            this._content.appendChild(slides);
+            this._content.innerHTML += popupTxt;
+            var x = document.getElementsByClassName('mapboxgl-popup-close-button');
+            x[0].addEventListener('click', function() {
+              parkPopup.remove();
+
+            });
+          }
+        })
+        .on('close', function (e) {
+          if (cozMAP.hasLayer(map, "selected")) { map.removeLayer("selected") }
+          map.setFeatureState({
+            source: 'rec_parks',
+            id: selectedId
+          }, { 'hover': 0 })            
+          clicked = false;
+          setTimeout(function() {
+            window.history.replaceState({}, "", window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.hash);
+          }, 50);
+          localPrintOptions.defaultTitle = "City & County Parks";
+        })
+        .addTo(map);
+        clicked = true;
+    } else {
+      if (modalPopupBody && !modalPopup.classList.contains('active')) {
+        console.log(popupTxt)
+        modalPopupBody.innerHTML = "";
+        modalPopupTitle.style.display = 'none'
+        modalPopupLoader.classList.add('loading');
+        // modalPopup.classList.add('active');
+        window.location.hash = "modal-popup"
+
+        setTimeout(function() {
+          if (imgnum > 0) {
+            modalPopupBody.appendChild(slides);
+            var carousel = document.querySelector('.carousel');
+            carousel.appendChild(slidesContainer);
+            carousel.appendChild(slidesNav);
+          }
+          modalPopupBody.innerHTML += popupTxt;
+          modalPopupLoader.classList.remove('loading');
+        }, 10);
+      }
+    }
+  }
+
+/*custom geocoder and sidebar list*/
+/* sort list w3schools */
+function sortList(id) {
+  var list, i, switching, b, shouldSwitch;
+  list = id
+  switching = true;
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    b = list.getElementsByTagName("a");
+    //Loop through all list-items:
+    for (i = 0; i < (b.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*check if the next item should
+      switch place with the current item:*/
+      if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+        /*if next item is alphabetically
+        lower than current item, mark as a switch
+        and break the loop:*/
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark the switch as done:*/
+      b[i].parentNode.insertBefore(b[i + 1], b[i]);
+      switching = true;
+    }
+  }
+}
+
+function createSidebarList(p) {
+
+  var userLocation = [];
+  var sidebarList = document.getElementById('coz-sidebar--info');
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(handleUserLocation, handleLocationError);
+  } else { 
+    initList(p);
+    formatList(sidebarList);
+    sortList(sidebarList);
+    alert("Geolocation is not supported by this browser.")
+  }
+
+  function handleLocationError(error) {
+    console.log(error);
+    initList(p)
+    formatList(sidebarList);
+    sortList(sidebarList);
+  }
+
+  function handleUserLocation(position) {
+    userLocation = [position.coords.longitude, position.coords.latitude];
+    initList(p, userLocation);
+    formatList(sidebarList);
+    sortList(sidebarList);
+  }
+
+
+  function initList(p, loc) {
+    var options = {units: 'miles'};
+    var title = document.getElementById('coz-sidebar--legend');
+    title.innerHTML = "<div class='title bg-gray' style='padding:5px 5px 5px 0.5rem;height:35px;'>City Parks</div>";
+    var parksZoom = (map.getZoom() < 15) ? 15 : map.getZoom();
+    if (loc) {   
+      p.features.map(function(f) {
+        if (f.properties.owner === "City of Zanesville" && f.properties.private != "YES") {
+          sidebarList.innerHTML += "<a href='#" + parksZoom + "/" + f.properties["inside_y"] + "/" + f.properties["inside_x"] + "'>" + f.properties.name + " (" + (turf.distance(loc, turf.point(f.geometry.coordinates), options)).toFixed(2) + " mi)" + "</a>";
+        }
+      })
+    }else{
+      p.features.map(function(f) {
+        if (f.properties.owner === "City of Zanesville" && f.properties.private != "YES") {
+          sidebarList.innerHTML += "<a href='#" + parksZoom + "/" + f.properties["inside_y"] + "/" + f.properties["inside_x"] + "'>" + f.properties.name + "</a>";
+        }
+      })
+    }
+  }
+
+  function formatList(l) {
+    var parkLinks = sidebarList.querySelectorAll('a');
+    for (var i = 0;i < parkLinks.length; i++ ) {
+      parkLinks[i].addEventListener('click', function(e) {
+        map.fire('click', {lngLat: [0,0]})
+        loader.style.background = 'transparent';
+        loader.classList.add('loading')
+        map.once('moveend', function() {
+          setTimeout(function() {
+            console.log('still waiting')
+            map.fire('click', {lngLat: map.getCenter()})
+            loader.classList.remove('loading')
+          }, 500);
+        })
+      })
+    }
+  }
+}
+
+function createGeocoder() {
+  cozMAP.getJSON('https://311.coz.org/data/labels/rec_parks_labels.json', function (data) {
+    parks = data
+    createSidebarList(parks)
+    parks.features.map(function(p) {
+      parksList.push(p.properties.name)
+    });
+  })
+
+  var customGeocoder = function (query) {
+
+      function createFeature(coords, name, props) {
+        /*HINTS
+        HANDLE POINT AND MULTIPOINT GEOMETRY
+        */
+        coords = (coords[0].length) ? [coords[0][0], coords[0][1]] : coords;
+        return {
+          center: coords,
+          geometry: {
+            type: "Point",
+            coordinates: coords
+          },
+          place_name: name,
+          place_type: ['coordinate'],
+          properties: props,
+          type: 'Feature'
+        };
+      }
+      
+      var geocodes = [];
+      // console.log(query)
+      var results = fuzzy.filter(query, parksList)
+      var matches = results.map(function (el) {
+        return el.string;
+      });
+      var sliced = matches.slice(0, 8)
+      // console.log(sliced);
+
+      var found = [];
+
+      for (s in sliced) {
+        var name = sliced[s];
+        parks.features.map(function(p) {
+          if (p.properties.name === name) {
+            // console.log(p)
+            geocodes.push(createFeature(p.geometry.coordinates, p.properties.name, p.properties))
+          }
+        })
+        amenities.features.map(function(p) {
+          if (p.properties.type === name) {
+            // console.log(p)
+            geocodes.push(createFeature(p.geometry.coordinates, p.properties.type + " | " + p.properties.park, p.properties))
+          }
+        })
+      }
+
+      return geocodes;
+    };
+
+    var geocoder = new MapboxGeocoder({
+      accessToken: cozMAP.token,
+      localGeocoder: customGeocoder,
+      zoom: 16,
+      placeholder: "Park Name, Amenity or Address",
+      limit: 15,
+      marker: false
+    });
+
+    map.addControl(geocoder, 'top-left')
+    
+    var geocoderPopup = new mapboxgl.Popup();
+
+    geocoder.on('result', function (e) {
+      console.log(e)
+      geocoderPopup.remove()
+
+      var txt = "";
+      if (e.result.address) {
+        txt = e.result.address + " " + e.result.text
+      };
+
+      if (e.result.place_name) {
+        txt = e.result.place_name
+      }
+      if (e.result.id || e.result.address) {
+        map.flyTo({
+          center: e.result.geometry.coordinates,
+          zoom: (map.getZoom() > 16) ? map.getZoom() : 16
+        });
+        geocoderPopup
+        .setLngLat(e.result.geometry.coordinates)
+        .setHTML(txt)
+        .addTo(map);
+      }else{
+        var loc = {lng: e.result.center[0], lat: e.result.center[1]};
+        var flyloc = {lng: e.result.center[0], lat: (e.result.center[1] - 0.0001)};
+        map.flyTo({
+          center: flyloc,
+          zoom: (map.getZoom() > 16) ? map.getZoom() : 16
+        });
+        map.once('moveend', function() {
+          map.fire('click', {lngLat: loc})
+        })
+      }
+
+    });
+  }
+</script>

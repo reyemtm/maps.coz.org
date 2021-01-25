@@ -1,0 +1,48 @@
+  <!-- MAP UI SIMPLE LAYOUT -->
+  <div id="loading" class="loading loading-lg centered"></div>
+  <div id="loading-blank" class="loading-lg loading-blank centered"></div>
+
+  <!-- OFF CANVAS SIDEBAR-->
+  <div class="off-canvas">
+    <a class="off-canvas-overlay" href="#close"></a>
+    <div id="sidebarId" class="off-canvas-sidebar">
+      
+      <div id="coz-sidebar--header" class="bg-gray"></div>
+      
+      <div id="coz-sidebar--content">
+        <!--DYNAMIC CONTENT-->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MAIN MAP -->
+  <div id="map" class="coz-map"></div>
+
+  <!-- MAPBOX GL JS -->
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
+  <!-- MAP STYLESHEET IN LAYOUT.EJS-->
+
+  <!-- MAPBOX GL JS GEOCODER | STYLESHEET IN LAYOUT.EJS-->
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js'></script>
+
+  <!-- CUSTOM SCRIPTS bundled by gulp-concat and parcel-bundler-->
+  <script src="/assets/js/dist/coz-scripts.min.js"></script>
+
+  <script>
+    if (!mapboxgl.supported()) {
+      alert('Your browser does not support the functionality in this web map. You will now be redirected to the City of Zanesville Maps homepage.');
+      setTimeout(function () {
+        //TODO change this do replace map content with print map content??
+        window.href = "http://www.coz.org/print-maps"
+      }, 10000)
+    }
+    // document.addEventListener("mapIsLoaded", function() {
+    //   setTimeout(function(){
+    //     window.scrollTo(0, 1);
+    //   }, 0);
+    //   document.getElementById("coz-sidebar--content").scrollTop = 0;
+    // })
+  </script>
+
+  <%- page.content %>

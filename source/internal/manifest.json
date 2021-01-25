@@ -1,0 +1,20 @@
+{
+  "name": "COZ Internal Apps",
+  "short_name" : "COZ Internal Apps",
+  "start_url": "/internal/",
+  "scope" : "/internal/",
+  "icons": [
+        {
+          "src": "/assets/img/android-logo-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+      },      {
+        "src": "/assets/img/android-logo-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }
+  ],
+  "theme_color": "#0D84B3",
+  "background_color": "#0D84B3",
+  "display": "standalone"
+}

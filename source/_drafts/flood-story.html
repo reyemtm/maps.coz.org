@@ -1,0 +1,295 @@
+layout: map
+title: Flood Story Map
+subtitle: Exploring the History of Flooding in Zanesville
+img: 2018-capital-projects-img.png
+btn: Launch
+about: >-
+  Exploring the History of Flooding in Zanesville
+category: internal
+header: >-
+  <!--script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@14/dist/smooth-scroll.polyfills.min.js"></script-->
+css: >-
+  #sidebarId {
+    display: none;
+  }
+  #map {
+    left:0;
+    width: 100%;
+  }
+  #story {
+    width: 33%;
+    margin-left: calc(67% - 60px);
+    overflow: auto;
+    overflow-x: hidden;
+    background-color: white;
+    position: absolute;
+    height: 306px;
+    right: 3rem;
+    top: 8px;
+    border-radius: 2px;
+    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .2), 0 1px 8px 0 rgba(0, 0, 0, .12);
+  }
+
+  #story section {
+    padding:  25px 50px 36px;
+    line-height: 25px;
+    border-bottom: 1px solid #ddd;
+    opacity: 0.25;
+    font-size: 13px;
+  }
+  #story section.active {
+    opacity: 1;
+  }
+  #story section:last-child {
+    border-bottom: none;
+    margin-bottom: 200px;
+  }
+  #story .story-body {
+    font-size: 1rem;
+  }
+
+  #story .btn {
+    width: 2rem;
+  }
+
+  @media screen and (max-width: 960px) {
+    #story {
+      width: calc(100vw - 68px);
+      z-index: 2;
+    }
+  }
+---
+<div id='story' class="scroller">
+</div>
+<script>
+  var mapLayers = [],
+    layerTreeLayers = [],
+    directoryOptions = [];
+
+  mapboxgl.accessToken = cozMAP.token;
+  var gltoken = mapboxgl.accessToken;
+
+  function mapAssignMapLayers() {
+    if (!mapLayers.OrthoLocal) {
+      mapLayers.OrthoLocal = {
+          'id': 'OrthoLocal',
+          'type': 'raster',
+          "name": "2015 Imagery",
+          'source': 'orthoLocalSource',
+          'sourceType': {
+            'type': 'raster',
+            //'tiles': ['https://cozortho.firebaseapp.com/ohmusk15_4inch_jpg/{z}/{x}/{y}.jpg'],
+            'tiles':[
+              "https://a.tiles.mapbox.com/v4/cozgis.c901r8pz/{z}/{x}/{y}.png?access_token="+gltoken,
+              "https://b.tiles.mapbox.com/v4/cozgis.c901r8pz/{z}/{x}/{y}.png?access_token="+gltoken,
+              "https://c.tiles.mapbox.com/v4/cozgis.c901r8pz/{z}/{x}/{y}.png?access_token="+gltoken
+              ],
+            // 'url':'mapbox://cozgis.c901r8pz',
+            'tileSize': 256,
+            attribution: '<a href="http://www.coz.org/city-departments/public-service/engineering/">Map &copy; 2018 City of Zanesville</a> | <a href="http://muskingumcountyauditor.org/Home.aspx?PageID=20" target="_blank">Imagery &copy; 2015 Muskingum County</a>'
+            // 'scheme':'tms',
+            //'maxzoom':18
+          },
+          'directory': 'Map Layers',
+          'paint': {
+            'raster-opacity': 1
+          },
+          'layout': {
+            'visibility': 'visible'
+          }
+        }
+
+      mapLayers.adminLayer = {
+        'id': 'Admin',
+        'type': 'line',
+        "name": "Admin",
+        'source': 'adminSource',
+        'sourceType': {
+          'type': 'vector',
+          // 'tiles': ['http://127.0.0.1:4000/assets/tiles/COZ_AdminBoundary_wgs84/{z}/{x}/{y}.mvt'],
+          // "maxzoom": 14
+          url: 'mapbox://cozgis.86cc2b8d'
+        },
+        'source-layer': "COZ_AdminBoundary_wgs84",
+        'paint': {
+          'line-color': "white",
+          "line-width": 2,
+          "line-dasharray": [2, 4]
+        },
+        'layout': {
+          'visibility': 'visible'
+        }
+      }
+
+      mapLayers.parcelLineLayer = {
+        'id': 'ParcelsOutline',
+        'type': 'line',
+        'name': 'Parcels Outline',
+        'source': 'parcelSource',
+        'directory': 'Map Layers',
+        'sourceType': {
+          "type": "vector",
+          "tiles": ["http://127.0.0.1:4000/assets/tiles/TaxParcels_Latest_wgs84/{z}/{x}/{y}.mvt"],
+          "maxzoom": 15
+          // url: 'mapbox://cozgis.c96?d1993'
+        },
+        'source-layer': 'TaxParcels_Latest_wgs84',
+        'paint': {
+          'line-color': 'rgba(255,255,255,0.5)',
+          'line-width': 1,
+          'line-dasharray': [5,5],
+        },
+        'layout': {
+          'visibility': 'none'
+        }
+      }
+
+      mapLayers.contours = {
+        'id': 'contours',
+        'type': 'line',
+        'name': 'Contours',
+        'source': 'contoursSource',
+        'directory': 'Map Layers',
+        'sourceType': {
+          "type": "vector",
+          url: 'mapbox://cozgis.dvfxrwd1'
+        },
+        'source-layer': 'Contours_Clipped_Zanesville_w-bysucb',
+        'paint': {
+          'line-color': 'rgba(255,255,255,0.3)',
+          'line-width': 1,
+          'line-dasharray': [3,1,2,1],
+        }
+      }
+
+      mapLayers.buildings = {
+        // edfe74b0
+        'id': 'BuildingsOutline',
+        'type': 'fill',
+        'name': 'Buildings Outline',
+        'source': 'buildingSource',
+        'sourceType': {
+          "type": "vector",
+          "url": "mapbox://cozgis.edfe74b0"
+          // url: 'mapbox://cozgis.c96d1993'
+        },
+        'minzoom': 15,
+        'maxzoom': 17,
+        'source-layer': 'COZ_Buildings_wgs84',
+        'paint': {
+          'fill-color': 'rgba(255,255,255,0.2)',
+          'fill-outline-color': 'rgba(255,255,255,0)'
+        },
+        'layout': {
+          'visibility': 'none'
+        }
+      }
+
+      // mapLayers.buildings3d = {
+      // "id": "buildings3d",
+      // "type": "fill-extrusion",
+      // "source": "buildingSource",
+      // "source-layer": "COZ_Buildings_wgs84",
+      // 'minzoom': 17,
+      // "paint": {
+      //   "fill-extrusion-color": "white",
+      //   "fill-extrusion-height": {
+      //     "property": "ELEV",
+      //     "stops": [
+      //       [0, 8],
+      //       [700,8],
+      //       [1300, 16]
+      //     ]
+      //   },
+      //   'fill-extrusion-opacity': 0.2
+      //   }
+      // }
+      
+
+
+      mapLayers.projectsOuter = {
+        'id': 'projectsOuter',
+        "type": "line",
+        "source": "projects",
+        "sourceType": {
+          "type": "geojson",
+          "data": '/assets/data/COZ_Stormwater_Projects_Lines.geojson'
+        },
+        "paint": {
+          "line-color": "white",
+          "line-width": 14,
+          "line-opacity": 1
+        }
+      }
+
+      mapLayers.projects = {
+        'id': 'projects',
+        "type": "line",
+        "source": "projects",
+        "sourceType": {
+          "type": "geojson",
+          "data": '/assets/data/COZ_Stormwater_Projects_Lines.geojson'
+        },
+        "paint": {
+          "line-color": "firebrick",
+          "line-width": 10,
+          "line-opacity": 0.8
+        }
+      }
+      
+
+
+    }
+  }
+  mapAssignMapLayers()
+
+
+
+  /*
+  initiate map
+  */
+
+  var map = new mapboxgl.Map({
+    container: 'map',
+    hash: true,
+    // style: "http://127.0.0.1:4000/assets/map-styles/blueprint.geojson",
+    style: "mapbox://styles/mapbox/outdoors-v9",
+    center: [-82.002606, 39.9344403],
+    zoom: 17.91,
+    minZoom: 0,
+    preserveDrawingBuffer: true
+  });
+
+  /*
+  map event listeners
+  */
+
+  map.on('load', function () {
+    cozMAP.mapPrint(map, "Map Title")
+    cozMAP.mapCheckLoading(map);
+    cozMAP.mapCreateLayerTree(map, mapLayers, directoryOptions, layerTreeLayers, 'coz-sidebar--layerControl')
+    cozMAP.mapAddLayers(map, mapLayers);
+    cozMAP.mapAddControls(map);
+    map.flyTo({center:[-82.002606, 39.9344403], zoom: 17.91});
+  })
+
+  // map.on('click', function (e) {
+  // var clickableLayers = ["Admin"]
+  //   var feature = cozMAP.getFeature(map, e, clickableLayers)
+  //   cozMAP.highlight(map, feature)
+  //   cozMAP.mapGetInfo(map, e, feature)
+  // });
+
+  var activeprojectName = 'project0';
+
+  var projectListNew = [];
+
+  fetch('/assets/data/COZ_Stormwater_Projects_Lines.geojson')
+  .then(function(res) {
+    return res.json()
+  })
+  .then(function(data) {
+    // populateProjects(data)
+    cozMAP.createStory(map, data, "story")
+  })
+</script>

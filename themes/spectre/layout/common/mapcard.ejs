@@ -1,0 +1,20 @@
+<div class="column col-xs-12 col-sm-6 col-4 <%- (map.path).split("/")[1] %>">
+  <% if (!map.link) { %><a href="<%- url_for(map.path) %>"><% } else { %><a href="<%- map.link %>"><% } %>
+  <div class="card">
+    <div class="card-image <% if (map.soon) { %>soon<% } %>">
+      
+        <img <% if (map.img) {%>src="/assets/img/<%- map.img %>" <%}else {%> src="https://source.unsplash.com/768x434/?map,data,<%- map.unsplash %>" <%}%> class="img-responsive">
+    </div>
+    <div class="card-header">
+      <div class="card-title h4"><%- map.title %></div>
+      <div class="card-subtitle text-gray"><%- map.subtitle %></div>
+    </div>
+    <div class="card-body">
+    </div>
+    <div class="card-footer">
+      <a href="#<%- map.slug %>" style="width:100%"><button class="btn" style="width:100%">About</button></a>
+    </div>
+  </div>
+</a>
+
+</div>

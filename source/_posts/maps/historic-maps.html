@@ -1,0 +1,185 @@
+---
+layout: map
+title: Historic Maps
+subtitle: USGS, Plat and Street Maps 1852 ~ 1990
+img: historic-img.png
+btn: Launch
+category: maps
+link: "/maps/historic-maps/?img_hist_maps_1910_usgs_24k=true#13.51/39.9657/-81.9981"
+about: >-
+  This application highlights historic maps from the USGS and the City of Zanesville.
+css: >- 
+  #map, .coz-map {
+    left: 0!important;
+    width: 100%!important;
+  }
+  @media screen and (min-width: 768px) {
+    .mapboxgl-ctrl-top-left {
+      left: calc(100vw - 350px);
+    }
+  }
+---
+<!--link href="https://fonts.googleapis.com/css?family=Diplomata|Goblin+One" rel="stylesheet"-->
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.css' type='text/css' />
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.js'></script>
+<script>
+
+  var mapLayers = [],
+    layerTreeLayers = [],
+    directoryOptions = [],
+    historic;
+
+  mapboxgl.accessToken = cozMAP.token;
+  var gltoken = mapboxgl.accessToken;
+
+  var historicDiv = document.createElement('div');
+  historicDiv.id = "swipemap";
+  historicDiv.className = "coz-map"
+  document.body.appendChild(historicDiv);
+
+  var historicLayers = [];
+  var newDirOpts = [];
+  var historicTreeLayers = [];
+
+  historic = new mapboxgl.Map({
+    container:'swipemap',
+    style: {
+          "version": 8,
+          "name": "blank",
+          "sources": {
+            "openmaptiles": {
+              "type": "vector",
+              "url": ""
+            }
+          },
+          "layers": [{
+            "id": "background",
+            "type": "background",
+            "paint": {
+              "background-color": "whitesmoke"
+            }
+          }]
+        },
+    // style: "mapbox://styles/mapbox/light-v9",
+    center: [-81.9981, 39.9657],
+    hash: true,
+    zoom: 13.51,
+  });
+
+  historic.on('load', function() {
+    fetch("/map-layers-config.json")
+    .then(res => {
+      return res.json()
+    })
+    .then(data => {
+      var layers = data.filter(function(layer) {
+        return (layer.directory === "Historic Maps and Imagery")
+      });
+
+      layers.push( {
+          "id": "mus_imagery_2015_historic",
+          "type": "raster",
+          "name": "2015 Imagery",
+          "description": "Imagery",
+          "directory": "Historic Maps and Imagery",
+          "group": "Historic Layers",
+          "popup": "",
+          "image": "https://gis.coz.org/map-data/preview-images/ortho.jpg",
+          "source": "imagerySource2015",
+          "sourceType": {
+            "type": "raster",
+            "tiles": ["https://311.coz.org/static/data/raster-tiles/img_satellite_2015_mus/{z}/{x}/{y}.png"],
+            "tileSize": 256,
+            "attribution": "<a href='http://muskingumcountyauditor.org/Home.aspx?PageID=20' target='_blank'>Imagery &copy; 2015 Muskingum County</a>",
+            "maxzoom": 21
+          },
+          "paint": {
+            "raster-opacity": 1
+          },
+          "layout": {
+            "visibility": "none"
+          },
+          "metadata": {
+            "popup": false
+          }
+        },
+        {
+        "id": "mus_imagery_historic",
+        "type": "raster",
+        "name": "2018 Imagery",
+        "directory": "Historic Maps and Imagery",
+        "group": "Historic Layers",
+        "popup": "",
+        "image": "https://gis.coz.org/map-data/preview-images/ortho.jpg",
+        "source": "img_satellite_2018_mus",
+        "sourceType": {
+          "type": "raster",
+          "tiles": [
+            "https://311.coz.org/static/data/raster-tiles/img_satellite_2018_mus/{z}/{x}/{y}.png"
+          ],
+          "tileSize": 256,
+          "attribution": "<a href='http://muskingumcountyauditor.org/Home.aspx?PageID=20' target='_blank'>Imagery &copy; 2015 Muskingum County</a>",
+          "maxzoom": 20
+        },
+        "paint": {
+          "raster-opacity": 1
+        },
+        "layout": {
+          "visibility": "none"
+        },
+        "metadata": {
+          "popup": true
+        }
+      })
+      cozMAP.mapAddLayers(historic, layers);
+      var lc = new cozMAP.layerControlGrouped({
+        options: {
+          collapsed: false
+        },
+        layers: layers
+      });
+      document.querySelector("#coz-sidebar--layerControl").appendChild(lc.onAdd(historic));
+      buildMap(data)
+    })
+
+  })
+
+  function buildMap(config) {
+    var config = config;
+    var cozmap = new mapboxgl.Map({
+      container: 'map',
+      hash: true,
+      style: "mapbox://styles/cozgis/cjoyj0loid3mp2rpb6eczup77",
+      // style: "https://maps.tilehosting.com/styles/topo/style.json?key=QrAY8cP67h0S7MdYDhe7",
+      center: [-81.9981, 39.9657],
+      zoom: 13.51,
+      preserveDrawingBuffer: true
+    });
+
+  cozmap.on('load', function () {
+    cozMAP.mapAddControls(cozmap, {
+      t: gltoken
+    });
+
+      var layers = config.filter(function(layer) {
+        return (layer.directory === "Imagery" || layer.directory === "Administrative Layers")
+      });
+
+      cozMAP.mapAddLayers(cozmap, layers);
+      var lc = new cozMAP.layerControlGrouped({
+        options: {
+          collapsed: false
+        },
+        layers: layers
+      });
+      document.querySelector("#coz-sidebar--layerControl").appendChild(lc.onAdd(cozmap));
+
+      cozMAP.mapCheckLoading(cozmap);
+      cozMAP.mapCheckLoading(historic);
+
+      var swipe = new mapboxgl.Compare(cozmap, historic);
+
+    })
+  }
+
+</script>

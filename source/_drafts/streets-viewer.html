@@ -1,0 +1,753 @@
+---
+layout: map
+title: Streets Viewer
+subtitle: City of Zanesville Streets Viewer
+img: mapillary-img.png
+btn: Launch
+category: development
+about: >-
+  The City of Zanesville captured images of street pavement conditions in 2015. In this map the user can explore this snapshot of the city's street network through these geo-tagged images. Please note that some images may have incorrect locations.
+header: >-
+  <script src='https://unpkg.com/mapillary-js@2.20.0/dist/mapillary.min.js'></script>
+  <link href='https://unpkg.com/mapillary-js@2.20.0/dist/mapillary.min.css' rel='stylesheet' />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+css: >-
+  .adt {
+    width:100%;
+    font-size: 13px;
+  }
+  .adt span {
+    width:30px;
+    height:5px;
+    line-height:5px;
+  }
+  .adt .red {
+    color: #b2182b;
+  }
+  .adt .orange {
+    color: orange;
+  }
+  .adt .blue {
+    color: #2166ac;
+  }
+  .hidden {
+    display:none;
+    margin:0;
+    padding:0;
+    height:0;
+  }
+  .mapillary-js {
+    position: absolute;
+    left:320px;
+    bottom:0;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    min-height: 400px;
+    min-width: 468px;
+  }
+  @media screen and (max-width: 768px) {
+    .coz-map {
+      height:50%;
+    }
+    .mapillary-js{
+    left: 0;
+    min-height: 50%;
+    min-width: 100%;
+    height: 50%;
+    width: 100%;
+    }
+    #mly_expand {
+      display:none;
+    }
+    .mly_fullscreen {
+      z-index: 9999;
+      width: 100%!important;
+      height: 50%!important;
+    }
+  }
+  #mly_expand {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 36px;
+    height: 36px;
+    padding: 3px 10px;
+    color: white;
+    z-index: 9999;
+    background: rgba(255,255,255,0.2);
+    cursor: crosshair;
+  }
+  #mly_expand .material-icons {
+    font-size: xx-large
+  }
+  .mly_fullscreen {
+    z-index: 9999;
+    width: calc(100vw - 320px);
+    height: 50%!important;
+  }
+  #map.mly_fullscreen {
+    height: 50%;
+    bottom: 50%;
+  }
+---
+<script>
+
+  var mapillary = document.createElement('div');
+  mapillary.id = 'mly';
+  var loading = document.createElement('div');
+  loading.className = "loading loading-lg centered";
+  loading.id = "mlyloading";
+  mapillary.appendChild(loading);
+  document.body.appendChild(mapillary);
+
+  var view, firstBuild = 1;
+  var mapLayers = [];
+  var streets = "mapbox://styles/mapbox/streets-v9";
+  var mlymap;
+
+  mapboxInit()
+
+  function mapboxInit() {
+    var gltoken = mapboxgl.accessToken = cozMAP.token;
+    view = {
+      center: [-82.00629, 39.94032],
+      zoom: 10,
+      bearing: 0,
+      pitch: 0,
+      speed: 0.5,
+      curve: 0.5
+    };
+
+    mlymap = new mapboxgl.Map({
+      container: 'map',
+      // style: streets,
+      style: "mapbox://styles/cozgis/cjoyj0loid3mp2rpb6eczup77",
+      attributionControl: true,
+      center: [-82.00629, 39.94032],
+      zoom: 14,
+      bearing: 0,
+      pitch: 0,
+      speed: 0.5,
+      curve: 0.5,
+      hash: true,
+      minZoom: 7,
+      maxBounds: [[-90.61, 28.63], [-70.89, 43.94]],
+      preserveDrawingBuffer: true
+    });
+
+    mlymap.on('load', function () {
+      buildMap(mlymap);
+      var directoryOptions = [];
+      var layerTreeLayers = [];
+      cozMAP.mapAddControls(mlymap, {
+        t:gltoken
+      });
+
+
+      fetch("/map-layers-config.json")
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
+        mapAssignMapLayers();
+
+        cozMAP.mapAddLayers(mlymap, data);
+        var lc = new cozMAP.layerControlGrouped({
+          options: {
+            collapsed: false
+          },
+          layers: data
+        });
+        document.querySelector("#coz-sidebar--layerControl").appendChild(lc.onAdd(mlymap));
+        var controls = document.querySelectorAll(".mgl-layerControlDirectory");
+        for (var i=0; i < controls.length; i++) {
+          controls[i].children[0].click();
+        };
+
+        var mlySwitch = document.getElementById("mapillary_imagepoints");
+        mlySwitch.addEventListener('change', function() {
+          console.log(this.checked)
+          var mapDiv = document.getElementById("map");
+          var mlyDiv = document.getElementById("mly");
+          if (mlyDiv.classList.contains("hidden")) {
+            mlyDiv.classList.remove("hidden");
+            if (mlyDiv.classList.contains("mly_fullscreen")) {
+              mapDiv.classList.add("mly_fullscreen");
+            }
+            mlymap.resize();
+          }else{
+            mlyDiv.classList.add("hidden");
+            mapDiv.classList.remove("mly_fullscreen");
+            mlymap.resize();
+          }
+
+          if (this.checked) {
+            mlyDiv.classList.remove("hidden");
+          }
+
+        });
+
+        mlymap.addSource("markersource", {
+          "type": "geojson",
+          "data": {
+            type: "FeatureCollection",
+            features: []
+          }
+        })
+
+        mlymap.addLayer(
+          {
+            id: 'markers',
+            type: 'circle',
+            source: 'markersource',
+            sourceType: {
+              type: 'geojson',
+              data: {
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: [0, 0]
+                },
+                properties: {}
+              }
+            },
+            paint: {
+              "circle-color": 'rgb(63,81,181)',
+              "circle-stroke-color": 'white',
+              "circle-stroke-width": 2,
+              "circle-radius": {
+                stops: [
+                  [0, 6],
+                  [14, 8],
+                ]
+              },
+            },
+            layout: {
+              'visibility': 'visible'
+            }
+          }
+        )
+      })
+
+      cozMAP.mapCheckLoading(mlymap);
+
+      firstBuild = 0;
+    });
+
+  }
+
+  function buildMap(map) {
+    var gltoken = mapboxgl.accessToken = cozMAP.token;
+    var clientid = cozMAP.mapillaryToken;
+    var mly,
+      mlyClicked = true,
+      lnglat,
+      lngLatmly,
+      mlydata;
+    flyTo = false;
+    window.visibleLayers = {};
+    if (window.clientWidth < 769) {
+      document.getElementById(map).toggle('.mly_fullscreen');
+      var mlyIsFullscreen = true;
+      map.resize();
+    } else {
+      var mlyIsFullscreen = false;
+      map.resize();
+    }
+
+    /*
+    * Add map sources and layers on each build
+    */
+
+    /* add elements and event listeners on first build*/
+    if (firstBuild === 1) {
+      mlydata = {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: lngLatmly,
+        }
+      };
+      console.log('map_reset false = ', !$("#map-reset").attr('id'));
+
+      var popup = new mapboxgl.Popup({
+        closeButton: true,
+        closeOnClick: false
+      });
+      function buildPopup(e, key, point, clicked) {
+        point = true;
+        lnglat = [];
+        console.log(lnglat);
+        if (e.features[0].properties[key]) {
+          if (clicked === true) {
+            map.flyTo({ "center": [e.lngLat.lng, e.lngLat.lat] });
+          }
+          var feature = e.features[0];
+          console.log(feature)
+          var popupTxt = "<img src='https://d1cuyjsrcm0gby.cloudfront.net/" + feature.properties[key] + "/thumb-320.jpg'>";
+          lnglat = feature.layer.id === 'images' ? feature.geometry.coordinates : [e.lngLat.lng, e.lngLat.lat];
+          if (lnglat[0]) {
+            /*if ($("#mly").is(":visible") && mlyClicked === true && clicked === true) {
+              mly.moveCloseTo(lnglat[1], lnglat[0])
+              .then(
+                function(node) { return },
+                function(error) { console.error(error); });
+                return false
+            }*/
+            // if ($("#mly").is(":visible") === false && mlyClicked === false && clicked === true) {
+            //   var notification = document.querySelector('.mdl-js-snackbar');
+            //   notification.MaterialSnackbar.showSnackbar(
+            //     {
+            //       message: 'Enable the Mapillary Viewer and click Explore to enable street view.'
+            //     }
+            //   );
+            // }
+            // if ($("#mly").is(":visible") === true && mlyClicked === false && clicked === true) {
+            //   var notification = document.querySelector('.mdl-js-snackbar');
+            //   notification.MaterialSnackbar.showSnackbar(
+            //     {
+            //       message: 'Enable the Mapillary Viewer and click Explore to enable street view.'
+            //     }
+            //   );
+            // }
+            /*      if ($("#mly").is(":visible") === false && mlyClicked === true && clicked === true) {
+                    mly.moveCloseTo(lnglat[1], lnglat[0])
+                    .then(
+                      function(node) { console.log(node.key); },
+                      function(error) { console.error(error); });
+                  }*/
+            var url = "https://a.mapillary.com/v3/images?client_id=";
+            var l = lnglat;
+            var r = 200;
+            popup.setLngLat(lnglat)
+              .setHTML(popupTxt);
+            if (!popup.isOpen()) {
+              popup.addTo(map);
+            }
+            if (point === true && clicked === true) {
+              document.getElementById('mlyloading').classList.add('loading')
+              mly.moveToKey(feature.properties[key])
+              .then(
+                function (node) {
+                  document.getElementById('mlyloading').classList.remove('loading')
+                  return
+                },
+                function (error) {
+                  console.error(error)
+                });
+            }
+          }
+        }
+      }
+
+      map.on('click', 'mapillary_imagepoints', function (e) {
+        buildPopup(e, 'key', true, true);
+      });
+
+      map.on('mouseenter', 'mapillary_imagepoints', function (e) {
+        map.getCanvas().style.cursor = 'crosshair';
+        buildPopup(e, 'key', true, false);
+      });
+
+      map.on('mouseenter', 'mapillaryLinesInner', function (e) {
+        if (map.getZoom() < 14) {
+          map.getCanvas().style.cursor = 'crosshair';
+          //buildPopup(e, 'ikey');
+        }
+      });
+
+      map.on('click', 'mapillaryLinesInner', function (e) {
+        if (map.getZoom() < 14) {
+          buildPopup(e, 'ikey', false, true);
+        }
+      });
+
+      popup.on('close', function () {
+        //clicked = false;
+      });
+
+      map.on('mouseleave', 'mapillary_imagepoints', function () {
+        popup.remove();
+        map.getCanvas().style.cursor = '';
+      });
+
+      map.on('mouseleave', 'mapillaryLinesInner', function () {
+        map.getCanvas().style.cursor = '';
+      });
+
+      /*on ready function*/
+      $(function () {
+        var imageSwitch = document.querySelector('#images_label');
+        // function disbaleImageSwitch() {
+        //   if (map.getZoom() >= 14) {
+        //     imageSwitch.MaterialSwitch.enable()
+        //   } else {
+        //     imageSwitch.MaterialSwitch.disable()
+        //   }
+        // }
+        // disbaleImageSwitch()
+        // map.on('zoomend', function () {
+        //   disbaleImageSwitch()
+        // });
+        /*
+        * Mapillary JS Viewer
+        */
+        var expand = document.createElement("div");
+        expand.id = "mly_expand";
+        expand.innerHTML = '<i class="icon icon-arrow-right"></i>';
+        expand.addEventListener('click', function () {
+          $("#mly").toggleClass("mly_fullscreen");
+          $("#map").toggleClass("mly_fullscreen");
+          map.resize();
+          mly.resize();
+          if ($("#mly").hasClass("mly_fullscreen")) {
+            expand.innerHTML = '<i class="icon icon-arrow-left"></i>';
+            mlyIsFullscreen = true
+          } else {
+            expand.innerHTML = '<i class="icon icon-arrow-right"></i>';
+            mlyIsFullscreen = false
+          }
+        }, false);
+        document.getElementById("mly").appendChild(expand);
+        mly = new Mapillary.Viewer(
+          'mly',
+          clientid,
+          'nTUbrAPQZ1gpYQ6io5Zz1g',
+          //'_vQfaqCyJyFW7Tvvt9SOXw',
+
+          {
+            baseImageSize: Mapillary.ImageSize.Size2048,
+            basePanoramaSize: Mapillary.ImageSize.Size2048,
+            maxImageSize: Mapillary.ImageSize.Size2048,
+            component: {
+              cover: false,
+              cache: false
+            }
+          });
+        $(".CoverButton").on('click', function () {
+          mlyClicked = true;
+          console.log(true);
+        });
+        $("#mly").on('click', '.SequenceContainer', function () {
+          popup.remove()
+        });
+        $("#mly").on('click', '.DirectionsPerspective', function () {
+          popup.remove()
+        });
+        mly.on(Mapillary.Viewer.nodechanged, function (node) {
+          document.getElementById('mlyloading').classList.remove('loading')
+          /*if (popup.isOpen() && $("#mly").is(":visible")) {
+            popup.remove()
+          }*/
+          lngLatmly = [node.latLon.lon, node.latLon.lat];
+          mlydata.geometry.coordinates = lngLatmly;
+          map.getSource('markersource').setData(mlydata);
+          if ($("#mly").is(":visible") && flyTo === true) {
+            map.flyTo({ center: lngLatmly });
+          }
+        });
+
+        setTimeout(function () {
+          flyTo = true;
+          console.log('fly to is ' + flyTo);
+        }, 4000);
+
+        window.addEventListener('resize', function () {
+          if ($(window).width() > 767 && $(window).width() < 780) {
+            mly.resize();
+            map.resize();
+          }
+          if ($(window).width() < 768 && $(window).width() > 760) {
+            mly.resize();
+            map.resize();
+          }
+          if ($(window).width() < 768 && mlyIsFullscreen === true && $("#mly").hasClass("mly_fullscreen")) {
+            // mly.resize();
+            // map.resize();
+          }
+        });
+        /*
+        * Draggable marker from mapbox examples
+        * Need to snap to lines or check before dropping point that there is mapillary underneath!!
+        */
+        /*
+        var canvas = map.getCanvasContainer();
+        function mouseDown() {
+          if (!isCursorOverPoint) return;
+          isDragging = true;
+          // Set a cursor indicator
+          canvas.style.cursor = 'grab';
+          // Mouse events
+          map.on('mousemove', onMove);
+          map.once('mouseup', onUp);
+        }
+        function onMove(e) {
+          if (!isDragging) return;
+          var coords = e.lngLat;
+          // Set a UI indicator for dragging.
+          canvas.style.cursor = 'grabbing';
+          // Update the Point feature in `geojson` coordinates
+          // and call setData to the source layer `point` on it.
+          mlydata.geometry.coordinates = [coords.lng, coords.lat];
+          map.getSource('markersource').setData(mlydata);
+        }
+        function onUp(e) {
+          if (!isDragging) return;
+          var coords = e.lngLat;
+          canvas.style.cursor = '';
+          isDragging = false;
+          // Unbind mouse events
+          map.off('mousemove', onMove);
+        }
+        map.on('mouseenter', 'markers', function() {
+          map.setPaintProperty('markers', 'circle-color', '#3bb2d0');
+          canvas.style.cursor = 'move';
+          isCursorOverPoint = true;
+          map.dragPan.disable();
+        });
+        map.on('mouseleave', 'markers', function() {
+          map.setPaintProperty('markers', 'circle-color', '#3887be');
+          canvas.style.cursor = '';
+          isCursorOverPoint = false;
+          map.dragPan.enable();
+        });
+        map.on('mousedown', mouseDown);*/
+      });
+      /*
+    * Mapbox Layer Switcher based on visibility: visible || none
+    */
+      /* store values for something later - not using right now*/
+      // var filters = [];
+      // $('#map-controls--filters input').each(function () {
+      //   filters.push({
+      //     id: this.id,
+      //     value: this.value
+      //   });
+      // });
+      // function filterMap(e) {
+      //   var filteredMapLayer = $(e).attr('for');
+      //   console.log(mapLayers[filteredMapLayer])
+      //   console.log(filteredMapLayer);
+      //   console.log($(e).hasClass('is-checked'));
+      //   if ($(e).hasClass('is-checked')) {
+      //     $(e).removeClass('active');
+      //     map.setLayoutProperty(filteredMapLayer, 'visibility', 'visible');
+      //     mapLayers[filteredMapLayer].layout.visibility = 'visible';
+      //   } else {
+      //     $(e).addClass('active');
+      //     map.setLayoutProperty(filteredMapLayer, 'visibility', 'none');
+      //     mapLayers[filteredMapLayer].layout.visibility = 'none';
+      //   }
+      //   if (typeof (mapLayers) != 'undefined') {
+      //     console.log(mapLayers[filteredMapLayer])
+      //   }
+      // }
+      // $(".map-controls--filters-toggle").change(function () {
+      //   filterMap(this);
+      // });
+    } else {
+      console.log('map already built once, skipping redundant code')
+    }
+    /*need to build map after switching layers to get the overlays to show back up*/
+    map.on('style.load', function () {
+      console.log('style loaded')
+      buildMap(map);
+    });
+  }/*end buildMap function*/
+
+
+
+
+  function mapAssignMapLayers() {
+    var aadtpaint = {
+			'line-color': {
+				'property': 'AADT',
+					'stops': [
+						[0, '#2166ac'],
+            [2261, '#67a9cf'],
+            [6168, '#d1e5f0'],
+            [13245, 'orange'],
+            [26291, 'darkorange'],
+						[55056, '#b2182b']
+					]
+				},
+      'line-width': {
+				'property': 'AADT',
+					'stops': [
+						[0,3],
+            [55056,9]
+					]
+				},
+			'line-opacity': {
+        'property': 'AADT',
+        'stops': [
+          [0,0.6],
+          [13245,1]
+        ]
+      }
+		};
+    if (!mapLayers.OrthoLocal) {
+      var coords = [-82.00629, 39.94032],//map.getCenter();
+      lngLatmly = [coords[0], coords[1]];
+      var mindate = new Date('05/01/2020').getTime();
+      var maxdate = new Date('12/31/2020').getTime();
+
+      mapLayers.OrthoLocal = {
+          'id': 'OrthoLocal',
+          'type': 'raster',
+          "name": "2015 Imagery",
+          'source': 'orthoLocalSource',
+          'sourceType': {
+            'type': 'raster',
+            //'tiles': ['https://cozortho.firebaseapp.com/ohmusk15_4inch_jpg/{z}/{x}/{y}.jpg'],
+            'tiles':[
+              "https://a.tiles.mapbox.com/v4/cozgis.c901r8pz/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiY296Z2lzIiwiYSI6ImNqZ21lYno4ZDBjYWEyeHFzZ3BudGVneXAifQ.AVcd0TkNWnY6PcUhB_anYQ",
+              "https://b.tiles.mapbox.com/v4/cozgis.c901r8pz/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiY296Z2lzIiwiYSI6ImNqZ21lYno4ZDBjYWEyeHFzZ3BudGVneXAifQ.AVcd0TkNWnY6PcUhB_anYQ",
+              "https://c.tiles.mapbox.com/v4/cozgis.c901r8pz/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiY296Z2lzIiwiYSI6ImNqZ21lYno4ZDBjYWEyeHFzZ3BudGVneXAifQ.AVcd0TkNWnY6PcUhB_anYQ"
+              ],
+            // 'url':'mapbox://cozgis.c901r8pz',
+            'tileSize': 256,
+            attribution: '<a href="http://muskingumcountyauditor.org/Home.aspx?PageID=20" target="_blank">Imagery &copy; 2015 Muskingum County</a>'
+            // 'scheme':'tms',
+            //'maxzoom':18
+          },
+          "directory": "Ortho Imagery",
+          'paint': {
+            'raster-opacity': 1
+          },
+          'layout': {
+            'visibility': 'none'
+          }
+        }
+
+      mapLayers.mapillary = {
+        "id":"StreetViewImages",
+        "name": "Pavement View",
+        "directory": "Map Layers",
+        "hideLabel":["linesouter", "linesinner", "imagepoints"],
+        "layerGroup": [{
+          'id': 'linesouter',
+          'type': 'line',
+          'source': 'mapillary',
+          'sourceType': {
+            type: 'vector',
+            tiles: ['https://d25uarhxywzl1j.cloudfront.net/v0.1/{z}/{x}/{y}.mvt'],
+            minzoom: 0,
+            maxzoom: 14
+          },
+          'source-layer': 'mapillary-sequences',
+          'layout': {
+            'line-cap': 'round',
+            'line-join': 'round',
+            'visibility': "visible"
+          },
+          'paint': {
+            'line-opacity': 0.9,
+            'line-color': 'white',
+            'line-gap-width': 3,
+            'line-width': 2
+          },
+          'filter':['all',
+            [">=", "captured_at", mindate],
+            ["<=", "captured_at", maxdate]
+          ],
+
+        },
+        {
+          "id": "linesinner",
+          "name":"Routes",
+          'filter':['all',
+            [">=", "captured_at", mindate],
+            ["<=", "captured_at", maxdate]
+          ],          'id': 'lines',
+          'type': 'line',
+          'source': 'mapillary',
+          'source-layer': 'mapillary-sequences',
+          'layout': {
+            'line-cap': 'round',
+            'line-join': 'round'
+          },
+          'paint': {
+            'line-opacity': 0.6,
+            'line-color': '#b53f51',
+            'line-width': 3
+          },
+          'layout': {
+            'visibility': "visible"
+          }
+        },
+        {
+          "id":"imagepoints",
+          "name":"Images",
+          'filter':['all',
+            [">=", "captured_at", mindate],
+            ["<=", "captured_at", maxdate]
+          ],          'id': 'images',
+          'type': 'circle',
+          'source': 'mapillary',
+          'source-layer': 'mapillary-images',
+          'paint': {
+            'circle-color': '#b53f51',
+            'circle-stroke-color': 'white',
+            'circle-stroke-width': 1
+          },
+          'layout': {
+            'visibility': "visible"
+          }
+        },
+    ]
+      }
+
+      mapLayers.aadt = {
+        "id": "AvgDailyTraffic",
+        "name": "Avg Daily Traffic<br><div class='adt'><i class='fa fa-minus red'></i> High ADT<br><i class='fa fa-minus orange'></i> Med ADT<br><i class='fa fa-minus blue'></i> Low ADT<br></div>",
+        "directory": "Map Layers",
+        "hideLabel": ["adt", "adtsmall"],
+        "layerGroup": [
+          {
+            "id":"adtsmall",
+            "name": "AADTsmall",
+            'type': 'line',
+            'source': 'roads',
+            'sourceType': {
+              "type":"vector",
+              "url": "mapbox://cozgis.48a027b1"
+            },
+            'source-layer':'odot_tims_aadt_tot_wgs84',
+            'paint': {
+            'line-width': {
+              'property': 'AADT',
+                'stops': [
+                  [0,5],
+                  [55056,11]
+                ]
+              },
+              "line-color":"gray"
+            },
+            'filter': ["==", "COUNTY", "MUS"],
+            'layout': {
+              'line-join':'round',
+              "visibility":"none"
+            }
+          },
+          {
+          'id': 'adt',
+          "name": "AADT",
+          'type': 'line',
+          'source': 'roads',
+          'sourceType': {
+            "type":"vector",
+            "url": "mapbox://cozgis.48a027b1"
+          },
+          'source-layer':'odot_tims_aadt_tot_wgs84',
+          'paint': aadtpaint,
+          'filter': ["==", "COUNTY", "MUS"],
+          'layout': {
+            'line-join':'round',
+            "visibility":"none"
+          }
+        }]
+      }
+    }
+}
+
+</script>

@@ -1,0 +1,114 @@
+---
+layout: map
+title: ST_AsMVT Errors
+subtitle: ST_AsMVT
+hide: true
+---
+<script>
+  
+  mapboxgl.accessToken = cozMAP.token;
+
+  map = new mapboxgl.Map({
+    container: 'map',
+    hash: true,
+    style: "mapbox://styles/cozgis/cjoyj0loid3mp2rpb6eczup77",
+    center: [-82.011, 39.9416],
+    zoom: 15.16,
+    debug: 2,
+    minzoom: 10,
+    preserveDrawingBuffer: true,
+    maxBounds: cozMAP.maxBounds
+  });
+
+  map.on('load', function () {
+
+    cozMAP.mapCheckLoading(map);
+
+    fetch("/map-layers-config.json")
+    .then(res => {
+      return res.json()
+    })
+    .then(data => {
+      var layers = data.filter(function(layer) {
+        return (layer.name === "Impervious")
+      });
+      layers.push({
+        "id": "st_asmvt",
+        "name": "Impervious ST_AsMVT Fill",
+        "directory": "Impervious Surface",
+        "group": "Impervious Surface Layers",
+        "type": "fill",
+        "source": "st_asmvt",
+        "sourceType": {
+          "type": "vector",
+          "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.utl_stormwater_impervious_view/{z}/{x}/{y}.pbf?properties=id,imp_master&IdColumn=id"]
+        },
+        "source-layer": "public.utl_stormwater_impervious_view",
+        "paint": {
+          "fill-color": "black",
+          "fill-opacity": 0.5
+        },
+        "layout": {
+          "visibility": "none"
+        }
+      });
+      layers.push({
+        "id": "st_asmvt_line",
+        "name": "Impervious ST_AsMVT Line",
+        "directory": "Impervious Surface",
+        "group": "Impervious Surface Layers",
+        "type": "line",
+        "source": "st_asmvt2",
+        "sourceType": {
+          "type": "vector",
+          "tiles": ["https://311.coz.org/api/v1/vector-tiles/public.utl_stormwater_impervious_view/{z}/{x}/{y}.pbf?properties=id,IdColumn,imp_master&IdColumn=true"]
+        },
+        "source-layer": "public.utl_stormwater_impervious_view",
+        "paint": {
+          "line-color": "black",
+          "line-width": 2,
+          "line-opacity": 1
+        },
+        "layout": {
+          "visibility": "none"
+        }
+      });
+
+
+      cozMAP.mapAddLayers(map, layers);
+
+      var lc = new cozMAP.layerControlGrouped({
+        options: {
+          collapsed: false
+        },
+        layers: layers
+      });
+
+      document.querySelector("#coz-sidebar--layerControl").appendChild(lc.onAdd(map));
+
+    })
+   
+    /**
+     * [ ] TODO MAKE ALL THESE JUST cozMAP.addControls(), with options for not adding some
+     * */
+    cozMAP.mapAddControls(map, {
+      t: cozMAP.token
+    });
+    map.addControl(new cozMAP.mapPrintControl(), 'top-right');
+
+    map.on('click', function(e) {
+
+
+      var features = cozMAP.getFeatures(map, e);
+      console.log(features)
+      cozMAP.popup(map, features)
+
+
+
+
+    });
+
+
+  });
+
+</script>

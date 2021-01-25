@@ -1,0 +1,84 @@
+
+<%- partial('common/header', {category: ""}) %>
+<div id="content">
+  <div class="container">
+      <% site.categories.sort('name', -1).map(function(category){  %>
+        <% if (category.name != "wiki") { %>
+        <% var title = (category.name) %>
+        <div id="<%- titlecase(title) %>">
+          <a href="/<%- title %>">
+            <h2 class="text-primary">
+            <% if (title == "maps") { %>Public Map Portal<%}%>
+            <% if (title == "internal") {%>Internal Applications<%}%>
+            <% if (title == "development") {%>Applications in Development<%}%>
+            </h2>
+          </a>
+        </div>
+        <div class="columns">
+        <% category.posts.sort('-date').map(function(post, i){  %>
+        <% if (post.redirect) {%><%}else{%>
+        <%- partial('common/mapcard', {map: post, index: true}) %>
+        <%- partial('common/modal', {post: post}) %>
+        <%}%>
+      <% }) %>
+    </div>
+    <% } %>
+    <% }) %>
+  </div>
+</div>
+<div class="modal" id="coz-map-disclaimer" style="align-items: center;">
+  <a href="#close" class="modal-overlay" aria-label="Close"></a>
+  <div class="modal-container">
+    <div class="modal-header">
+      <div class="modal-title">
+        <!-- <span class="coz-logo"><a href="http://www.coz.org"><img style="position: relative;float:right;"src="/assets/img/coz_logo_web.jpg" alt="City of Zanesville Logo"></a></span> -->
+        <h4>City of Zanesville Map Portal</h4>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="content">
+        <div id="iewarning" style="display: none;">
+            <h5 class="text-danger">Browser Compatibility</h5>
+            <p>It appears you are using Internet Explorer. Although these applications will not run in IE. Please use a modern browser such as Chrome, Edge or Firefox.</p>
+        </div>
+        <div>
+          <h5 class="text-error">In Development</h5>
+          <p>
+            The maps within this portal are in constant development. These maps are not for public release. To find the publicly available maps please visit <a href="http://www.coz.org/maps">www.coz.org/maps</a>.<br><br>The maps listed under Internal Applications may change over time. The apps in the Public Map Gallery may get new features but the links should remain the same moving forward.<br><br>If you are city staff and want to see something mapped, see changes needed in these applications or have any other questions contact the GIS Specialist in the Engineering Division.
+          </p>
+        </div>
+        <!--h5 class="text-primary">Disclaimer</h5>
+        <p>
+          <span class="text-warning">The information depicted in this map viewer is for reference purposes only and is not intended to be used to determine legal boundaries or locations.</span>
+          <br><br>
+          The City of Zanesville makes every effort to ensure the accuracy and validity of published data, however the information herein is not warranted or guaranteed as such. The City of Zanesville assumes no liability regarding the use or misuse of the information
+          presented. Please direct all questions or corrections to the Division of Public Service at (740) 617-4910.
+        </p-->
+        <a href="http://www.coz.org/maps"><button class="btn btn-primary">Public Map Gallery</button></a>
+        <a href="#close" id="accept" class="modal-close"><button class="btn btn-secondary">View the Dev Maps</button></a>
+      </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+  </div>
+</div>
+<script>
+  /*
+  show disclaimer
+  */
+  // function modals() {
+  //   var m = document.getElementsByClassName('modal');
+  //   for(i=0; i<m.length; i++) {
+  //     m[i].style.align-items = "center";
+  //   }
+  // }
+  document.getElementById('accept').onclick = function() {
+    document.getElementById("coz-map-disclaimer").classList.remove('active');
+  }
+  if (typeof window.CustomEvent != "function" && (localStorage.getItem('cozaccept') !== "1")) {
+    document.getElementById('iewarning').style.display = "block";
+  }
+  if (localStorage.getItem('indexpage') !== "1") {
+    document.getElementById("coz-map-disclaimer").classList.add('active');
+  }
+</script>

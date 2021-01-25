@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yaml</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/yamljs/0.3.0/yaml.js'></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;500&family=Nunito+Sans:wght@400;500;600" rel="stylesheet">
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js'></script>
+
+  <style>
+    /***************/
+    /*html and body*/
+    /***************/
+    html,
+    body {
+      color: #14140c;
+      display: flex;
+      flex-direction: column;
+      font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      min-height: 100vh;;
+    }
+    h1,h2,h2,h4 {
+      color: hsl(206 43% 5% / 1);
+      font-family: "Poppins";
+      font-weight: 500;
+      margin: 0.5rem 0;
+    }
+    a {
+      color: #a34e36;
+      text-decoration: none;
+    }
+    a:hover, a:visited, a:active, a:focus {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+    .wrapper {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      margin: 0 auto;
+      max-width: 1200px;
+      padding: 1rem;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+    }
+    nav, header, main, footer {
+      margin: 0.5rem;
+    }
+    main {
+      flex: 1;
+    }
+    body > footer {
+      background: whitesmoke;
+      margin: 0;
+      padding: 1rem;
+    }
+    /* @media (prefers-color-scheme: dark) {
+      img {
+        opacity: .75;
+        transition: opacity .5s ease-in-out;
+      }
+      img:hover {
+        opacity: 1;
+      }
+    } */
+    /***************/
+    /*hero*/
+    /***************/
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: url("/main.jpg");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      filter: grayscale(80%);
+      transition: filter 0.5s ease-in-out;
+      z-index: 0;
+    }
+    .hero {
+      position: relative;
+    }
+    .hero-inner {
+      position: relative;
+      /* justify-content: center; */
+      display: flex;
+      flex-direction: column;
+      border-radius: 5px;
+      padding: 4rem;
+      height: 30vh;
+    }
+    .hero h1 {
+      font-size: 5rem;
+      font-weight: 500;
+      padding-top: 15%;
+    }
+    .hero span {
+      flex: 1;
+    }
+    .hero a {
+      /* align-items: flex-end; */
+      justify-content: flex-end;
+    }
+    .hero a button {
+      background: rgba(255,255,255,0.8);
+      border-radius: 5px;
+      border: solid thin firebrick;
+      width: auto;
+      padding: 0.75rem 1rem;
+      font-family: "Nunito Sans", sans-serif;
+      font-weight: 600;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    /***************/
+    /*grids*/
+    /***************/
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(1, auto);
+      grid-gap: 1rem;
+      grid-auto-flow: row;
+      margin: 1rem 0;
+    }
+    @media screen and (min-width: 400px) {
+      .grid {
+        grid-template-columns: repeat(2, auto);
+      }
+    }
+    @media screen and (min-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(2, 50%);
+      }
+    }
+    @media screen and (min-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(6, 15.5%);
+      }
+      .grid.grid-small {
+        grid-template-columns: repeat(4, auto);
+      }
+    }
+    /***************/
+    /*cards*/
+    /***************/
+    .card {
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -2px rgba(0,0,0,.05);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .card > img {
+      width: calc(100% + 1rem);
+      object-fit: contain;
+      object-position: center;
+    }
+    /***************/
+    /*end*/
+    /***************/
+    .list {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav>
+      <a href="https://coz.org/208/Engineering-GIS">Engineering & GIS Homepage</a>
+      <span>
+        <a href="https://coz.org">Zanesville Homepage</a>
+      </span>
+    </nav>
+    <header class="hero">
+      <div class="hero-inner">
+        <h1><span style="color:firebrick;">COZ</span> Maps</h1>
+        <span></span>
+        <span>
+          <a data-editable="true" href="https://gis.coz.org/internal/mapzville/?eng_coz_pois=true&eng_coz_pois_labels=true&eng_coz_pois_icon=true#16.39/39.940036/-82.008737" target="_blank"><button>View Utility Map</button></a>
+        </span>
+      </div>
+
+    </header>
+    <main>
+      <section class="grid grid-small js-data"></section>
+      <section class="js-links"></section>
+    </main>
+  </div>
+  <footer style="text-align: center;font-size: 0.7rem;"><a href="https://coz.org">&copy; 2020 City of Zanesville</a></footer>
+
+  <script>
+
+    // const editable = [...Object.values(document.querySelectorAll("*"))]
+
+    Papa.parse("/data.csv", {
+      header: true,
+      download: true,
+      complete: function(res) {
+        console.log(res)
+        const cleaned = res.data.filter(d => {
+          return d.id
+        })
+        init(sortByKey(cleaned, "name"))
+      }
+    });
+
+
+    function sortByKey(array, key) {
+      return array.sort(function(a, b) {
+          var x = a[key].toString().toUpperCase();
+          var y = b[key].toString().toUpperCase();
+          return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      });
+    }
+
+    function init(data) {
+      console.log(data)
+
+      const types = [];
+
+      data.map(a => {
+        if (a.type && !types.includes(a.type)) types.push(a.type)
+      });
+      console.log(types);
+
+      types.map(t => {
+        data.map(a => {
+          if (a.type === t) {
+            types[t] = a
+          }
+        })
+      })
+
+      console.log(types);
+
+      data.map(a => {
+        const title = (a.name) ? a.name : "name"
+        //"https://source.unsplash.com/user/erondu/640"
+        list(a, ".js-links", name.replace("-", " ").toUpperCase(), a.about, "https://source.unsplash.com/user/erondu/240x160");
+      });
+
+      // fetch("https://311.coz.org/api/v1/feature-server/collections.json")
+      //   .then(res => res.json())
+      //   .then(data2 => {
+      //     cards(".js-data", null, "Applications: " + data.length);
+
+      //     cards(".js-data", null, "Datasets: " + data2.collections.length);
+      //     cards(".js-data", null, "Total Services");
+
+      //     cards(".js-data", null, "Status: " + "Online");
+
+      //   })
+
+    }
+
+    function list(data, elem, title, content, img) {
+      const el = document.createElement("div");
+      el.classList = "list";
+      const tags = data.tags.split(",");
+      tags.forEach(t => el.classList.add(t))
+      el.innerHTML = /*html*/ `
+        ${(title) ? /*html*/`<h2>${title}</h2>` : ""}
+        ${content}
+        </li>
+      `
+      document.querySelector(elem).appendChild(el);
+    }
+
+    function cards(elem, title, content, footer, img) {
+      const el = document.createElement("div");
+      el.classList = "card"
+
+      el.innerHTML = /*html*/ `
+        ${(img) ? `<img src="${img}">` : ""}
+        ${(title) ? /*html*/`
+          <header>
+            <h2>${title}</h2>
+          </header>` : ""}
+        <main>
+          ${content}
+        </main>
+        ${(footer) ? /*html*/`
+          <footer>
+            ${footer}
+          </footer>` : ""}
+      `
+      document.querySelector(elem).appendChild(el);
+    }
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+<% var cat = (page.category) %>
+<div id="content" class="category-page">
+  <div class="container">
+    <div class="columns">
+      <% site.categories.sort('name').map(function(category){  %>
+        <% if(category.name == 'maps') { %>
+          <% category.posts.sort('-date').map(function(post, i){  %>
+          <% if (post.redirect) {%><%}else{%>
+          <%- partial('common/mapcard', {map: post, index: true}) %>
+          <%- partial('common/modal', {post: post, modaltop: true}) %>
+          <%}%>
+        <% }) %>
+      <% } %>
+    <% }) %>
+    </div>
+  </div>
+</div>

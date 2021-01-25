@@ -1,0 +1,20 @@
+{
+  "name": "COZ Water Map",
+  "short_name" : "COZ Water Map",
+  "start_url": "/internal/water/?wMainInner=true&utl_water_mains=true&layers=utl_water_curb_boxes&lng=-81.98825499469802&lat=39.939251102974&utl_water_curb_boxes=true&mus_imagery=true&utl_water_control_valves=true&utl_water_system_valves=true&wMainLabels=true&utl_water_hydrants=true&AddressPoints=true&AddressLabels=true#17.67/39.950898/-82.004927",
+  "scope" : "/internal/water/",
+  "icons": [
+        {
+          "src": "/assets/img/android-logo-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+      },      {
+        "src": "/assets/img/android-logo-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }
+  ],
+  "theme_color": "#0D84B3",
+  "background_color": "#0D84B3",
+  "display": "standalone"
+}

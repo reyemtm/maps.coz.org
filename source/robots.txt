@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /assets/img/
+Allow: /maps/
+Allow: /internal/
+Disallow: /archive/
+Disallow: /categories/
+Disallow: /geojson-vt/
+Disallow: /wiki/
+Disallow: /portal/

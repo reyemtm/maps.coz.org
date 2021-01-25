@@ -1,0 +1,120 @@
+html {
+  width: 100vw;
+}
+
+#map {
+  width: 100%;
+  left: 0;
+  transition: left 0.25s;
+}
+
+/*SIDEBAR*/
+#sidebarId {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.off-canvas .off-canvas-sidebar {
+  background: white;
+  width: 200px;
+}
+
+#coz-sidebar--header {
+  display: none;
+}
+
+#coz-sidebar--layerControl {
+  padding: 0.5rem;
+  color: #202020;
+}
+
+#coz-sidebar--layerControl h4 {
+  font-weight: 700;
+  font-size: 23px;
+}
+
+.fa-bars:before {
+  content: "";
+}
+
+.form-checkbox {
+  cursor: pointer;
+}
+
+/*footer buttons*/
+.btn.btn-outline.modal-open {
+  border-radius: 20px;
+  border: solid 1px black;
+}
+
+/*MAPBOX CONTROL BUTTON TWEAKS*/
+.mapboxgl-ctrl-top-left,
+.mapboxgl-ctrl-bottom-left {
+  transition: left 0.25s;
+}
+
+.mapboxgl-ctrl .mapboxgl-ctrl-zoom-in,
+.mapboxgl-ctrl .mapboxgl-ctrl-zoom-out,
+.mapboxgl-ctrl .mapboxgl-ctrl-geolocate {
+  border-radius: 50%;
+  margin: 5px;
+  border: solid 2px black;
+  background: white !important;
+}
+
+.mapboxgl-ctrl-group button:focus:first-child {
+  border-radius: 50%;
+}
+
+.mapboxgl-ctrl.mapboxgl-ctrl-group {
+  background: transparent;
+  box-shadow: none;
+}
+
+.mapboxgl-ctrl-compass {
+  display: none !important;
+}
+
+#mapSidebarToggle {
+  background: white;
+  background-image: url("https://icongr.am/material/layers.svg");
+  background-size: cover;
+  background-position: center;
+  border: solid 2px black;
+  border-radius: 50%;
+  margin: 5px;
+}
+
+.mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
+  margin: 0 auto;
+  width: 90vw;
+  max-width: calc(100vw - 100px);
+  border-radius: 20px;
+  border: solid black 2px;
+  font-family: "Nunito Sans", sans-serif;
+  top: 13px;
+}
+.mapboxgl-ctrl-geocoder--icon-close {
+  margin-top: 0;
+}
+.mapboxgl-ctrl-geocoder .mapboxgl-ctrl-geocoder--pin-right > * {
+  right: 5px;
+  top: 5px;
+  background: #dfe2e6;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+}
+/*INFO WINDOW*/
+@media screen and (min-width: 768px) {
+  .coz-map--info-window {
+    top: 70px;
+    left: 40px;
+    border-radius: 12px;
+    border: solid 2px black;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3)
+  }
+}

@@ -1,0 +1,13 @@
+@ECHO OFF
+
+setlocal
+:PROMPT
+SET /P CONFIRM=This will RESOTRE a backup from the Z Drive, OVERWRITING contents in the LOCAL folder. Are you sure (Y/[N])?
+IF /I "%CONFIRM%" NEQ "Y" GOTO END
+
+robocopy "Z:\scans\GIS_Projects\Web Apps Production\gis.coz.org_web_maps" "..\gis.coz.org_web_maps"  /MIR /FFT /Z /XA:H /W:5 /xd node_modules
+
+PAUSE
+
+:END
+endlocal

@@ -1,0 +1,512 @@
+---
+layout: map
+title: City Utility Map
+subtitle: City GIS Utility Map | Advnaced Viewer with All Layers
+img: mapzville-img.jpg
+btn: Launch
+category: internal
+link: "/internal/mapzville/?adm_mus_parcels=true&ParcelsOutline=true#16.37/39.941027/-82.01233"
+about: >-
+  This application shows all of the public Zanesville GIS data on an interactive map. The site features an address and parcel search, measure tool, basic print functionality, and a custom layer control.
+  <br>
+  <p>The layers in the sidebar are maintained by the City of Zanesville, Muskingum County, or other authoritative public sources. Mapbox provides the data for all other map layers.</p>
+
+  <p class="text-error"><em>Please note that parcels are updated on a monthly or bi-monthly basis.<br>For the latest tax information visit the <a href="http://www.muskingumcountyauditor.org/"
+  target="_blank">Musking County Auditor's Website</a> or the link in the popup menu</em>.</p>
+header: >-
+  <script
+  src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.js'></script>
+  <link rel='stylesheet'
+  href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.css'
+  type='text/css'/>
+
+css: >-
+  .mapboxgl-ctrl-scale {
+    background-color: #0d84b35c;
+    border-width: 2px;
+    border-style: none solid solid;
+    border-color: #0c79a5;
+    color: #094b7c;
+    text-align: center;
+    font-weight: bold;
+  }
+  .mapboxgl-ctrl-scale {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-color: #24292e;
+    color: #24292e;
+    line-height: 1.5;
+  }
+  .adt .red {
+    color: #b2182b;
+  }
+  .adt .orange {
+    color: orange;
+  }
+  .adt .blue {
+    color: #2166ac;
+  }
+  .mapboxgl-popup {
+    min-width: 320px;
+  }
+  .mapboxgl-popup .table {
+    min-width: 320px;
+  }
+---
+<script type="module">
+
+  import {
+    networkControl
+  } from "/assets/js/networkControl/networkControl.js"
+
+  var mapDiv = document.getElementById("map");
+  mapDiv.style.visibility = "hidden";
+  var mapLayers = [],
+    layerTreeLayers = [],
+    directoryOptions = [],
+    historic;
+
+  mapboxgl.accessToken = cozMAP.token;
+  var gltoken = mapboxgl.accessToken;
+
+  var localPrintOptions = {
+    disclaimer: 'City of Zanesville does not guarantee the accuracy of this data. This map is subject to all terms and conditions of the disclaimer posted on this website.',
+    defaultTitle: "City GIS Map",
+    info: "",
+    previewContainer: "map-print-modal--preview"
+  };
+
+  /*
+  initiate map
+  */
+
+  var npsIcons = [{
+      "name": "airport-black-24",
+      "url": "/assets/symbols/nps/airport-black-24.png"
+    },
+    {
+      "name": "amphitheater-black-24",
+      "url": "/assets/symbols/nps/amphitheater-black-24.png"
+    },
+    {
+      "name": "bench-black-24",
+      "url": "/assets/symbols/nps/bench-black-24.png"
+    },
+    {
+      "name": "bicycle-trail-black-24",
+      "url": "/assets/symbols/nps/bicycle-trail-black-24.png"
+    },
+    {
+      "name": "boat-launch-black-24",
+      "url": "/assets/symbols/nps/boat-launch-black-24.png"
+    },
+    {
+      "name": "boat-tour-black-24",
+      "url": "/assets/symbols/nps/boat-tour-black-24.png"
+    },
+    {
+      "name": "bus-stop-black-24",
+      "url": "/assets/symbols/nps/bus-stop-black-24.png"
+    },
+    {
+      "name": "circle-black-2",
+      "url": "/assets/symbols/nps/circle-black.png"
+    },
+    {
+      "name": "dam-black-24",
+      "url": "/assets/symbols/nps/dam-black-24.png"
+    },
+    {
+      "name": "drinking-water-black-24",
+      "url": "/assets/symbols/nps/drinking-water-black-24.png"
+    },
+    {
+      "name": "flagpole-black-24",
+      "url": "/assets/symbols/nps/flagpole-black-24.png"
+    },
+    {
+      "name": "historic-feature-black-24",
+      "url": "/assets/symbols/nps/historic-feature-black-24.png"
+    },
+    {
+      "name": "hospital-black-24",
+      "url": "/assets/symbols/nps/hospital-black-24.png"
+    },
+    {
+      "name": "incident-black-22",
+      "url": "/assets/symbols/nps/incident-black-22.png"
+    },
+    {
+      "name": "information-black-24",
+      "url": "/assets/symbols/nps/information-black-24.png"
+    },
+    {
+      "name": "interpretive-exhibit-black-24",
+      "url": "/assets/symbols/nps/interpretive-exhibit-black-24.png"
+    },
+    {
+      "name": "library-black-24",
+      "url": "/assets/symbols/nps/library-black-24.png"
+    },
+    {
+      "name": "museum-black-24",
+      "url": "/assets/symbols/nps/museum-black-24.png"
+    },
+    {
+      "name": "parking-black-24",
+      "url": "/assets/symbols/nps/parking-black-16-b.png"
+    },
+    {
+      "name": "pets-on-leash-black-24",
+      "url": "/assets/symbols/nps/pets-on-leash-black-24.png"
+    },
+    {
+      "name": "picnic-area-black-24",
+      "url": "/assets/symbols/nps/picnic-area-black-24.png"
+    },
+    {
+      "name": "playground-black-24",
+      "url": "/assets/symbols/nps/playground-black-24.png"
+    },
+    {
+      "name": "restrooms-black-24",
+      "url": "/assets/symbols/nps/restrooms-black-24.png"
+    },
+    {
+      "name": "rr-xing-black-24",
+      "url": "/assets/symbols/nps/rr-xing-black-24.png"
+    },
+    {
+      "name": "scenic-viewpoint-black-24",
+      "url": "/assets/symbols/nps/scenic-viewpoint-black-24.png"
+    },
+    {
+      "name": "shelter-black-24",
+      "url": "/assets/symbols/nps/shelter-black-24.png"
+    },
+    {
+      "name": "sign-black-24",
+      "url": "/assets/symbols/nps/sign-black-24.png"
+    },
+    {
+      "name": "statue-black-24",
+      "url": "/assets/symbols/nps/statue-black-24.png"
+    },
+    {
+      name: "theater-black-24",
+      url: "/assets/symbols/nps/theater-black-24.png"
+    },
+    {
+      name: "fire-24",
+      url: "/assets/symbols/nps/fire-24.png"
+    },
+    {
+      name: "mechanic-black-24", 
+      url: "/assets/symbols/nps/mechanic-black-24.png"
+    },
+    {
+      name: "trailhead-black-24",
+      url: "/assets/symbols/nps/trailhead-black-24.png"
+    },
+    {
+      name: "ranger-station-black-24",
+      url: "/assets/symbols/nps/ranger-station-black-24.png"
+    },
+    {
+      name: "basketball-24",
+      url: "/assets/symbols/nps/basketball-24.png"
+    },
+    {
+      name: "diamond-orange-24",
+      url: "/assets/symbols/png/diamond-orange-24.png"
+    },
+    {
+      name: "diamond-blue-24",
+      url: "/assets/symbols/png/diamond-blue-24.png"
+    },
+    {
+      name: "cemetery-19",
+      url: "/assets/symbols/nps/cemetery-19.png"
+    }
+  ]
+
+  var map = new mapboxgl.Map({
+    container: 'map',
+    hash: true,
+    style: "mapbox://styles/cozgis/ckhxq84it12q61aqo00krez8a",
+    // style: "http://127.0.0.1:4000/assets/map-styles/coz-omt-bright.json",
+    center: [-82.012565,39.941011],
+    zoom: 14,
+    preserveDrawingBuffer: true
+  });
+  // map.showTileBoundaries = true
+  /*
+  map event listeners
+  */
+
+  map.on('click', function(e) {
+    var features = cozMAP.getFeatures(map, e);
+    console.log(features)
+    cozMAP.popup(map, features)
+  });
+
+  map.on('load', async function () {
+    map.setLayoutProperty("place-neighbourhood", "visibility", "none")
+    /* load images for various styles - could also load directly into the map style spritesheet on mapbox.com*/
+    map.loadImage('/assets/symbols/arrow-1.png', function(err, img) {
+      map.addImage('arrow', img);
+    });
+
+    map.loadImage('/assets/symbols/square-purple.png', function(err, img) {
+      map.addImage('square-purple2', img);
+    });
+
+    map.loadImage('/assets/symbols/circle-purple.png', function(err, img) {
+      map.addImage('circle-purple', img);
+    });
+
+    map.loadImage('/assets/symbols/circle-seagreen.png', function(err, img) {
+      map.addImage('circle-seagreen2', img);
+    });
+
+    map.loadImage('/assets/symbols/triangle-seagreen.png', function(err, img) {
+      map.addImage('triangle-seagreen2', img);
+    });
+
+    map.loadImage('/assets/symbols/square-yellow.png', function(err, img) {
+      map.addImage('square-yellow', img);
+    });
+
+    map.loadImage('/assets/symbols/square-cyan.png', function(err, img) {
+      map.addImage('square-cyan', img);
+    });
+
+
+    cozMAP.mapCheckLoading(map);
+
+    // const iconsReq = await fetch("/assets/symbols/mapillary-icons/mapillary-icons.json")
+    // const iconsRes = await iconsReq.json();
+    // const icons = [...npsIcons, ...iconsRes]
+
+    cozMAP.mglAddIcons(map, npsIcons, function () {
+
+      fetch("/map-layers-config.json")
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
+        // data.push({
+        //   id: "mapillary-point-detections",
+        //   type: "symbol",
+        //   top: true,
+        //   directory: "Engineering",
+        //   group: "Mapillary",
+        //   name: "Mapillary Point Detections",
+        //   source: "mapillary-point-detections",
+        //   sourceType: {
+        //     type: "vector",
+        //     tiles: [ "https://a.mapillary.com/v3/map_features?tile={z}/{x}/{y}&client_id=V3B6aHlRZVdMUG5aX1R3dnhjZFVfdzo4YmEwZjY1Mjg2ZTNhYzQ2&layers=points"],
+        //     attribution: "<a href='https://www.mapillary.com'>Mapillary</a>, CC BY",
+        //     minzoom: 12,
+        //     maxzoom: 17,
+        //     promoteId: "key"
+        //   },
+        //   "source-layer": "mapillary-points",
+        //   "filter": ["all",
+        //     ["!=", ["get", "value"], "construction--flat--driveway"],
+        //     ["!=", ["get", "value"], "object--sign--advertisement"],
+        //     ["!=", ["get", "value"], "object--sign--store"],
+        //     ["!=", ["get", "value"], "object--support--utility-pole"]
+        //   ],
+        //   layout: {
+        //     "icon-image": "{value}",
+        //     "icon-allow-overlap": true,
+        //     "icon-ignore-placement": true,
+        //     visibility: "none"
+        //   },
+        //   metadata: {
+        //     popup: ["accuracy", "altitude", "first_seen_at", "layer", "value"],
+        //     filterSchema: {
+        //       "value": {
+        //         type: "select",
+        //         options: ["object--catch-basin"]
+        //       }
+        //     }
+        //   }
+        // })
+        const layersConfig = cozMAP.mapAddLayers(map, data, {lazyLoading: true});
+        // console.log(layersConfig)
+        var lc = new cozMAP.layerControlGrouped({
+          options: {
+            collapsed: false
+          },
+          layers: layersConfig
+        });
+        document.querySelector("#coz-sidebar--layerControl").appendChild(lc.onAdd(map));
+        var controls = document.querySelectorAll(".mgl-layerControlDirectory");
+        for (var i=0; i < controls.length; i++) {
+          controls[i].children[0].click();
+          controls[i].style.display = "block";
+        };
+
+               //ADD MANHOLE INSPECTION DATA DUE TO SUREY123 TRIMMING LAT LNGS TO 5 DECIMALS SO STORING THEM AS STRINGS
+      fetch("https://services9.arcgis.com/IUhP9plEzDTayUVC/arcgis/rest/services/Manhole_Inspection_Form_View_II/FeatureServer/0/query?where=OBJECTID%3E0&outFields=*&f=geojson")
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
+        data.features.map(function(f) {
+          if (f.properties["inspect_latlng"]) {
+            var coords = (f.properties["inspect_latlng"]).split(",");
+            coords = [Number(coords[0]), Number(coords[1])]
+            console.log(coords);
+            f.geometry.coordinates = coords;
+          }
+        });
+        console.log(data)
+        map.getSource("utl_wastewater_manhole_inspections").setData(data);
+      })
+      .catch(err => {
+        console.log(err)
+      });
+
+      })
+    });
+
+    cozMAP.mapAddControls(map, {
+      t:gltoken
+    });
+    map.addControl(new cozMAP.mapPrintControl(), 'top-right');
+    map.addControl(new cozMAP.mglStreetViewControl({
+      mapillaryAlias: "COZ"
+    }), 'top-right');
+    addTraceTool(map);
+    map.addControl(new cozMAP.mglAddTerrainControl(), 'top-right')
+    map.addControl(new cozMAP.mapMeasureControl(), 'top-right');
+
+    // map.addControl(new cozMAP.RulerControl(), 'top-right');
+    // map.on('ruler.on', () => console.log('ruler: on'));
+    // map.on('ruler.off', () => console.log('ruler: off'));
+
+    // // with miles:
+    // map.addControl(new RulerControl({
+    //   units: 'miles',
+    //   labelFormat: n => `${n.toFixed(2)} ml`,
+    // }), 'top-right');
+
+
+    /** contours **/
+    var infoMiniDiv = document.createElement('div');
+    infoMiniDiv.classList.add('info-container');
+    infoMiniDiv.id = 'elev';
+    var mapDiv = document.getElementById('map');
+    mapDiv.appendChild(infoMiniDiv);
+
+    var infoMini = document.getElementById('elev');
+
+    map.on('mouseover', 'contours', function (e) {
+      var feature = cozMAP.getFeature(map, e, ['contours']);
+      if (feature) {
+        infoMini.innerHTML = '<p>' + feature.properties.elev + '</p>';
+      }
+    });
+
+    document.addEventListener('mapIsLoaded', function() {
+      // if (!contoursToggle) {
+      //   var contoursToggle = document.getElementById('contours');
+      //   contoursToggle.onchange = function() {
+      //     infoMini.innerHTML = ""
+      //   };
+      //  }
+       mapDiv.style.visibility = "visible";
+    });
+
+    /** end contours **/
+  })
+
+  function addTraceTool(map) {
+    var traceMap = map;
+    //urls to sanitary sewer lines, points, storm lines points
+    var urls = [
+      "https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_points/items.json?limit=50000",
+      "https://311.coz.org/api/v1/feature-server/collections/public.utl_stormwater_stm_points/items.json?limit=50000",
+      "https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_lines/items.json?limit=50000",
+      "https://311.coz.org/api/v1/feature-server/collections/public.utl_stormwater_stm_lines/items.json?limit=50000"
+    ]
+    Promise.all(urls.map(u=>fetch(u))).then(responses =>
+        Promise.all(responses.map(res => res.json()))
+    ).then(data => {
+
+      var points = {
+        type: "FeatureCollection",
+        features: []
+      };
+
+      var lines = {
+        type: "FeatureCollection",
+        features: []
+      };
+
+      assignData(data[0], points)
+      assignData(data[1], points)
+      assignData(data[2], lines)
+      assignData(data[3], lines)
+
+      // console.log(points)
+      // console.log(lines)
+
+      traceMap.addControl(new networkControl({
+        options: {
+          originPoints: points,
+          linearNetwork: lines,
+          originLayers: ["sanitarystructures", "stormStructures"],
+          debug: true,
+          idField: "id"
+        }
+      }));
+
+      function assignData(data, dest) {
+        var id = dest.features.length;
+        // console.log(id)
+        data.features.map(f => {
+          f.id = id
+          dest.features.push(f);
+          id = id + 1
+        })
+      }
+
+    })
+  }
+
+  // function HelloWorldControl() { }
+
+  // HelloWorldControl.prototype.onAdd = function(map) {
+  //   this._map = map;
+  //   this._container = document.createElement('div');
+  //   this._container.className = 'mapboxgl-ctrl';
+  //   this._container.textContent = 'Hello, world';
+  //   return this._container;
+  // };
+
+  // HelloWorldControl.prototype.onRemove() {
+  //   this._container.parentNode.removeChild(this._container);
+  //   this._map = undefined;
+  // };
+
+  // map.addControl(HelloWorldControl)
+
+  // var ctx = document.getElementById('map-').getContext('2d');
+  // var chart = new Chart(ctx, {
+  //     type: 'line',
+  //     data: {
+  //         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  //         datasets: [{
+  //             label: 'elev',
+  //             backgroundColor: 'rgb(255, 99, 132)',
+  //             borderColor: 'rgb(255, 99, 132)',
+  //             data: [0, 10, 5, 2, 20, 30, 45]
+  //         }]
+  //     },
+  //     options: {}
+  // });
+
+</script>

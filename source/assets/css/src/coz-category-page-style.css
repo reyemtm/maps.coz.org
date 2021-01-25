@@ -1,0 +1,211 @@
+/*********************/
+/* GENERAL STYLES */
+/*********************/
+html,
+body {
+  background: white;
+  color:#202020;/*#24292e;*/
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+#content {
+  flex-grow: 1;
+}
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: 300;
+}
+.container {
+  padding: 0 0.6rem;
+  padding-left: 0.6rem;
+  padding-right: .6rem;
+  max-width: 2000px;
+}
+#content {
+  padding-top:1rem;
+}
+.highlight {
+  background: whitesmoke;
+  padding: 1rem;
+  border-radius: 2px;
+  max-width: 100%;
+}
+pre {
+  white-space: pre-wrap;
+}
+footer {
+  padding: 2rem 0 1rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+/********************/
+/* SPECIFIC CLASSES */
+/********************/
+
+/********************/
+/* LOGO */
+/********************/
+.coz-logo img {
+  width:60px;
+}
+.coz-logo img:hover{
+  border: solid thin lightgray;
+}
+@media screen and (max-width:350px) {
+  .coz-logo {
+    display: none;
+  }
+}
+
+/********************/
+/* NAVBAR */
+/********************/
+.navbar {
+  /* margin-bottom: 1rem; */
+  background-color: #f8f9fa;
+  padding: 0 0.6rem;
+  /* position: fixed; */
+  z-index: 1;
+  width:100%;
+}
+
+@media screen and (max-width: 800px) {
+  .navbar.maps,
+  footer .maps {
+    display: none;
+  }
+  .maps .container, .maps #content {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width:768px) {
+  .navbar .navbar-section:not(:first-child):last-child {
+    /* display: none; */
+    position: absolute;
+    left: 12px;
+    top: 30px;
+    font-size: 0.6rem;
+  }
+  .navbar .navbar-section {
+    margin-bottom: 25px;
+  }
+}
+
+/*********************/
+/* MODALS */
+/*********************/
+.category-page .modal {
+  align-items: baseline; 
+  top: 2rem;
+}
+
+/********************/
+/* COLUMNS */
+/********************/
+
+@media screen and (min-width: 1281px) {
+  .col-xl-3 { 
+    width: 25%;
+    flex: none;
+  }
+  .col-xl-4 {
+    width: 25%;
+    flex: none;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .col-xl-4 {
+    width: 16.666%;
+    flex: none;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 700px) {
+  .col-sm-6 {
+      width: 50%;
+  }
+}
+
+/********************/
+/* CATEOGRY PAGE & CARDS */
+/********************/
+#wiki-sidebar {
+  transform: translate(-400px, 0);
+  transition: all 0.3s ease-in-out;
+  width: 0;
+}
+
+@media screen and (min-width: 768px) {
+  #wiki-sidebar {
+    left: 0;
+    width: 300px;
+    transform: translate(0, 0);
+  }
+}
+.wiki a {
+  text-decoration: underline;
+}
+.wiki .column {
+  padding: 0 1rem 1rem;
+}
+.wiki blockquote {
+  background: whitesmoke;
+  border-left: .1rem solid #454d5d;
+}
+.wiki figure {
+  margin: 0;
+}
+
+/********************/
+/* CATEOGRY PAGE & CARDS */
+/********************/
+.category {
+  margin-bottom: 2rem;
+}
+.card {
+  margin: 0.25rem 0.25rem 1rem;
+  /* border: none; */
+  min-height: 340px;
+  transition: all .2s ease-in-out;
+  /* box-shadow: 0 0 20px 4px rgba(31,51,73,.1); */
+}
+.card .card-image {
+  overflow:hidden;
+}
+.card img {
+  width: 100%;
+}
+.soon img {
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+.card-header {
+  min-height: 95px;
+}
+.card-body {
+  display: none;
+}
+.card .btn {
+  width: 4rem;
+}
+.card:hover{
+  background-color: #f8f9fa;
+  /* transform: scale(1.02); */
+  box-shadow: 0 0 30px 6px rgba(31,51,73,.25);
+}
+.card-footer {
+  margin-top: auto;
+}
+.development .card {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+.development .card:hover,
+.development .card:focus {
+  -webkit-filter: none;
+  filter: none;
+}

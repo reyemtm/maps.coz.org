@@ -1,0 +1,23 @@
+[Settings]
+  ID = "41106f53-62dc-4c5d-a4e0-f701a4ebdafa"
+
+[Build]
+  Publish = ""
+  Functions = ""
+
+# cache settings for png icons
+[[headers]]
+  for = "*.png" # cache png for one day
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = '*'
+
+# this is not available in the free current plan
+[[headers]]
+  for = "/development/*"
+  [headers.values]
+    Basic-Auth = "test:test"

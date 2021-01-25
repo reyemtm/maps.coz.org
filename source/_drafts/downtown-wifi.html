@@ -1,0 +1,299 @@
+---
+layout: map
+title: Downtown WiFi
+subtitle: subtitle
+img: parcel-img-gray.png
+about: This is a map.
+category: development
+date: 2019-01-02 08:43:45
+header: >-
+  <script
+  src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+  <link rel='stylesheet'
+  href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
+  type='text/css'/>
+---
+<script>
+
+  var wifiCoverageTurf = [];
+  cozMAP.getJSON('proposal_access_points.geojson', function(data) {
+    data.features.map(function(f) {
+      wifiCoverageTurf.push(turf.circle(f, 200, {"units": "feet", "properties": {"RANGE": 200}}));
+      wifiCoverageTurf.push(turf.circle(f, 150, {"units": "feet", "properties": {"RANGE": 150}}))
+    })
+    wifiCoverageTurf = turf.featureCollection(wifiCoverageTurf);
+    initMap();
+  })
+
+
+  function initMap() {
+    console.log('init map')
+
+    mapboxgl.accessToken = cozMAP.token;
+
+    var map = new mapboxgl.Map({
+      container: 'map',
+      hash: true,
+      style: "mapbox://styles/cozgis/cjoyj0loid3mp2rpb6eczup77",
+      center: [-81.9981, 39.9657],
+      zoom: 13.51,
+      debug: 2,
+      minzoom: 10,
+      preserveDrawingBuffer: true,
+      maxBounds: cozMAP.maxBounds
+    });
+
+    map.on('load', function() {
+      initMapLayers(this);
+      initMapClick(this);
+    });
+
+  }
+
+  function initMapLayers(map) {
+    console.log('init map layers')
+    cozMAP.mapCheckLoading(map);
+
+    function importMapLayers(layer, master, layers) {
+      for (var newImportLayer in master) {
+        if (master[newImportLayer].id === layer) {
+          layers.push(master[newImportLayer])
+        }
+      }
+    }
+
+    /* add map layers from master-layers.json */
+
+    cozMAP.getJSON('/assets/map-data/layers/master-layers-mapbox.json', function (data) {
+      console.log('received map layers json');
+      var importLayers = [
+        "mus_imagery",
+        "mus_parcels"
+      ];
+      var mapLayers = [],
+        directoryOptions = [],
+        layerTreeLayers = [];
+      for (var i in importLayers) {
+        importMapLayers(importLayers[i], data, mapLayers)
+      }
+      mapLayers[2] = {
+        "directory": "Map Layers",
+        "top": true,
+        "id": "streetlights",
+        "name": "Street Lights",
+        "type": "circle",
+        "source": "streetlightsource",
+        "sourceType": {
+          "type": "geojson",
+          "data": "COZ_Light_Poles.geojson"
+        },
+        "paint": {
+          "circle-color": "#333",
+          "circle-stroke-width": 2,
+          "circle-radius": {
+            "stops": [
+              [0, 0],
+              [13, 2],
+              [16, 5]
+            ]
+          },
+          "circle-stroke-color": "white"
+        },
+        "minzoom": 14,
+        "layout": {
+          "visibility": "visible"
+        }
+      }
+
+      mapLayers[3] = {
+        "directory": "Map Layers",
+        "top": true,
+        "id": "stoplights",
+        "name": "Signals",
+        "type": "circle",
+        "source": "signalssource",
+        "sourceType": {
+          "type": "geojson",
+          "data": "COZ_Signal_Poles.geojson"
+        },
+        "paint": {
+          "circle-color": "firebrick",
+          "circle-stroke-width": 3,
+          "circle-radius": {
+            "stops": [
+              [0, 0],
+              [13, 2],
+              [16, 5]
+            ]
+          },
+          "circle-stroke-color": "orange"
+        },
+        "minzoom": 14,
+        "layout": {
+          "visibility": "visible"
+        }
+      }
+
+      mapLayers[4] = {
+        "directory": "Map Layers",
+        "top": true,
+        "id": "accesspoints",
+        "name": "WiFi Access Points",
+        "type": "circle",
+        "source": "accesspointssource",
+        "sourceType": {
+          "type": "geojson",
+          "data": "proposal_access_points.geojson"
+        },
+        "paint": {
+          "circle-color": "transparent",
+          "circle-stroke-width": 3,
+          "circle-radius": {
+            "stops": [
+              [0, 0],
+              [13, 6],
+              [16, 10]
+            ]
+          },
+          "circle-stroke-color": "blue"
+        },
+        "minzoom": 14,
+        "layout": {
+          "visibility": "visible"
+        }
+      }
+
+      // mapLayers[5] = {
+      //   "directory": "Map Layers",
+      //   "id": "wificoverage",
+      //   "top": true,
+      //   "name": "WiFi Coverage (Ubiquity)",
+      //   "type": "fill",
+      //   "source": "wificoveragesource",
+      //   "sourceType": {
+      //     "type": "geojson",
+      //     "data": "proposal_wifi_coverage.geojson"
+      //   },
+      //   "paint": {
+      //     "fill-color": "blue",
+      //     "fill-opacity": 0.3
+      //   },
+      //   "minzoom": 14,
+      //   "layout": {
+      //     "visibility": "none"
+      //   },
+      //   "filter": ["==", "RANGE", 200]
+      // }
+      // mapLayers[6] = {
+      //   "directory": "Map Layers",
+      //   "id": "wificoverage2",
+      //   "top": true,
+      //   "name": "WiFi Coverage (Meraki)",
+      //   "type": "fill",
+      //   "source": "wificoveragesource",
+      //   "sourceType": {
+      //     "type": "geojson",
+      //     "data": "proposal_wifi_coverage.geojson"
+      //   },
+      //   "paint": {
+      //     "fill-color": "red",
+      //     "fill-opacity": 0.3
+      //   },
+      //   "minzoom": 14,
+      //   "layout": {
+      //     "visibility": "none"
+      //   },
+      //   "filter": ["==", "RANGE", 150]
+      // }
+
+      mapLayers[7] = {
+        "directory": "Map Layers",
+        "id": "wificoverageturf",
+        "top": true,
+        "name": "WiFi Coverage (Ubiquity)",
+        "type": "fill",
+        "source": "wificoverageturfsource",
+        "sourceType": {
+          "type": "geojson",
+          "data": wifiCoverageTurf
+        },
+        "paint": {
+          "fill-color": "blue",
+          "fill-opacity": 0.3
+        },
+        "minzoom": 14,
+        "layout": {
+          "visibility": "none"
+        },
+        "filter": ["==", "RANGE", 200]
+      }
+
+      mapLayers[8] = {
+        "directory": "Map Layers",
+        "id": "wificoverageturf2",
+        "top": true,
+        "name": "WiFi Coverage (Meraki)",
+        "type": "fill",
+        "source": "wificoverageturfsource",
+        "sourceType": {
+          "type": "geojson",
+          "data": wifiCoverageTurf
+        },
+        "paint": {
+          "fill-color": "red",
+          "fill-opacity": 0.3
+        },
+        "minzoom": 14,
+        "layout": {
+          "visibility": "none"
+        },
+        "filter": ["==", "RANGE", 150]
+      }
+
+      console.log(mapLayers);
+      cozMAP.mapCreateLayerTree(map, mapLayers, directoryOptions, layerTreeLayers,'coz-sidebar--layerControl')
+      cozMAP.mapAddLayers(map, mapLayers);
+      cozMAP.mapCheckRendered(map);
+      document.addEventListener('mapIsRendered', function () {
+        cozMAP.mapCheckToggleLayers();
+      })
+    });
+
+    cozMAP.cozPrint.cozMapboxPrintSetup(map)
+
+    cozMAP.mapAddControls(map, {
+      t: cozMAP.token,
+      f: false,
+      geocoderId: null,
+      geocoderCallback: null
+    });
+    map.addControl(new cozMAP.mapMeasureControl(), 'top-right');
+  }
+
+  function initMapClick(map) {
+    console.log('init map click')
+
+    map.on('click', function (e) {
+      var clickableLayers = [];
+      var feature = cozMAP.getFeature(map, e, clickableLayers);
+      if (feature != null) {
+        cozMAP.highlight(map, feature);
+        cozMAP.mapGetInfo(map, e, feature)
+        // if (feature.layer.id === "LAYERID") {
+        //   new mapboxgl.Popup()
+        //     .setLngLat(e.lngLat)
+        //     .setHTML("<strong>" + feature.properties.x + ": " + feature.properties.y + "</strong>")
+        //     .on('close', function () {
+        //       if (typeof map.getLayer('selected') != "undefined") {
+        //         map.removeLayer('selected')
+        //       }
+        //     })
+        //     .addTo(map);
+        // } else {
+        //   cozMAP.mapGetInfo(map, e, feature)
+        // }
+      }
+    })
+  }
+
+</script>

@@ -1,0 +1,15 @@
+# Redirect default Netlify subdomain to primary domain
+https://cozgis.netlify.com/* https://gis.coz.org/:splat 301!
+https://coz-maps.netlify.com/* https://gis.coz.org/:splat 301!
+
+/public/* /maps/:splat 301
+/internal/impervious-map/* /maps/main/:splat 301
+/maps/impervious/* /maps/main/:splat 301
+/maps/impervious-areas/* /maps/main/:splat 301
+
+# Redirect old standalone maps to main map
+/internal/maps/ /internal/mapzville/
+/internal/water/ /internal/mapzville/
+/internal/zoning/ /internal/mapzville/
+
+/water/ https://zanesville.maps.arcgis.com/apps/opsdashboard/index.html#/45590981ca434b5085ab69272b4fbd29

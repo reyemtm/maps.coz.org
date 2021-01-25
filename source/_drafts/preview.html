@@ -1,0 +1,374 @@
+---
+layout: blank
+category: apps
+title: Data Preview
+subtitle: Drag & Drop GeoJSON Data
+unsplash: data
+css: >-
+  body {
+  margin: 0;
+  padding: 0;
+  }
+
+  #map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  }
+
+  .loading-screen {
+  background-color: rgba(47, 47, 47, 0.6);
+  top: 0px;
+  width: 100%;
+  bottom: 0px;
+  display: block;
+  position: absolute;
+  }
+
+  .loading-container {
+  font-family: "Lucida Console", Monaco, monospace;
+  color: #0f0;
+  position: absolute;
+  width: 40%;
+  left: 50%;
+  padding: 10px;
+  }
+
+  .loading-item {
+  padding: 5px;
+  width: 99%;
+  }
+
+  .loading-bar-out {
+  height: 5px;
+  width: 100%;
+  border: 1px solid #0f0;
+  }
+
+  .loading-bar-in {
+  width: 0px;
+  height: 100%;
+  background-color: #0f0;
+  }
+
+  .loading-bar-txt {
+  font-size: 14px;
+  }
+header: >-
+  <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js"></script>
+  <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css" rel="stylesheet" />
+---
+<div id="map"></div>
+<script src='/apps/preview/helpers.js'></script>
+<script>
+  /*CODE FROM HERE*/
+  mapboxgl.accessToken = 'pk.eyJ1IjoiY296Z2lzIiwiYSI6ImNrNHloMzJwdDAwajYza3BhZWdwcGttNGwifQ.M87K4AluzE_Ijzda7CJgTw';
+  //mapbox://styles/cozgis/cjwmext6m123v1dmznevlle1p
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v9',
+    center: [-82.011, 39.9416],
+    zoom: 13
+  });
+
+  function addNewLayer(name, geojson) {
+    /**
+     * Set default for a new layer
+     */
+
+    // Set random id for source and layer
+    var id = "mgl_drop_" + randomString(5) + "_" + name;
+    // Set random color
+    var ran = Math.random();
+    var colA = randomHsl(0.1, ran);
+    var colB = randomHsl(0.5, ran);
+
+    // Set default type from geojson type
+
+    // Set up default style
+    var dummyStyle = {
+      "circle": {
+        "id": id,
+        "source": id,
+        "type": "circle",
+        "paint": {
+          "circle-color": colA
+        }
+      },
+      "fill": {
+        "id": id,
+        "source": id,
+        "type": "fill",
+        "paint": {
+          "fill-color": colA,
+          "fill-outline-color": colB
+        }
+      },
+      "line": {
+        "id": id,
+        "source": id,
+        "type": "line",
+        "paint": {
+          "line-color": colA,
+          "line-width": 10
+        }
+      }
+    };
+  }
+
+  // object to hold geojson
+  var data = {};
+
+  // test if file api is available
+  if (window.File && window.FileReader && window.FileList && window.Blob) {
+
+    //ADDITION OF FETCH FILE FROM QUERY PARAM
+    (async () => {
+
+      // Step 1: start the fetch and obtain a reader
+      var response = await fetch(
+        'https://311.coz.org/data/geojson/utl_stormwater_impervious_dissolve.geojson');
+
+      var reader = response.body.getReader();
+      console.log(reader)
+      // Step 2: get total length
+      var contentLength = +response.headers.get('Content-Length');
+
+      // Step 3: read the data
+      var receivedLength = 0; // received that many bytes at the moment
+      var chunks = []; // array of received binary chunks (comprises the body)
+      while (true) {
+        var {
+          done,
+          value
+        } = await reader.read();
+
+        if (done) {
+          break;
+        }
+
+        chunks.push(value);
+        receivedLength += value.length;
+
+        // console.log(`Received ${receivedLength} of ${contentLength}`);
+
+      }
+
+      // Step 4: concatenate chunks into single Uint8Array
+      var chunksAll = new Uint8Array(receivedLength); // (4.1)
+      var position = 0;
+      for (var chunk of chunks) {
+        chunksAll.set(chunk, position); // (4.2)
+        position += chunk.length;
+      }
+
+      // Step 5: decode into a string
+      var result = new TextDecoder("utf-8").decode(chunksAll);
+
+      // We're done!
+      var geojson = JSON.parse(result);
+
+      var filedrop = {
+        dataTransfer: {
+          files: [{
+            name: "test.geojson",
+            data: result
+          }]
+        },
+        stopPropagation: function() {
+
+        },
+        preventDefault: function() {
+
+        }
+      }
+
+      handleDropGeojson(filedrop)
+
+    })();
+
+    // handle read geojson
+    // Update progress
+    function updateProgress(theFile) {
+      return function (e) {
+        // evt is an ProgressEvent. 100/2 as loading is ~ half the process
+        if (e.lengthComputable) {
+          var percentLoaded = Math.round((e.loaded / e.total) * 50);
+          progressScreen(
+            true,
+            theFile.name,
+            percentLoaded,
+            theFile.name + " loading (" + percentLoaded + "%)"
+          );
+        }
+      };
+    };
+
+    // init progress bar
+    function startProgress(theFile) {
+      return function (e) {
+        progressScreen(
+          true,
+          theFile.name,
+          0,
+          theFile.name + " init .. "
+        );
+      };
+    };
+
+    // on error, set progress to 100 (remove it)
+    function errorProgress(theFile) {
+      return function (e) {
+        progressScreen(
+          true,
+          theFile.name,
+          100,
+          theFile.name + "stop .. "
+        );
+      };
+    };
+
+    // handle worker
+    function startWorker(theFile) {
+      return function (e) {
+        // Create a worker to handle this file
+        var w = new Worker("handleReadJson.js");
+
+        // parse file content before passing to worker.
+        var gJson = JSON.parse(e.target.result);
+
+        // Message to pass to the worker
+        var res = {
+          json: gJson,
+          fileName: theFile.name
+        };
+
+        // handle message received
+        w.onmessage = function (e) {
+          var m = e.data;
+          if (m.progress) {
+            progressScreen(
+              true,
+              theFile.name,
+              m.progress,
+              theFile.name + ": " + m.message
+            );
+          }
+
+          // send alert for errors message
+          if (m.errorMessage) {
+            alert(m.errorMessage);
+          }
+
+          // If extent is received
+          if (m.extent) {
+            map.fitBounds(m.extent);
+          }
+
+          // If layer is valid and returned
+          if (m.layer) {
+            try {
+              progressScreen(
+                true,
+                theFile.name,
+                100,
+                theFile.name + " done"
+              );
+              // add source to map
+              map.addSource(m.id, {
+                "type": "geojson",
+                "data": gJson
+              });
+              // add layer
+              map.addLayer(m.layer, "place-village");
+              // set progress to max
+              data[m.id] = gJson;
+            } catch (err) {
+              alert(err);
+            }
+            // close worker
+            w.terminate();
+          }
+
+        };
+
+        // launch process
+        try {
+          w.postMessage(res);
+        } catch (err) {
+          alert("An error occured, quick ! check the console !");
+          console.log({
+            res: res,
+            err: err
+          });
+        }
+      };
+    };
+
+    function updateLayerList(theFile) {
+      return function (e) {};
+    };
+    // handle drop event
+    function handleDropGeojson(evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+
+      var files = evt.dataTransfer.files;
+
+      console.log(evt.dataTransfer.files)
+
+      var nFiles = files.length;
+      var incFile = 100 / nFiles;
+      var progressBar = 0;
+
+      // In case of multiple file, loop on them
+      for (var i = 0; i < nFiles; i++) {
+
+        f = files[i];
+
+        // Only process geojson files. Validate later.
+        if (f.name.toLowerCase().indexOf(".geojson") == -1) {
+          alert(f.name + " not supported");
+          continue;
+        }
+
+        // get a new reader
+        var reader = new FileReader();
+        console.log(f)
+        if (f.data) {
+          var blob = {
+            target: {
+              result: f.data
+            }
+          }
+          startWorker(blob);
+        }else{
+          // handle events
+          reader.onloadstart = (startProgress)(f);
+          reader.onprogress = (updateProgress)(f);
+          reader.onerror = (errorProgress)(f);
+          reader.onload = (startWorker)(f);
+          reader.onloadend = (updateLayerList)(f);
+
+          reader.readAsText(f);
+
+        }
+      }
+    };
+    var handleDragOver = function (evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+      evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+    };
+
+    // Set events
+    mapEl = document.getElementById("map");
+    mapEl.addEventListener('dragover', handleDragOver, false);
+    mapEl.addEventListener('drop', handleDropGeojson, false);
+
+
+  } else {
+    alert('The File APIs are not fully supported in this browser.');
+  }
+</script>

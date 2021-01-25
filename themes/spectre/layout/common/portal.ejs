@@ -1,0 +1,55 @@
+/**/
+
+/*spectre and html*/
+
+/**/
+
+html,
+body {
+  background: white;
+}
+.coz-logo img {
+  width:60px;
+}
+.coz-logo img:hover{
+  border: solid thin lightgray;
+}
+.navbar {
+  margin-bottom: 1rem;
+  background-color: #f8f9fa;
+  padding: 0 0.6rem;
+  position: fixed;
+  z-index: 1;
+  width:100%;
+}
+@media screen and (max-width:768px) {
+  .navbar .navbar-section:not(:first-child):last-child {
+    display: none;
+  }
+}
+.container {
+  padding: 0 0.6rem;
+  padding-left: 0.6rem;
+  padding-right: .6rem;
+}
+#content {
+  padding-top:4rem;
+}
+.card {
+  margin: 0.25rem;
+  /* border: none; */
+  transition: all .2s ease-in-out;
+  /* box-shadow: 0 0 20px 4px rgba(31,51,73,.1); */
+}
+.card-body {
+  display: none;
+}
+.card:hover{
+  /* background-color: #f8f9fa; */
+  /* transform: scale(1.02); */
+  /* box-shadow: 0 0 30px 6px rgba(31,51,73,.25); */
+}
+.soon img {
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}

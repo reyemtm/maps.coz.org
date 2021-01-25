@@ -1,0 +1,209 @@
+---
+layout: map
+title: Tree Inventory
+subtitle: Zanesville Tree Inventory
+img: parks-img.png
+btn: Launch
+category: development
+link: "/development/trees/?rec_parks_tree_inventory=true#14/39.94087/-82.00947"
+about: Zanesville Tree Inventory
+css: >-
+  #coz-sidebar--info {
+    font-size: smaller;
+    padding: 10px;
+  }
+  .form-select {
+    border-radius: 0;
+    background: white!important;
+  }
+---
+<script>
+  
+  var mapLayers = [];
+
+  mapboxgl.accessToken = cozMAP.token;
+  var gltoken = mapboxgl.accessToken;
+
+  var map = new mapboxgl.Map({
+    container: 'map',
+    hash: true,
+    style: "mapbox://styles/cozgis/cjoyj0loid3mp2rpb6eczup77",
+    center: [-82.00947, 39.94087],
+    zoom: 14,
+    minZoom: 0,
+    preserveDrawingBuffer: true
+  });
+
+  cozMAP.getJSON('https://311.coz.org/data/geojson/rec_parks_tree_inventory.geojson', function(data) {
+    buildMap(data);
+  });
+
+  function buildMap(data) { 
+
+    buildTreeFilter(data);
+
+    map.on('load', function() {
+      cozMAP.mapCheckLoading(map);
+      
+      fetch("/map-layers-config.json")
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
+
+        var layers = data.filter(layer => {
+          return (layer.directory === "Parks and Recreation")
+        })
+
+        cozMAP.mapAddLayers(map, layers);
+        var lc = new cozMAP.layerControlGrouped({
+          options: {
+            collapsed: false
+          },
+          layers: layers
+        });
+        document.querySelector("#coz-sidebar--layerControl").appendChild(lc.onAdd(map));
+      })
+
+      cozMAP.mapAddControls(map);
+      map.addControl(new cozMAP.mapPrintControl(), 'top-right');
+      map.addControl(new cozMAP.mapStreeviewControl(), 'top-right');
+
+      var info = document.getElementById('coz-sidebar--info');
+    
+      var miniInfoWindow = document.createElement('div');
+      miniInfoWindow.classList.add('measure-container');
+      var mapDiv = document.getElementById('map');
+      mapDiv.appendChild(miniInfoWindow);
+
+      var infoMini = document.querySelector('.measure-container');
+
+      map.on('mouseover', 'rec_parks_tree_inventory', function(e) {
+        var feature = cozMAP.getFeature(map, e, ['rec_parks_tree_inventory']);
+        if (feature) {
+          infoMini.innerHTML = '<p>' + feature.properties["COMM_NAME"] + ' (' + feature.properties.GENUS + ')</p>'
+        }
+      })
+
+      map.on('click', function(e) {
+        var feature = cozMAP.getFeature(map, e, ['rec_parks_tree_inventory']);
+        var html = "";
+        if (!feature) {
+          info.innerHTML = html;
+          info.style.display = "none"
+        }else{
+          if (window.innerWidth < 769) {
+            document.getElementById("mapSidebarToggle").click();
+          }
+          for (p in feature.properties) {
+            if (feature.properties[p] && feature.properties[p] != 'null') {
+              html += '<strong>' + p + '</strong>:&nbsp;' + feature.properties[p] + '<hr>'
+            }
+          }
+          info.innerHTML = html;
+          info.style.display = "block"
+        }
+      });
+      // map.addControl(new cozMAP.mapMeasureControl(), 'top-right');
+
+      // var layersAll = map.getStyle().layers;
+      // var layers = layersAll.filter(function(l) {
+      //   return l.id === "rec_parks_tree_inventory"
+      // })
+      // var legend = document.getElementById("coz-sidebar--legend");
+      // for (var i in layers) {
+      //   var l = layers[i]
+      //   var type = (l.type === "circle") ? "circle" : (l.type === "line") ? "minus" : "suqare";
+      //   var paintType = (type === "circle") ? "circle-color" : (type === "minus") ? "line-color" : "fill-color";
+      //   var color = (l.paint[paintType])
+      //   legend.innerHTML += "<h5 style='padding:1rem;'><icon class='fa fa-" + type + "' style='color:" + color + ";'></icon>&nbsp;" + l.id + "<h5>"
+      // }
+    });
+  }
+
+  //SET TREES TO VISIBLE ONCE THE MAP IS LOADED AND SOURCEDATALOADED IS COMPLETE EVENT mapIsLoaded is fired
+
+  // document.addEventListener("mapIsLoaded", function() {
+  //   if (cozMAP.hasLayer(map, "coz_parks_tree_inventory")) {
+  //     var treeToggle = document.getElementById("rec_parks_tree_inventory1");
+  //     if(!treeToggle.checked) {
+  //       treeToggle.click();
+  //     }
+  //   }else{
+  //     alert("The trees have not yet loaded. You will need to manually turn on the trees layer. Please contact the site administrator to alert them of this issue.")
+  //   }
+  // })
+
+  function buildTreeFilter(trees) {
+    var elem = document.createElement('select');
+    elem.id = "treeFilter";
+    elem.style.height = "100%";
+    elem.style.padding = "0.4rem";
+    elem.classList.add('form-select');
+    elem.classList.add('select-sm');
+    var opt0 = document.createElement('option');
+    opt0.innerText = "Tree GENUS Filter (Reset)";
+    opt0.value = 'reset';
+    elem.appendChild(opt0);
+
+    var filterList = [];
+
+    trees.features.map(function(f) {
+      if (filterList.indexOf(f.properties.genus) < 0 && f.properties.genus) {
+        filterList.push(f.properties.genus);
+      }
+    });
+
+    filterList.sort();
+
+    for (l in filterList) {
+      var opt = document.createElement('option');
+      opt.innerText = filterList[l];
+      elem.appendChild(opt)
+    }
+
+    elem.addEventListener('change', function(e) {
+      console.log(e.target.value)
+      filterTrees(e.target.value)
+      getWikiInfo(e.target.value)
+    })
+
+    var div = document.getElementById('coz-sidebar--legend');
+    div.appendChild(elem);
+  }
+
+  function filterTrees(genus) {
+    if (genus === 'reset') {
+      map.setFilter('rec_parks_tree_inventory')
+    }else{
+      map.setFilter('rec_parks_tree_inventory', ['==', 'genus', genus])
+    }
+  }
+  var info2 = document.getElementById('coz-sidebar--info');
+
+  function getWikiInfo(genus) {
+    // var genus = "acer";
+    var url = "https://en.wikipedia.org/w/api.php?action=opensearch&limit=1&namespace=0&format=json&origin=*&search=" + genus + "-genus";
+    cozMAP.getJSON(url , function(data) {
+      console.log(data);
+      console.log(data.length)
+      if (data && data.length === 4) {
+        var newurl = "https://en.wikipedia.org/w/api.php?format=json&action=query&origin=*&prop=extracts&exintro&explaintext&redirects=1&titles=" + data[1]
+        cozMAP.getJSON(newurl, function(res) {
+          console.log(res);
+          if (!res.query) {
+            info2.style.display = "block";
+            info2.innerHTML = "No information available from Wikipedia";
+          }else{
+            info2.style.display = "block";
+            for (p in res.query.pages) {
+              console.log(res.query.pages[p]);
+              info2.innerHTML = res.query.pages[p].extract
+              break
+            }
+          }
+        })
+      }
+    })
+  }
+</script>

@@ -1,0 +1,28 @@
+---
+layout: map
+title: "EAM Facilities"
+subtitle: "GIS Inventory of Fixed Assets"
+unsplash: infrastructure
+---
+<script>
+var map = new cozMAP.Map({
+  style: "streets",
+  layerConfig: ["EAM", "Imagery"],
+  popups: true,
+  controls: true,
+  callback: function(e) {
+    var copyToClipboard = str => {
+      var el = document.createElement('textarea');
+      el.value = str;
+      el.style.visibility = "none"
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    };
+    copyToClipboard(e.lngLat.lng + "," + e.lngLat.lat)
+    console.log(e.lngLat.lng + "," + e.lngLat.lat, "\ncopied to clipboard")
+  }
+}).init();
+
+</script>

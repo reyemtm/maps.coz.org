@@ -1,0 +1,453 @@
+---
+layout: map
+title: Stormwater Permits
+subtitle: Map for Stormwater Permits
+about: >-
+  A map to enter and highlight residential stormwater permits.
+header: >-
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+  <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
+    type='text/css' />
+  <script src='https://unpkg.com/@esri/arcgis-to-geojson-utils'></script>
+category: "development"
+link: "/development/stormwater-permits/?adm_mus_parcels=true&ParcelsOutline=true#13.51/39.94133/-82.0155"
+css: >-
+  .mapboxgl-popup-content {
+  font-size: 0.9rem;
+  }
+---
+<script>
+  var ms4, active, inactive, swPermits;
+
+  var dataUrls = [
+    "https://epagistest2.oit.ohio.gov/arcgis/rest/services/WM/DSW/MapServer/10/query?where=Name=%27Zanesville%27&f=json&outFields=*&outSR=4326",
+    "https://epagistest2.oit.ohio.gov/arcgis/rest/services/WM/DSW/MapServer/6/query?where=FACILITY_CITY%3D%27ZANESVILLE%27&outSR=4326&f=json&outFields=*",
+    "https://epagistest2.oit.ohio.gov/arcgis/rest/services/WM/DSW/MapServer/7/query?where=FACILITY_CITY%3D%27ZANESVILLE%27&outSR=4326&f=json&outFields=*",
+    "https://services9.arcgis.com/IUhP9plEzDTayUVC/arcgis/rest/services/Residential_Stormwater_Permits_GIS_View/FeatureServer/0/query?where=OBJECTID%3E0&outFields=*&f=geojson"
+
+  ];
+
+  // use map() to perform a fetch and handle the response for each url
+  Promise.all(dataUrls.map(url =>
+      fetch(url)
+      .then(checkStatus)
+      .then(res => {
+        return res.json()
+      })
+      .catch(error => {
+        console.log(error)
+        alert("Something went wrong!")
+      })
+    ))
+    .then(data => {
+      // console.log(data)
+      ms4 = data[0];
+      active = data[1];
+      inactive = data[2];
+      swPermits = data[3];
+      initMap()
+    })
+
+  function checkStatus(response) {
+    if (response.ok) {
+      return Promise.resolve(response);
+    } else {
+      return Promise.reject(new Error(response.statusText));
+    }
+  }
+
+  function initMap() {
+
+    mapboxgl.accessToken = cozMAP.token;
+
+    var map = new mapboxgl.Map({
+      container: 'map',
+      hash: true,
+      style: "mapbox://styles/cozgis/cjwmext6m123v1dmznevlle1p",
+      center: [-81.9981, 39.9657],
+      zoom: 13.51,
+      debug: 2,
+      minzoom: 10,
+      preserveDrawingBuffer: true
+    });
+
+    map.on('load', function () {
+
+      // map.addLayer({
+      //   id: "test",
+      //   "type": "circle",
+      //   source: {
+      //     type: "geojson",
+      //     data: "https://311.coz.org/data/hydrantsNoTransform.geojson"
+      //   },
+      //   paint: {
+      //     "circle-color": "yellow",
+      //     "circle-radius": 5,
+      //     "circle-opacity": 1
+      //   }
+      // })
+
+      cozMAP.mapCheckLoading(this);
+
+      cozMAP.mapAddControls(this, {
+        t: cozMAP.token
+      });
+
+      map.addControl(new cozMAP.mapPrintControl(), 'top-right');
+      map.addControl(new cozMAP.mapStreeviewControl(), 'top-right');
+      map.addControl(new cozMAP.target())
+      map.addControl(new cozMAP.mapMeasureControl(), 'top-right');
+
+      // map.addControl(new cozMAP.Ruler(), 'top-right');
+
+      map.loadImage('/assets/symbols/square-purple.png', function (err, img) {
+        map.addImage('square-purple2', img);
+      });
+
+      map.loadImage('/assets/symbols/circle-purple.png', function (err, img) {
+        map.addImage('circle-purple', img);
+      });
+
+      map.addSource("center", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: []
+        }
+      })
+
+      map.addLayer({
+        id: "center",
+        type: "circle",
+        source: "center",
+        paint: {
+          "circle-color": ["get", "color"],
+          "circle-opacity": 0.9,
+          "circle-stroke-color": ["get", "color"],
+          "circle-radius": 5,
+          "circle-stroke-width": 10,
+          "circle-stroke-opacity": 0.4
+        }
+      })
+
+      map.addSource("stormwater-permits", {
+        type: "geojson",
+        data: turf.featureCollection([])
+      });
+
+      if (swPermits.length < 1) {
+        getPermitData(map, dataUrls[3], "stormwater-permits")
+      } else {
+        assignPermitData(map, swPermits, "stormwater-permits")
+      }
+
+      map.addLayer({
+        id: "stormwater-permits",
+        type: "circle",
+        source: "stormwater-permits",
+        paint: {
+          "circle-color": "darkorange",
+          "circle-opacity": 1,
+          "circle-stroke-color": "darkorange",
+          "circle-radius": 8,
+          "circle-stroke-width": {
+            stops: [
+              [0, 4],
+              [20, 10]
+            ]
+          },
+          "circle-stroke-opacity": 0.4
+        }
+      })
+
+      map.on('mouseenter', 'stormwater-permits', function () {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+
+      map.on('mouseleave', 'stormwater-permits', function () {
+        map.getCanvas().style.cursor = '';
+      });
+
+      var ms4 =
+        "https://epagistest2.oit.ohio.gov/arcgis/rest/services/WM/DSW/MapServer/10/query?where=Name=%27Zanesville%27&f=json&outFields=*&outSR=4326"
+      var active =
+        "https://epagistest2.oit.ohio.gov/arcgis/rest/services/WM/DSW/MapServer/6/query?where=FACILITY_CITY%3D%27ZANESVILLE%27&outSR=4326&f=json&outFields=*"
+      var inactive =
+        "https://epagistest2.oit.ohio.gov/arcgis/rest/services/WM/DSW/MapServer/7/query?where=FACILITY_CITY%3D%27ZANESVILLE%27&outSR=4326&f=json&outFields=*"
+
+      fetch(ms4)
+        .then(res => {
+          return res.json()
+        })
+        .then(data => {
+          var bounds = toPolygon(data);
+
+          getCommercial(bounds)
+
+        })
+
+
+      function getCommercial(bounds) {
+        var bounds = bounds;
+        var active =
+          "https://epagistest2.oit.ohio.gov/arcgis/rest/services/WM/DSW/MapServer/6/query?where=FACILITY_CITY%3D%27ZANESVILLE%27&outSR=4326&f=json&outFields=*";
+        var inactive =
+          "https://epagistest2.oit.ohio.gov/arcgis/rest/services/WM/DSW/MapServer/7/query?where=FACILITY_CITY%3D%27ZANESVILLE%27&outSR=4326&f=json&outFields=*";
+        fetch(active)
+          .then(res => {
+            return res.json()
+          })
+          .then(data => {
+            // console.log('active permits loaded')
+            // console.log(data)
+            var activePermits = toPoints(data, bounds);
+
+            // permitList(activePermits, ".active");
+
+            map.addLayer({
+              'id': 'activePermits',
+              'type': 'circle',
+              'source': {
+                'type': 'geojson',
+                'data': activePermits
+              },
+              'paint': {
+                "circle-color": "red",
+                "circle-opacity": 0.9,
+                "circle-stroke-color": "red",
+                "circle-radius": 5,
+                "circle-stroke-width": 10,
+                "circle-stroke-opacity": 0.4
+              }
+            });
+
+            map.on('mouseenter', 'activePermits', function () {
+              map.getCanvas().style.cursor = 'pointer';
+            });
+
+            map.on('mouseleave', 'activePermits', function () {
+              map.getCanvas().style.cursor = '';
+            });
+
+          });
+
+        fetch(inactive)
+          .then(res => {
+            return res.json()
+          })
+          .then(data => {
+            var inactivePermits = toPoints(data, bounds);
+
+            // permitList(inactivePermits, ".inactive");
+
+            map.addLayer({
+              'id': 'inactivePermits',
+              'type': 'circle',
+              'source': {
+                'type': 'geojson',
+                'data': inactivePermits
+              },
+              'paint': {
+                "circle-color": "gray",
+                "circle-opacity": 0.9,
+                "circle-stroke-color": "gray",
+                "circle-radius": 5,
+                "circle-stroke-width": 10,
+                "circle-stroke-opacity": 0.4
+              }
+            });
+            map.on('mouseenter', 'inactivePermits', function () {
+              map.getCanvas().style.cursor = 'pointer';
+            });
+
+            map.on('mouseleave', 'inactivePermits', function () {
+              map.getCanvas().style.cursor = '';
+            });
+          });
+      }
+
+
+      fetch("/map-layers-config.json")
+        .then(res => {
+          return res.json()
+        })
+        .then(data => {
+          var layers = data.filter(function (layer) {
+            return (layer.directory === "Imagery" || layer.directory === "Administrative Layers" || layer
+              .directory === "City Sewer System" || layer.directory === "City Water System")
+          });
+
+          cozMAP.mapAddLayers(map, layers);
+          var lc = new cozMAP.layerControlGrouped({
+            options: {
+              collapsed: false
+            },
+            layers: layers
+          });
+          document.querySelector("#coz-sidebar--layerControl").appendChild(lc.onAdd(map));
+          var controls = document.querySelectorAll(".mgl-layerControlDirectory");
+          for (var i = 0; i < controls.length; i++) {
+            controls[i].children[0].click();
+          };
+          map.setPaintProperty("adm_mus_parcels", "fill-color", "transparent");
+          map.setPaintProperty("ParcelsOutline", "line-color", "#00FEFC");
+          map.setPaintProperty("ParcelsOutline", "line-opacity", 0.3);
+          document.querySelector(".mapboxgl-control-container")
+          var controls = document.querySelectorAll(".mapboxgl-ctrl");
+          for (var i = 0; i < controls.length; i++) {
+            var c = controls[i];
+            if (!c.classList.contains("mgl-layerControl")) {
+              c.style.opacity = 0.4;
+              c.addEventListener("mouseenter", function () {
+                this.style.opacity = 1
+              });
+              c.addEventListener("mouseleave", function () {
+                this.style.opacity = 0.4
+              })
+            }
+          }
+
+        });
+
+      map.on('contextmenu', function () {
+        cozMAP.popup(map)
+      })
+
+      // HIGHLIGHT ONLY
+      // map.on("mousemove", function(e) {
+      //   let features = cozMAP.getFeatures(map, e);
+      //   cozMAP.popup(map, features, 0, true)
+      // })
+
+      map.on('click', function (e) {
+        var features = cozMAP.getFeatures(map, e);
+        var feature = features[0];
+        console.log(features)
+        if (features.length === 0) {
+          cozMAP.popup(map)
+          return
+        }
+
+        if (feature.sourceLayer === "adm_mus_parcels") {
+          cozMAP.highlight(map, feature)
+          map.setLayoutProperty("center", "visibility", "visible")
+          var center = turf.centerOfMass(feature.geometry);
+          center.properties.color = "whitesmoke";
+          map.getSource("center").setData(center);
+          let p = feature.properties;
+          let html = makePopup(feature, center);
+          let popup = new mapboxgl.Popup()
+            .setLngLat(center.geometry.coordinates)
+            .setHTML(html)
+            .on('close', function () {
+              getPermitData(map, dataUrls[3], "stormwater-permits")
+              cozMAP.highlight(map)
+            })
+            .addTo(map);
+          return
+        }else{
+          cozMAP.popup(map, features)
+        }
+
+      });
+
+    });
+
+    function makePopup(feature, center) {
+      var p = feature.properties;
+      var owner = p.owner.split(",");
+      return `
+  <strong>${p.address}</strong>
+  <hr>
+  <p>${p.parcelnum}</p>
+  <p>${p.owner}</p>
+  <div class="text-center">
+    <a class="btn btn-outline btn-sm"  style="width:100%;" href="https://survey123.arcgis.com/share/cf426aec13fa44fcaf4e817a31f3431c?&center=${center.geometry.coordinates[1]},${center.geometry.coordinates[0]}&field:property_parcel=${p.parcelnum}&field:property_address=${p.address}&field:property_owner=${p.owner}&field:permit_status=approved" target="_blank"><i class="icon icon-share"></i> Add Stormwater Permit</a>
+  </div>
+ `
+    }
+
+    document.addEventListener("click", function (e) {
+      if (e.target.classList.contains("mapboxgl-popup-close-button")) {
+        map.setLayoutProperty("center", "visibility", "none")
+        map.getSource("center").setData(turf.featureCollection([]))
+      }
+    });
+
+    function toPoints(data, bounds) {
+
+      var schema = {
+        "type": "FeatureCollection",
+        "features": []
+      }
+
+      data.features.map(function (f, bounds) {
+        let point = turf.point([f.geometry.x, f.geometry.y])
+        point.properties = f.attributes;
+        schema.features.push(point)
+      });
+      var GeoJSON = turf.pointsWithinPolygon(schema, bounds);
+      return GeoJSON
+    }
+
+    function toPolygon(data) {
+      var polygon = ArcgisToGeojsonUtils.arcgisToGeoJSON(data);
+      return polygon
+    }
+
+    var sidebar = document.getElementById("coz-sidebar--legend");
+
+    sidebar.innerHTML = `<div class="container">
+<i class="fa fa-circle" style="color:darkorange;"></i> Residential Stormwater Permits<br>
+<i class="fa fa-circle" style="color:red;"></i> Active Commercial EPA NOI Permits<br>
+<i class="fa fa-circle" style="color:gray;"></i> Inactive Commercial EPA NOI Permits<br>
+</div>
+`
+
+    function getPermitData(map, url, source) {
+      var thisMap = map;
+      fetch(url)
+        .then(res => {
+          return res.json()
+        })
+        .then(data => {
+          assignPermitData(thisMap, data, source)
+        })
+    }
+
+    function assignPermitData(map, data, source) {
+      data.features.map(function (f, i) {
+        checkForAttachments(f.properties.objectid)
+          .then(function (url) {
+            if (url) {
+              f.properties["Final_Permit"] = url
+            }
+            if (!url) {
+              f.properties["Final_Permit"] = "No Permit Found, Check Local Filesystem"
+            }
+            if (i === (data.features.length - 1)) {
+              map.getSource(source).setData(data)
+            }
+          })
+      })
+    }
+
+    function checkForAttachments(id) {
+
+      var url =
+        `https://services9.arcgis.com/IUhP9plEzDTayUVC/ArcGIS/rest/services/Residential_Stormwater_Permits_GIS_View/FeatureServer/0/queryAttachments?objectIds=${id}&globalIds=&definitionExpression=&attachmentsDefinitionExpression=&attachmentTypes=&size=&keywords=&resultOffset=&resultRecordCount=&returnUrl=true&f=pjson`
+
+      return fetch(url)
+        .then(res => {
+          return res.json()
+        })
+        .then(data => {
+          if (data.attachmentGroups.length > 0) {
+            return data.attachmentGroups[0].attachmentInfos[0].url
+          } else {
+            return false
+          }
+        })
+    }
+  }
+</script>

@@ -1,0 +1,292 @@
+---
+layout: map
+title: City Sewer Map
+subtitle: >-
+  City GIS Sewer Map | Advanced Viewer
+img: sewer-img.png
+pwa: sewers
+link: "/internal/sewers/?sanLinesInner=true&sanLinesArrow=true&sanLinesOuter=true&sanitarystructures=true#15.16/39.9416/-82.011"
+about: >-
+  An interactive map of the storm and sanitary sewer network in the City of Zanesville. The storm network is not complete and should be considered draft. Please contact City of Zanesville Engineering for confirmation of sewer locations.<br><li>This application can be added to your mobile homescreen.</li><li>The labels show up after zoom level 17, street level.</li><li> The sewer features and parcels are clickable.</li><li>The layer selector settings- if a layer is turned on or off - is saved in the url.</li><li>Flow direction text in popup supercedes flow direction arrows as those are still in development.</li>
+header: >-
+  <script
+  src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+  <link rel='stylesheet'
+  href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
+  type='text/css'/>
+category: internal
+css: >-
+  .img-zoom {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: white;
+    border: solid thin lightgray;
+    padding: 0.2rem 0.4rem;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .img-zoom.out {
+    top: 50px;
+  }
+---
+<!-- <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
+</script> -->
+<script type="module">
+
+  import {
+    networkControl
+  } from "/assets/js/networkControl/networkControl.js"
+
+  var map;
+
+  //https://gist.github.com/bschwartz757/5d1ff425767fdc6baedb4e5d5a5135c8
+  async function fetchURLs() {
+    try {
+      // Promise.all() lets us coalesce multiple promises into a single super-promise
+      var data = await Promise.all([
+        /* Alternatively store each in an array */
+        // var [x, y, z] = await Promise.all([
+        // parse results as json; fetch data response has several reader methods available:
+        //.arrayBuffer()
+        //.blob()
+        //.formData()
+        //.json()
+        //.text()
+        fetch('https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_lines/items.json?limit=50000').then((response) => response.json()), // parse each response as json
+        fetch('https://311.coz.org/api/v1/feature-server/collections/public.utl_sanitary_points/items.json?limit=50000').then((response) => response.json()),
+        // fetch('https://311.coz.org/data/geojson/utl_mus_sanitary_lines.geojson').then((response) => response.json()),
+        // fetch('https://311.coz.org/data/geojson/utl_mus_sanitary_points.geojson').then((response) => response.json())
+      ]);
+
+      return data
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  fetchURLs()
+  .then(function(data) {
+    initMap(data);
+  })
+
+  function initMap(data) {
+
+    var lines = {
+      type: "FeatureCollection",
+      features: []
+    }
+    var points = {
+      type: "FeatureCollection",
+      features: []
+    }
+
+    data.map(function(layer,index) {
+      var index = index;
+      layer.features.map(function(f,i) {
+        f.properties.mapid = i;
+        f.id = i;
+        if (index === 0 || index === 2) {
+          lines.features.push(f)
+        }else{
+          points.features.push(f)
+        }
+      })
+    })
+
+    console.log('line data loaded and ready')
+
+    mapboxgl.accessToken = cozMAP.token;
+
+    map = new mapboxgl.Map({
+      container: 'map',
+      hash: true,
+      style: "mapbox://styles/cozgis/cjoyj0loid3mp2rpb6eczup77",
+      center: [-82.011, 39.9416],
+      zoom: 15.16,
+      debug: 2,
+      minzoom: 10,
+      preserveDrawingBuffer: true,
+      maxBounds: cozMAP.maxBounds
+    });
+    //15.16/39.94166/-82.011083
+
+    map.on('load', function() {
+      var info = document.getElementById("coz-sidebar--info");
+      info.innerHTML = "<span class='text-bold'>Storm sewer data is preliminary and should be used as a reference only. Lines can represent ditches, culverts or mains. Points can be manholes, inlets, headwalls, outfalls or cleanouts. The trace tool is not enabled for the storm layer.</span>"
+
+      /* load image for the direction arrow after map style loads - it load it into the spritesheet*/
+      info.style.display = "block";
+      info.style.textAlign = "justify";
+
+      map.loadImage('/assets/symbols/arrow-1.png', function(err, img) {
+        map.addImage('arrow', img);
+      });
+
+      map.loadImage('/assets/symbols/square-purple.png', function(err, img) {
+        map.addImage('square-purple2', img);
+      });
+
+      map.loadImage('/assets/symbols/circle-purple.png', function(err, img) {
+        map.addImage('circle-purple', img);
+      });
+
+      map.loadImage('/assets/symbols/square-yellow.png', function(err, img) {
+        map.addImage('square-yellow', img);
+      });
+
+      map.loadImage('/assets/symbols/square-cyan.png', function(err, img) {
+        map.addImage('square-cyan', img);
+      });
+
+      map.loadImage('/assets/symbols/png/diamond-orange-24.png', function(err, img) {
+        map.addImage('diamond-orange-24', img);
+      });
+
+      map.loadImage('/assets/symbols/png/diamond-blue-24.png', function(err, img) {
+        map.addImage('diamond-blue-24', img);
+      });
+
+      /*cozMAP functions from assets/js/src */
+      cozMAP.mapCheckLoading(this);
+
+
+    fetch("/map-layers-config.json")
+    .then(res => {
+      return res.json()
+    })
+    .then(data => {
+      var mapLayers = [
+        "mus_imagery_2015",
+        "mus_imagery",
+      ];
+      var layers = data.filter(function(layer) {
+        return ((mapLayers.indexOf(layer.id) > -1) || layer.directory === "City Sewer System" || layer.directory === "Administrative Layers" || layer.directory === "County Utilities")
+      });
+
+      cozMAP.mapAddLayers(map, layers);
+      var lc = new cozMAP.layerControlGrouped({
+        options: {
+          collapsed: false
+        },
+        layers: layers
+      });
+      document.querySelector("#coz-sidebar--layerControl").appendChild(lc.onAdd(map));
+    })
+
+      cozMAP.mapAddControls(this, {
+        t: cozMAP.token
+      });
+
+      map.addControl(new cozMAP.mapPrintControl(), 'top-right');
+
+      map.addControl(new cozMAP.mglStreetViewControl({
+        mapillaryAlias: "COZ"
+      }), 'top-right');
+
+      map.addControl(new networkControl({
+        options: {
+          originPoints: points,
+          linearNetwork: lines,
+          originLayers: ["sanitarystructures"],
+          debug: true
+        }
+      }));
+
+      // map.addControl( new cozMAP.target())
+
+      map.addControl(new cozMAP.mapMeasureControl(), 'top-right');
+      initMapClick(this);
+    });
+
+  }
+
+function initMapClick(m) {
+  m.on('click', function(e) {
+
+    var feature = cozMAP.getFeature(map, e);
+    // console.log(feature)
+    cozMAP.highlight(map, feature);
+    var popupBox = document.getElementById("map--info-window");
+    var popupModal = document.getElementById("modal-popup--footer");
+    var popupAddOnButton = "";
+    if (feature && feature.source === 'COZ_EastEndSewerGridSource') {
+      window.open(feature.properties.link);
+    }else{
+      cozMAP.mapGetInfo(map, e, feature, null, null, function() {
+        if ((feature.layer.id === "sanitarystructures" || feature.layer.id === "stormStructures") && feature.properties.fieldid) {
+          popupAddOnButton = "<a href='https://survey123.arcgis.com/share/7be3cc3bccde4942b605e71407c3f221?&field:inspect_latlng=" + feature.geometry.coordinates[0] +"," + feature.geometry.coordinates[1] + "&field:inspect_id=" + feature.properties.fieldid + "' class='btn btn-primary btn-sm btn-block' target='_blank'>Click to Add Manhole Inspection</a>";
+          popupBox.children[1].innerHTML += "<br><br>" + popupAddOnButton;
+          popupModal.innerHTML = popupAddOnButton;
+          return
+        }
+        if (feature.layer.id === "utl_wastewater_manhole_inspections") {
+          popupAddOnButton = "<a href='https://survey123.arcgis.com/share/7be3cc3bccde4942b605e71407c3f221?mode=edit&objectId=" + feature.properties.objectid + "' class='btn btn-primary btn-sm btn-block' target='_blank'>Edit Manhole Inspection</a>";
+          popupBox.children[1].innerHTML += "<br><br>" + popupAddOnButton;
+          popupModal.innerHTML = popupAddOnButton;
+          return
+        }
+        if (feature.layer.id === "utl_sanitary_east_end_parcels") {
+          var address = (!feature.properties.address) ? "No Address" : feature.properties.address;
+          var parcel = (!feature.properties.parcelnum) ? "No Parcel" : feature.properties.parcelnum;
+          var center = (!feature.properties.xcoord) ? "39,-82" : feature.properties.ycoord + "," + feature.properties.xcoord;
+          var coords = (!feature.properties.xcoord) ? "-82,39" : feature.properties.xcoord + "," + feature.properties.ycoord;
+
+          popupAddOnButton = `<a href="https://survey123.arcgis.com/share/d5667539a4e9471d8d7ae90a0c5d81bf?field:parcel=${parcel}&field:address=${address}&field:coordinates=${coords}&center=${center}"  class="btn btn-primary btn-sm btn-block">Add New East End Workorder</a>`;
+
+          var dashboardLink = `<a href="https://zanesville.maps.arcgis.com/apps/opsdashboard/index.html#/79b193018b8444dd8989e696f2f29a35" target="_blank" class="btn btn-outline btn-sm btn-block">View Workorder Dashboard</a><br>`;
+
+          popupBox.children[1].innerHTML += "<br><br>" + dashboardLink + popupAddOnButton;
+
+          popupModal.innerHTML = dashboardLink + popupAddOnButton;
+          return
+        }
+      })
+    }
+  });
+}
+
+/****
+ * NOTIFY OF CHANGES TO THE APP
+ * ****/
+var sidebarContent = document.getElementById("coz-sidebar--content");
+if (!localStorage.getItem("cozNotified")) {
+  sidebarContent.addEventListener("click", function(e)  {
+    // console.log(e.target.id)
+    if (e.target.id === "stormSewers1") {
+      window.location.hash = "#modal-alert";
+      var modalAlert = document.getElementById("modal-alert");
+      modalAlert.querySelector(".modal-body").innerHTML = "<strong>The manhole inspection link has been added to the storm and sewer mahole popup, and added as a layer in the map.</strong><br><br>It was necessary to change the FIELDID for the <strong>Storm Sewer</strong> manholes and inlets. This should only affect a handful of assets in which the old FIELDID was used for an inspection log. If you have inspection logs, camera logs, etc. that were tied to an old FIELDID for a STORM asset let me know and we will work it out. The FIELDID should not change moving forward. The Contact link in the sidebar goes right to my email.";
+      localStorage.setItem("cozNotified", true)
+    }
+  })
+};
+
+//ADD MANHOLE INSPECTION DATA DUE TO SUREY123 TRIMMING LAT LNGS TO 5 DECIMALS SO STORING THEM AS STRINGS
+document.addEventListener("mapIsLoaded", function() {
+  fetch("https://services9.arcgis.com/IUhP9plEzDTayUVC/arcgis/rest/services/Manhole_Inspection_Form_View_II/FeatureServer/0/query?where=OBJECTID%3E0&outFields=*&f=geojson")
+  .then(res => {
+    return res.json()
+  })
+  .then(data => {
+    data.features.map(function(f) {
+      if (f.properties["inspect_latlng"]) {
+        var coords = (f.properties["inspect_latlng"]).split(",");
+        coords = [Number(coords[0]), Number(coords[1])]
+        // console.log(coords);
+        f.geometry.coordinates = coords;
+      }
+    });
+    // console.log(data)
+    map.getSource("utl_wastewater_manhole_inspections").setData(data);
+  })
+  .catch(err => {
+    console.log(err)
+  })
+})
+
+</script>

@@ -1,0 +1,534 @@
+---
+layout: map
+title: City GIS Map
+subtitle: >-
+  City GIS Map | Simple Viewer
+img: website-public-map.png
+link: "/maps/main/?pois=true&detours=true#16.41/39.940123/-82.008808"
+about: >-
+ An interactive map for the City of Zanesville GIS data. This map shows points of interest, addresses, impervious surface, historic imagery and much more. If you have questions or issues with this map please contact the Engineer's Office.<br><br>Please Note: This map will not work with Internet Explorer.
+header: >-
+  <link rel="stylesheet" href="/assets/css/src/coz-simple-portal-style.css" />
+---
+<!-- maps/main/?paving=true#11.53/39.9695/-82.0282 -->
+<script>
+
+  document.getElementById("coz-sidebar--footer").children[0].style.display = "none"
+
+  // NEW WEBSITE THEME COLORS
+  // green -      4C6640
+  // dark red -   a34e36
+  // dark blue -  203B50
+  
+  //TODO MAKE NEW ej6 TEMPLAYRE FOR JUST THIS MAP
+  //TODO ADD CITY INFO LAYER WHICH ADDS THE LAYER USED IN THE COZ-INFO APP
+  //TODO MAKE RANDOM BUTTON THAT RANDOMLY SELECTS A POI AND GIVES INFORMATION ABOUT THAT POI
+  var npsIcons = [{
+      "name": "airport-black-24",
+      "url": "/assets/symbols/nps/airport-black-24.png"
+    },
+    {
+      "name": "amphitheater-black-24",
+      "url": "/assets/symbols/nps/amphitheater-black-24.png"
+    },
+    {
+      "name": "bench-black-24",
+      "url": "/assets/symbols/nps/bench-black-24.png"
+    },
+    {
+      "name": "bicycle-trail-black-24",
+      "url": "/assets/symbols/nps/bicycle-trail-black-24.png"
+    },
+    {
+      "name": "boat-launch-black-24",
+      "url": "/assets/symbols/nps/boat-launch-black-24.png"
+    },
+    {
+      "name": "boat-tour-black-24",
+      "url": "/assets/symbols/nps/boat-tour-black-24.png"
+    },
+    {
+      "name": "bus-stop-black-24",
+      "url": "/assets/symbols/nps/bus-stop-black-24.png"
+    },
+    {
+      "name": "circle-black",
+      "url": "/assets/symbols/nps/circle-black.png"
+    },
+    {
+      "name": "dam-black-24",
+      "url": "/assets/symbols/nps/dam-black-24.png"
+    },
+    {
+      "name": "drinking-water-black-24",
+      "url": "/assets/symbols/nps/drinking-water-black-24.png"
+    },
+    {
+      "name": "flagpole-black-24",
+      "url": "/assets/symbols/nps/flagpole-black-24.png"
+    },
+    {
+      "name": "historic-feature-black-24",
+      "url": "/assets/symbols/nps/historic-feature-black-24.png"
+    },
+    {
+      "name": "hospital-black-24",
+      "url": "/assets/symbols/nps/hospital-black-24.png"
+    },
+    {
+      "name": "incident-black-22",
+      "url": "/assets/symbols/nps/incident-black-22.png"
+    },
+    {
+      "name": "information-black-24",
+      "url": "/assets/symbols/nps/information-black-24.png"
+    },
+    {
+      "name": "interpretive-exhibit-black-24",
+      "url": "/assets/symbols/nps/interpretive-exhibit-black-24.png"
+    },
+    {
+      "name": "library-black-24",
+      "url": "/assets/symbols/nps/library-black-24.png"
+    },
+    {
+      "name": "museum-black-24",
+      "url": "/assets/symbols/nps/museum-black-24.png"
+    },
+    {
+      "name": "parking-black-24",
+      "url": "/assets/symbols/nps/parking-black-16-b.png"
+    },
+    {
+      "name": "pets-on-leash-black-24",
+      "url": "/assets/symbols/nps/pets-on-leash-black-24.png"
+    },
+    {
+      "name": "picnic-area-black-24",
+      "url": "/assets/symbols/nps/picnic-area-black-24.png"
+    },
+    {
+      "name": "playground-black-24",
+      "url": "/assets/symbols/nps/playground-black-24.png"
+    },
+    {
+      "name": "restrooms-black-24",
+      "url": "/assets/symbols/nps/restrooms-black-24.png"
+    },
+    {
+      "name": "rr-xing-black-24",
+      "url": "/assets/symbols/nps/rr-xing-black-24.png"
+    },
+    {
+      "name": "scenic-viewpoint-black-24",
+      "url": "/assets/symbols/nps/scenic-viewpoint-black-24.png"
+    },
+    {
+      "name": "shelter-black-24",
+      "url": "/assets/symbols/nps/shelter-black-24.png"
+    },
+    {
+      "name": "sign-black-24",
+      "url": "/assets/symbols/nps/sign-black-24.png"
+    },
+    {
+      "name": "statue-black-24",
+      "url": "/assets/symbols/nps/statue-black-24.png"
+    },
+    {
+      name: "theater-black-24",
+      url: "/assets/symbols/nps/theater-black-24.png"
+    },
+    {
+      name: "fire-24",
+      url: "/assets/symbols/nps/fire-24.png"
+    },
+    {
+      name: "mechanic-black-24", 
+      url: "/assets/symbols/nps/mechanic-black-24.png"
+    },
+    {
+      name: "trailhead-black-24",
+      url: "/assets/symbols/nps/trailhead-black-24.png"
+    },
+    {
+      name: "ranger-station-black-24",
+      url: "/assets/symbols/nps/ranger-station-black-24.png"
+    },
+    {
+      name: "basketball-24",
+      url: "/assets/symbols/nps/basketball-24.png"
+    },
+    {
+      name: "cemetery-19",
+      url: "/assets/symbols/nps/cemetery-19.png"
+    }
+  ]
+
+    mapboxgl.accessToken = cozMAP.token;
+
+    var map = new mapboxgl.Map({
+      container: 'map',
+      hash: true,
+      style: "mapbox://styles/cozgis/ckdj51nmf17zp1ipjs1pm8gus",
+      center: [-82.008808, 39.9401228],
+      zoom: 16.41,
+      preserveDrawingBuffer: false,
+      maxBounds: cozMAP.maxBounds,
+      minZoom: 9
+    });
+
+    var uiLayers = [
+      {
+        name: "<Strong>Active Detours</strong>",
+        id: "detours",
+        layer: "eng_road_closures"
+      },
+      {
+        name: "Addresses",
+        id: "addresses",
+        layer: "eng_coz_ward_lookup_mview"
+      },
+      {
+        name: "City Points of Interest",
+        id: "pois",
+        layer: "eng_coz_pois, eng_coz_structures"
+      },
+      {
+        name: "Flood Zones",
+        layer: "nfhl",
+        id: "flooding"
+      },
+      {
+        name: "Impervious Areas",
+        layer: "coz-impervious",
+        id: "impervious"
+      },
+      {
+        name: "Parcels",
+        layer: "adm_mus_parcels, ParcelsLabels",
+        id: "parcels"
+      },
+      {
+        name: "Parks &\nTrails",
+        layer: "rec_parks",
+        id: "parks"
+      },
+      {
+        name: "Paving (5 Years)",
+        id: "paving",
+        layer: "public.eng_paver_pci_view_simple"
+      },
+      {
+        name: "Places",
+        id: "osm",
+        layer: "poi-label"
+      },
+      {
+        name: "Wards",
+        layer: "adm_wards",
+        id: "wards"
+      },
+      {
+        name: "Utilities",
+        id: "utilities",
+        layer: "sanLinesInner, utl_water_hydrants, wMainInner"
+      },
+      {
+        name: "Zoning",
+        layer: "coz_zoning",
+        id: "zoning"
+      },
+      {
+        name: "Historic Map 1956",
+        layer: "img_hist_maps_1956_parcel_map",
+        id: "hist1956"
+      },
+      {
+        name: "Historic Map 1928",
+        layer: "img_hist_maps_1928_street_map",
+        id: "hist1928"
+      },
+      {
+        name: "Historic Map 1852",
+        id: "hist1852",
+        layer: "img_hist_maps_1852_musk"
+      },
+      {
+        name: "Aerial Imagery 2020",
+        layer: "img_osip_2020",
+        id: "img_osip_2020"
+      },
+      {
+        name: "Aerial Imagery 2018",
+        layer: "mus_imagery",
+        id: "imagery"
+      }
+
+    ]
+    
+    ////////////////////////
+    //ADD MAP LAYER TOGGLES
+    uiLayers.forEach((b,i) => {
+      if (!i) document.querySelector("#coz-sidebar--layerControl").innerHTML += "<h4>Map Layers</h4><hr>"
+      document.querySelector("#coz-sidebar--layerControl").innerHTML += elemCheckbox(b)
+    })
+
+    function elemCheckbox(b, layers) {
+      return `
+      <div class="form-group">
+        <label class="form-checkbox js-layer-toggle" id="${b.id}" data-layer="${b.layer}">
+          <input type="checkbox">
+          <i class="form-icon"></i> ${b.name}
+        </label>
+      </div>
+      `
+    }
+
+    sidebarMapLayerButtonsClickListener(map, ".js-layer-toggle")
+
+    function sidebarMapLayerButtonsClickListener(map, buttonClass) {
+      var addedButtons = document.querySelectorAll(buttonClass)
+
+      for (var i = 0; i < addedButtons.length; i++) {
+        addedButtons[i].addEventListener("change", function () {
+          if (this.classList.contains("active") || this.checked) {
+            console.log(this.id)
+            this.classList.remove("active");
+            cozMAP.updateQueryStringParam(this.id, false)
+          } else {
+            this.classList.add("active");
+            cozMAP.updateQueryStringParam(this.id, true)
+          }
+          mapLayersToggle(map, this.dataset.layer)
+        })
+      }
+    }
+
+    function mapLayersToggle(map, layers) {
+      var currentMapLayers = map.getStyle().layers;
+      var layer = layers;
+      if (!layer.split(",")) {
+        currentMapLayers.forEach(l => {
+          if (l.id === layer) {
+            toggleLayer(l.id)
+            return
+          }
+          if (l.metadata && l.metadata.parent && l.metadata.parent === layer) {
+            toggleLayer(l.id)
+            return
+          }
+        })
+      } else {
+        var splitLayers = layer.split(",");
+        splitLayers.forEach(lyr => {
+          // console.log(lyr)
+          currentMapLayers.forEach(l => {
+            if (l.id === lyr.trim()) {
+              toggleLayer(l.id)
+              return
+            }
+            if (l.metadata && l.metadata.parent && l.metadata.parent === lyr.trim()) {
+              // console.log(l)
+              toggleLayer(l.id)
+              return
+            }
+          })
+        })
+      }
+    }
+
+    function toggleLayer(l) {
+      if (map.getLayoutProperty(l, "visibility") === "none") {
+        map.setLayoutProperty(l, "visibility", "visible")
+      } else {
+        map.setLayoutProperty(l, "visibility", "none")
+      }
+    }
+
+    function hideLayer(l) {
+      if (!Array.isArray(l)) {
+        map.setLayoutProperty(l, "visibility", "none")
+      } else {
+        l.forEach(layer => {
+          map.setLayoutProperty(layer, "visibility", "none")
+        })
+      }
+    }
+    ////////////////////////
+
+    map.on('load', function () {
+
+      //MAP STYLE TWEAKS
+      map.setLayoutProperty("poi-label", "visibility", "none");
+      map.setFilter("poi-label", ["!=", ["get", "class"], "park_like"])
+
+      var geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        localGeocoder: cozMAP.localGeocoder, //SEE LOCAL GEOCODER IN ASSETS/JS/SRC READS FROM POSTGRES MATERIAL VIEW
+        placeholder: "Search an Address, Parcel or POI",
+        clearOnBlur: true,
+        limit: 10,
+        countries: 'us',
+        bbox: [-82.1, 39.8, -81.8, 40.2]
+      });
+
+      var geocoderEl = document.createElement("div");
+      geocoderEl.id = "coz-geocoder";
+      document.body.appendChild(geocoderEl);
+      document.getElementById("coz-geocoder").appendChild(geocoder.onAdd(map));
+      
+      //TODO FIX THIS HACK
+      document.body.addEventListener("click", function(e) {
+        if (!e.target.classList.contains("mapboxgl-ctrl-geocoder--input")) {
+          document.querySelector(".mapboxgl-ctrl-geocoder--input").blur()
+        }
+      })
+
+      //THIS CLEARS THE LOADING ICON AFTER THE MAP HAS LOADED ALL LAYER DATA
+      cozMAP.mapCheckLoading(map);
+
+      //THIS LOADS ALL THE ICONS LISTED IN THE FIRST PART OF THIS MAP, CANT ADD THE LAYERS UNTIL THE ICONS ARE LOADED
+      cozMAP.mglAddIcons(map, npsIcons, function () {
+        fetch("/map-layers-config.json")
+          .then(res => {
+            return res.json()
+          })
+          .then(layers => {
+            // console.log(layers)
+
+            var layers = layers;
+
+            //DEFAULT LAYER TWEAKS
+            layers.forEach(l => {
+
+              // if (l.id === "admin-outline" || l.id === "adm_mus_parcels" || l.id === "ParcelsOutline") {
+              //   l.layout.visibility = "visible"
+              // }
+
+              if (l.id === "admin-outline") {
+                l.filter = ["==", ["get", "name"], "ZANESVILLE"]
+                l.layout.visibility = "visible"
+              }
+
+              if (l.id === "adm_mus_parcels") {
+                l.paint["fill-color"] = "transparent",
+                  l.minzoom = 15
+              }
+
+              if (l.id === "ParcelsOutline") {
+                l.paint["line-color"] = "#333";
+                l.paint["line-width"] = 1;
+                l.paint["line-opacity"] = {
+                  "stops": [
+                    [14, 0],
+                    [28, 0.4]
+                  ]
+                }
+                l.minzoom = 15
+              }
+
+              var itemsToAdd = [
+                "name",
+                "description",
+                "group",
+                "directory",
+                "parent",
+                "children",
+                "hidden",
+                "image",
+                "legend",
+                "source",
+                "sourceType",
+                "source-layer"
+              ]
+
+              l = addToMetada(l, itemsToAdd)
+
+            })
+
+            function addToMetada(layer, array) {
+              array.forEach(item => {
+                if (!layer.metadata) layer.metadata = {};
+                if (layer[item]) {
+                  layer.metadata[item] = layer[item]
+                }
+              })
+              return layer
+            }
+
+            //ADD MAP LAYERS
+            cozMAP.mapAddLayers(map, layers);
+
+            //IF THERE ARE LAYERS IN THE WINDOW QUERY, TURN THESE LAYERS ON
+            var loadedLayers = new URLSearchParams(window.location.search);
+            if (loadedLayers) {
+              for (var entry of loadedLayers.entries()) {
+                if (entry[1] == "true") {
+                  if (document.getElementById(entry[0])) document.querySelector("#" + entry[0]).click()
+                }
+              }
+            }
+
+            //CREATE ID OF ADDED MAP LAYERS TO USE LATER
+            var layerIds = layers.filter((i, l) => {
+              if (l.id) return [...i, l.id]
+            }, [])
+
+            layerIds.map((l, i) => {
+              if (l === "admin-outline") delete l
+            })
+
+            map.on('click', function (e) {
+              geocoder.clear()
+
+              var features = cozMAP.getFeatures(map, e, {
+                layers: layerIds
+              });
+              console.log(features)
+              cozMAP.popup(map, features)
+            });
+
+            //ADD MAP CONTROLS FROM COZMAP FUNCTION
+            cozMAP.mapAddControls(map, {
+              t: cozMAP.token,
+              geocoder: false,
+              gps: false
+            });
+
+            // map.addControl(new mapboxgl.FullscreenControl(), "top-right");
+
+            //OPEN SIDEBAR
+            sidebarToggleButtonState()
+
+            document.body.addEventListener("click", function () {
+              sidebarToggleButtonState()
+            });
+
+            window.onresize = sidebarToggleButtonState;
+
+            function sidebarToggleButtonState() {
+              var sidebarToggle = document.getElementById("mapSidebarToggle");
+              var sidebarEl = document.getElementById("sidebarId");
+              if (sidebarEl.classList.contains("active")) {
+                // sidebarToggle.innerHTML = '<i class="icon icon-cross"></i>';
+                document.querySelector(".mapboxgl-ctrl-top-left").style.left = sidebarEl.scrollWidth + "px";
+                document.querySelector(".coz-map--info-window").style.left = sidebarEl.scrollWidth + 10 + "px";
+ 
+              } else {
+                // sidebarToggle.innerHTML = '<i class="icon icon-arrow-right"></i>';
+                if (window.innerWidth > 768) {
+                  document.querySelector(".coz-map--info-window").style.left = "10px";
+                }else{
+                  document.querySelector(".coz-map--info-window").style.left = 0;
+                }
+                document.querySelector(".mapboxgl-ctrl-top-left").style.left = 0;
+              }
+            }
+          })
+
+      })
+    })
+
+</script>

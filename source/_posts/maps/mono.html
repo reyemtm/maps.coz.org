@@ -1,0 +1,151 @@
+---
+title: Monochrome
+layout: map
+header: >-
+  <script
+  src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.js'></script>
+  <link rel='stylesheet'
+  href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.css'
+  type='text/css'/>
+about: >- 
+  This map uses a monochrome style which can be more suited to print maps. It also features a black and white aerial image.
+---
+<script>
+
+  var map;
+
+  initMap()
+
+  function initMap() {
+
+    mapboxgl.accessToken = cozMAP.token;
+
+    map = new mapboxgl.Map({
+      container: 'map',
+      hash: true,
+      style: "mapbox://styles/cozgis/ckk89yjto15kr17mswrhafvv3",
+      center: [-82.011, 39.9416],
+      zoom: 15.16,
+      debug: 2,
+      minzoom: 10,
+      preserveDrawingBuffer: true,
+      maxBounds: cozMAP.maxBounds
+    });
+
+    map.on('load', function() {
+
+      // map.loadImage('/assets/symbols/arrow-1.png', function(err, img) {
+      //   map.addImage('arrow', img);
+      // });
+
+      // map.loadImage('/assets/symbols/square-purple.png', function(err, img) {
+      //   map.addImage('square-purple2', img);
+      // });
+
+      // map.loadImage('/assets/symbols/circle-purple.png', function(err, img) {
+      //   map.addImage('circle-purple', img);
+      // });
+
+      // map.loadImage('/assets/symbols/square-yellow.png', function(err, img) {
+      //   map.addImage('square-yellow', img);
+      // });
+
+      // map.loadImage('/assets/symbols/square-cyan.png', function(err, img) {
+      //   map.addImage('square-cyan', img);
+      // });
+
+      // map.loadImage('/assets/symbols/png/diamond-orange-24.png', function(err, img) {
+      //   map.addImage('diamond-orange-24', img);
+      // });
+
+      // map.loadImage('/assets/symbols/png/diamond-blue-24.png', function(err, img) {
+      //   map.addImage('diamond-blue-24', img);
+      // });
+
+      cozMAP.mapCheckLoading(this);
+
+    fetch("/map-layers-config.json")
+    .then(res => {
+      return res.json()
+    })
+    .then(data => {
+      let monoOrtho, orthoIndex, parcelLineIndex, parcelLine;
+      data.forEach((l,i) => {
+        if (l.id === "adm_mus_parcels_outline") {
+          parcelLine = JSON.parse(JSON.stringify(l));
+          parcelLine.paint["line-color"] = "white";
+          parcelLine.paint["line-width"] = 3;
+          parcelLine.id = "parcel-line-case";
+
+          parcelLineIndex = i;
+          l.paint["line-color"] = "gray";
+          l.paint["line-dasharray"] = [3,2]
+          l.paint["line-opacity"] = 0.8;
+          l.paint["line-width"] = 1
+        }
+
+        if (l.id === "adm_mus_parcels") {
+          l.paint["fill-color"] = "transparent"
+        }
+
+        if (l.id === "contours" || l.id === "env_contours_10ft_simplified") {
+          l.paint["line-color"] = "black";
+          l.paint["line-opacity"] = 0.15
+        }
+
+        if (l.id === "img_osip_2020") {
+          monoOrtho = JSON.parse(JSON.stringify(l))
+          monoOrtho.paint["raster-brightness-min"] = 0.1
+          monoOrtho.paint["raster-opacity"] = 0.4
+          monoOrtho.paint["raster-contrast"] = 0
+          monoOrtho.paint["raster-saturation"] = -1;
+          monoOrtho.name = "2020 Imagery Monochrome";
+          monoOrtho.id = "img_osip_2020_mono";
+          console.log(monoOrtho)
+          index = i;
+        }
+      });
+
+      data.splice(orthoIndex, 0, monoOrtho);
+      data.splice(parcelLineIndex - 1, 0, parcelLine)
+
+
+      cozMAP.mapAddLayers(map, data);
+
+      var lc = new cozMAP.layerControlGrouped({
+        options: {
+          collapsed: false
+        },
+        layers: data
+      });
+      document.querySelector("#coz-sidebar--layerControl").appendChild(lc.onAdd(map));
+      var controls = document.querySelectorAll(".mgl-layerControlDirectory");
+      for (var i=0; i < controls.length; i++) {
+        controls[i].children[0].click();
+        controls[i].style.display = "block";
+      };
+    })
+    cozMAP.mapAddControls(this, {
+      t: cozMAP.token
+    });
+    map.addControl(new cozMAP.mapPrintControl(), 'top-right');
+    map.addControl(new cozMAP.mglStreetViewControl({
+      mapillaryAlias: "COZ"
+    }), 'top-right');
+    map.addControl(new cozMAP.mglAddTerrainControl(), 'top-right')
+    map.addControl(new cozMAP.mapMeasureControl(), 'top-right');
+
+  });
+
+  map.on('click', function(e) {
+    
+    // const _features = map.queryRenderedFeatures(e.point)
+    // console.log(_features[0])
+    var features = cozMAP.getFeatures(map, e);
+    // console.log(e.point)
+    cozMAP.popup(map, features)
+  });
+
+}
+
+</script>

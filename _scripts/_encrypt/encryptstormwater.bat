@@ -1,0 +1,1 @@
+staticrypt "C:/Master_GIS/GIS_Applications/production/MapPortal/public/internal/stormwater-accounts/index.html" -f "C:/Master_GIS/GIS_Applications/production/MapPortal/_encrypt/encrypt_template.html" -t "Password Protected" -i "This webpage requires authentication. Please return to www.coz.org if you are not authorized to view this content."

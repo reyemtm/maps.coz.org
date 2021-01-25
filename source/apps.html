@@ -1,0 +1,118 @@
+---
+layout: default
+title: COZ Water Apps
+permalink: /portal/index.html
+header:     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+css: >-
+  * {
+    font-family: "Share Tech Mono", monospace;
+  }
+  body {
+    margin: 0;
+  }
+  .container {
+
+    margin: 0 auto;
+    font-size: 10px;
+    width: 1200px;
+    max-width: 96%;
+  }
+  @media screen and (max-width:768px) {
+    .container {
+      grid-template-columns: 1fr;
+    }
+  }
+  .hero {
+    margin: 2rem auto;
+    width: 1200px;
+    max-width: 90%;
+  }
+  section {
+    font-size: 1rem;
+    padding: 0.5rem;
+    max-width: 100%;
+  }
+  section:not(.hero) {
+    background: white;
+    border-radius: 0.5rem;
+  }
+  section h1 {
+    font-size: clamp(2.4rem, 8vw, 4.8rem);
+    margin: 1rem;
+    text-align: center;
+
+  }
+  section h2 {
+    font-size: clamp(2.4rem, 8vw, 4.8rem);
+    margin: 1rem;
+  }
+  section h2 span {
+    background: #202020;
+    color: white;
+  }
+  section h3 {
+    font-size: clamp(1.4rem, 2vw, 2rem);
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+
+  }
+  a:hover, a:focus {
+    opacity: 0.7;
+  }
+  details {
+    margin: 1rem 0;
+  }
+  summary {
+    cursor: pointer;
+  }
+  ul {
+    margin: 0;
+    padding: 0.5rem;
+  }
+
+  .tag {
+    background: whitesmoke;
+    opacity: 0.8;
+    text-transform: lowercase;
+    padding: 2px 4px 2px 0;
+  }
+---
+<!-- <section class="hero">
+  <h1>
+    Zanesville GIS Applications
+  </h1>
+</section> -->
+
+<div id="apps" class="container">
+</div>
+
+<script>
+fetch("https://gis.coz.org/apps-public.json")
+.then(res => res.json())
+.then(apps => {
+  apps.sort((a,b) => (a.title > b.title) ? 1: -1)
+  apps.map(app => {
+    app.categories = (!app.categories) ? [] : app.categories.sort();
+    app.description = app.description.substring(0,50);
+    if (app.categories && app.categories.indexOf("development") < 0) document.getElementById("apps").appendChild(appCard(app))
+  })
+})
+
+function appCard(e) {
+  var el = document.createElement("section")
+  el.innerHTML = `
+  <h5><a href="${e.url}">${e.title}</a></h5>
+  ${(!e.categories) ? "" : e.categories.map(t => `<span class="tag">${t}</span>`).join(" ")}
+  <details open>
+  <summary>Application Details</summary>
+  <ul style="list-style:none;">
+    ${Object.keys(e).map(o => (!e[o] || o === "url") ? "" : `<li>${o}: ${e[o]}</li>`).join("")}
+  </ul>
+  </details>
+  <br>
+  `
+  return el
+}
+
+
+</script>

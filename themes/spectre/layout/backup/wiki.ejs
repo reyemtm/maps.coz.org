@@ -1,0 +1,15 @@
+<%- partial('common/header', {category: ""}) %>
+<div id="content">
+  <div class="container">
+    <%- partial('common/wiki_sidebar') %>
+    <div class="columns wiki">
+      <div class="column col-8 col-lg-12 col-mx-auto">
+        <% if (page.title) {%><h2><%- page.title %></h2><%}%>
+        <%- toc(page.content, {
+        list_number: false
+        }) %>
+        <%- page.content %>
+      </div>
+    </div>
+  </div>
+</div>

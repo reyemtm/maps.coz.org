@@ -1,0 +1,96 @@
+---
+layout: map
+title: Sewer Tap Inspections 
+subtitle: Map for Sewer Tap Inspections
+img: sewer-tap-inspections.png
+about: >-
+  A map to facilitate the sewer tap inspections.
+header: >-
+  <script
+  src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+  <link rel='stylesheet'
+  href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
+  type='text/css'/>
+category: internal
+link: "/internal/sewer-tap-inspections/?adm_mus_parcels=true&ParcelsOutline=true#13.51/39.94133/-82.0155"
+css: >-
+ .mapboxgl-popup-content {
+    font-size: 0.9rem;
+ }
+---
+<script>
+
+mapboxgl.accessToken = cozMAP.token;
+
+var map = new mapboxgl.Map({
+  container: 'map',
+  hash: true,
+  style: "mapbox://styles/cozgis/cjy8tgnow01xj1cpcugn3eprk",
+  center: [-81.9981, 39.9657],
+  zoom: 13.51,
+  debug: 2,
+  minzoom: 10,
+  preserveDrawingBuffer: true
+});
+
+map.on('load', function() {
+
+  cozMAP.mapCheckLoading(this);
+
+  cozMAP.mapAddControls(this, {
+    t: cozMAP.token
+  });
+
+  map.loadImage('/assets/symbols/square-purple.png', function(err, img) {
+    map.addImage('square-purple2', img);
+  });
+
+  map.loadImage('/assets/symbols/circle-purple.png', function(err, img) {
+    map.addImage('circle-purple', img);
+  });
+
+  fetch("/map-layers-config.json")
+    .then(res => {
+      return res.json()
+    })
+    .then(data => {
+      var layers = data.filter(function(layer) {
+        return (layer.directory === "Imagery" || layer.directory === "Administrative Layers")
+      });
+
+      cozMAP.mapAddLayers(map, layers);
+      var lc = new cozMAP.layerControlGrouped({
+        options: {
+          collapsed: false
+        },
+        layers: layers
+      });
+      document.querySelector("#coz-sidebar--layerControl").appendChild(lc.onAdd(map));
+
+    })
+
+});
+
+map.on('click', function(e) {
+  let clickableLayers = ['adm_mus_parcels'];
+  let feature = cozMAP.getFeature(map, e, clickableLayers);
+  cozMAP.highlight(map, feature);
+  if (feature) {
+    let p = feature.properties;
+    let html = `
+    <strong>${p.owner}</strong>
+    <hr>
+    <p>${p.parcelnum}</p>
+    <p>${p.address}</p>
+    <div class="text-center"><a class="btn btn-outline btn-sm"  style="width:100%;" href="https://survey123.arcgis.com/share/eda62361aa2342f982966f7e7827919c?field:parcel_number=${p.parcelnum}&field:address=${p.address}" target="_blank"><i class="icon icon-share"></i> Create Sewer Tap Inspection</a></div>
+    `
+    let popup = new mapboxgl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(html)
+      .on('close', function() {
+        cozMAP.highlight(map)
+      })
+      .addTo(map);
+  }
+});
+</script>

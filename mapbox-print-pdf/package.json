@@ -1,0 +1,93 @@
+{
+  "_from": "mapbox-print-pdf",
+  "_id": "mapbox-print-pdf@0.4.3",
+  "_inBundle": false,
+  "_integrity": "sha512-WhwjuFUHmapnnUjnZHl/S2bUq3IYzb9hhI7ChbEPCQIDw5+9ieXAmlpnSa12aEMERB6gOjadvYxGZwaVXnK7oA==",
+  "_location": "/mapbox-print-pdf",
+  "_phantomChildren": {
+    "array-equal": "1.0.0",
+    "css-line-break": "1.0.1",
+    "cssom": "0.3.6",
+    "escodegen": "1.9.1",
+    "iconv-lite": "0.4.23",
+    "nwmatcher": "1.4.4",
+    "request": "2.87.0",
+    "rgbcolor": "1.0.1",
+    "symbol-tree": "3.2.2",
+    "tough-cookie": "2.3.4",
+    "xmldom": "0.1.27"
+  },
+  "_requested": {
+    "escapedName": "mapbox-print-pdf",
+    "fetchSpec": "latest",
+    "name": "mapbox-print-pdf",
+    "raw": "mapbox-print-pdf",
+    "rawSpec": "",
+    "registry": true,
+    "saveSpec": null,
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/mapbox-print-pdf/-/mapbox-print-pdf-0.4.3.tgz",
+  "_shasum": "641e4764d7bfea9f65d722f9eef2cdeec603f3d7",
+  "_shrinkwrap": null,
+  "_spec": "mapbox-print-pdf",
+  "_where": "C:\\_Master_GIS\\GIS_Projects\\Active\\MapPortal",
+  "author": {
+    "name": "Eddie Larsson"
+  },
+  "bugs": {
+    "url": "https://github.com/Eddie-Larsson/mapbox-print-pdf/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "canvg": "^1.5.3",
+    "css-initials": "^0.2.0",
+    "html2canvas": "^1.0.0-alpha.12",
+    "jspdf": "^1.3.5",
+    "mapbox-gl-dual-scale-control": "^0.1.2"
+  },
+  "deprecated": false,
+  "description": "A library for printing mapbox maps as pdfs",
+  "devDependencies": {
+    "@webcomponents/template": "^1.2.2",
+    "browserify": "^16.1.0",
+    "mapbox-gl": "^0.44.1",
+    "uglifyify": "^4.0.5",
+    "watchify": "^3.10.0",
+    "watchify-server": "^1.0.2"
+  },
+  "files": [
+    "js"
+  ],
+  "homepage": "https://github.com/Eddie-Larsson/mapbox-print-pdf#readme",
+  "keywords": [
+    "high-resolution",
+    "mapbox",
+    "pdf",
+    "print"
+  ],
+  "license": "MIT",
+  "main": "js/mapbox-print-pdf.js",
+  "name": "mapbox-print-pdf",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "mapbox-gl": "^0.44.1"
+  },
+  "readme": "# Overview\r\n\r\nA library for saving high resolution versions of mapbox-gl maps to a pdf with an optional header and/or footer that scales with the size of the format.\r\n\r\n## Installation\r\n\r\n    npm install mapbox-print-pdf --save\r\n## Example Usage\r\n\r\nExample usage for printing a map in A3 format in portrait mode:\r\n\r\n```javascript\r\nvar printPdf = require('mapbox-print-pdf');\r\n\r\nprintPdf.build()\r\n  .format('a3')\r\n  .portrait() // Unnecessary since it's the default but it's included for clarity.\r\n  .print(map, mapboxgl)\r\n  .then(function(pdf) {\r\n    pdf.save('map.pdf');\r\n  });\r\n```\r\n\r\nExample usage for printing a map in a custom format in landscape mode and a dpi of 200:\r\n\r\n```javascript\r\nvar printPdf = require('mapbox-print-pdf');\r\n\r\nprintPdf.build()\r\n  .format({width: 1280; height: 980; unit: \"pt\"; name: \"my-format\"})\r\n  .landscape()\r\n  .dpi(200)\r\n  .print(map, mapboxgl)\r\n  .then(function(pdf) {\r\n    pdf.save(\"map-custom-format.pdf\");\r\n  })\r\n```\r\n\r\nExample usage for printing a map in A2 format with a footer and a map scale control:\r\n\r\n```css\r\n#footer {\r\n  display:none;\r\n}\r\n.footer {\r\n  width:100%;\r\n  height:auto;\r\n  overflow:hidden;\r\n  margin-top: 10px;\r\n}\r\n.info {\r\n  font-size: 18px;\r\n}\r\n.info > span {\r\n  font-weight:bold;\r\n}\r\n```\r\n\r\n```Html\r\n<div data-scale-height=\"margin-top\" id=\"footer\" class=\"footer\">\r\n  <p data-scale-sum=\"font-size\" class=\"info\"><span>Created with</span>: © Mapbox, © OpenStreetMap</p>\r\n  <p data-scale-sum=\"font-size\" class=\"info\"><span>Author</span>: Eddie Larsson</p>\r\n</div>\r\n```\r\n```javascript\r\nvar printPdf = require('mapbox-print-pdf');\r\n\r\nvar elementClonedCb = function(elem) {\r\n  elem.removeAttribute(\"id\");\r\n}\r\n\r\nprintPdf.build()\r\n  .format(\"a2\")\r\n  .footer({\r\n    html: document.getElementById(\"footer\"),\r\n    baseline: {format: \"a4\", orientation: \"p\"}\r\n  }, elementClonedCb)\r\n  .scale({maxWidthPercent: 10, unit: \"metric\"})\r\n  .print(map, mapboxgl)\r\n  .then(function(pdf) {\r\n    pdf.save(\"map-with-footer.pdf\");\r\n  });\r\n```\r\nThe attributes data-scale-height and data-scale-sum are used to allow for scaling of the footer with its content.\r\n\r\n## Default formats\r\n* A0-10\r\n* B0-10\r\n* C0-10\r\n* dl (drivers license)\r\n* letter\r\n* government-letter\r\n* legal\r\n* junior-legal\r\n* ledger\r\n* tabloid\r\n* credit-card\r\n\r\n### Supported units\r\n* **Pixels**, \"px\",\r\n* **Points**, \"pt\",\r\n* **Inches**, \"in\",\r\n* **Millimiters**, \"mm\"\r\n* **Centimeters**, \"cm\"\r\n\r\nOne important thing to note is that when specifying a custom format or margins pixels can't be used.\r\n\r\n## Custom formats\r\nCustom formats can either be supplied when calling format, this is then in the form of an object containg width,height,unit and name of the format. The same form of object can also be added like so:\r\n\r\n```javascript\r\nvar printPdf = require('mapbox-print-pdf');\r\n\r\nprintPdf.formats.addFormat({\r\n  width: 500,\r\n  height: 500,\r\n  unit: \"pt\"\r\n}, \"format-name\");\r\n```\r\n\r\n## Scale control\r\nA scale control can be added to the printed map, this is specified with a maximum percentage of the maps width it's allowed to occupy along with the unit to use for the scale.\r\n\r\n```javascript\r\nvar printPdf = require('mapbox-print-pdf');\r\n\r\nprintPdf.build()\r\n        .scale({maxWidthPercent: 15, unit: \"imperial\"})\r\n        //...\r\n```\r\n\r\nThe supported units can be found [here](https://www.mapbox.com/mapbox-gl-js/api/#scalecontrol).<br>\r\nAt this time the supported units are:\r\n* metric\r\n* imperial\r\n* nautical\r\n\r\n## Margins\r\nMargins can be specified in any unit except pixels, they are considered absolute and do not scale with the size of the format. They can either be specified as a single number, in which case the same margin is used for all sides, or as an object containing the top, right, bottom and left values.\r\n\r\n```javascript\r\nvar printPdf = require('mapbox-print-pdf');\r\n\r\nprintPdf.build()\r\n        .margins(5, \"pt\")\r\n        //...\r\n```\r\n\r\n```javascript\r\nvar printPdf = require('mapbox-print-pdf');\r\n\r\nprintPdf.build()\r\n        .margins({\r\n          top: 6,\r\n          right: 3,\r\n          left: 3,\r\n          bottom:6\r\n        }, \"mm\")\r\n        //...\r\n```\r\n\r\n## Header/footer\r\nA header and/or footer can be specified either by passing in an html string or html object, the latter is usually preferred. In addition to the html itself the baseline format the header/footer was designed for must be provided, this could be a custom format (a name property isn't neccessary) or the name of a registered format. An additional optional property is the orientation of the baseline format (default is portrait). The header/footer height is based on the content height, so specify what it in the normal css.\r\n\r\n```javascript\r\nvar printPdf = require('mapbox-print-pdf');\r\n\r\nprintPdf.build()\r\n        .header({\r\n          html: '<div><p data-scale-sum=\"font-size\">I\\'m a header</p>',\r\n          baseline: {format: 'a4', orientation: 'l'}\r\n        })\r\n        .footer({\r\n          html: document.getElementById('footer-template'),\r\n          baseline: {\r\n            format: {\r\n              height: 500,\r\n              width: 300,\r\n              unit: \"pt\"\r\n            }\r\n          }\r\n        }, function(elem) {\r\n          elem.removeAttribute(\"id\");\r\n        })\r\n        //...\r\n```\r\n\r\nThe supported scaling attributes are:\r\n* **data-scale-height**, scale the specified properties by height.\r\n* **data-scale-width**, scale the specified properties by width.\r\n* **data-scale-sum**, scale the specified properties by the sum of the height and sum.\r\n* **data-scale-handler**, scale the element with a custom handler.\r\n\r\nThe properties to scale should be specified as a space separated list of properties in either camel-case or hyphen-separated. The exception to this is the **data-scale-handler** attribute which should specify the id of a custom scaling function.\r\n\r\nCustom scaling functions can be specified in the header/footer object, this should be in the form of an associative array of id: handler. The function should accept two parameters, the element to scale and an object containing information about the scaling. It should return an array of new style values specified as objects with **prop** and **value** properties where prop should be the property name in camelCase and value is the new value.\r\n\r\nThe second argument to the handler function has the following properties:\r\n\r\n* **heightRatio**, the ratio between the baseline height and the current height.\r\n* **widthRatio**, the ratio between the baseline width and the current width.\r\n* **sumRatio**, the ratio between the sum of the width and height of the baseline format and the current format.\r\n* **original**: A dimension object containing width, height and unit of the baseline format.\r\n* **current**: A dimension object containing width, height and unit of the current format.\r\n\r\nThe dimension objects have the following methods:\r\n\r\n* **to(unit)**, returns a new dimension object converted to the specified unit.\r\n* **toString()**, return the dimensions as a string in the format \"width:100px;height:100px\"\r\n* **add(dimension)**, returns a new dimension which is the sum of the current dimension and the given dimension.\r\n* **area()**, returns the area of the dimension (width*height)\r\n* **sum()**, returns the sum of the width and height\r\n* **width(), height(), unit()**, accessor methods\r\n\r\n```Html\r\n<div id=\"header-template\">\r\n  <p data-scale-handler=\"custom-handler\">Passed to the handler</p>\r\n</div>\r\n```\r\n```javascript\r\nvar printPdf = require('mapbox-print-pdf');\r\n\r\nvar customHandler = function(elem, scalingObj) {\r\n  var newStyles = [];\r\n  // Calculate new styles.\r\n  return newStyles;\r\n}\r\n\r\nprintPdf.build()\r\n        .header({\r\n          html: document.getElementById(\"header-template\"),\r\n          baseline: \"a4\",\r\n          handlers: {\"custom-handler\": customHandler}\r\n        }, function(elem) {\r\n          elem.removeAttribute(\"id\");\r\n        })\r\n```\r\n\r\n### Styling\r\n\r\nThe available properties/values are restricted by html2canvas, for a list of supported features see [html2canvas](https://html2canvas.hertzen.com/features).\r\n\r\n## Attribution\r\n\r\nAttribution of maps is required. See tile provider terms for details.\r\n\r\n## License\r\n\r\nLicensed under the MIT [License](https://github.com/Eddie-Larsson/mapbox-print-pdf/blob/master/LICENSE).\r\n\r\n## Credits\r\n\r\n* [Matthew Petroff](http://mpetroff.net/), Based on his work [print-maps](https://github.com/mpetroff/print-maps)\r\n* [Mapbox GL JS](https://github.com/mapbox/mapbox-gl-js)\r\n* [jsPDF](https://parall.ax/products/jspdf)\r\n* [html2canvas](https://html2canvas.hertzen.com/)\r\n",
+  "readmeFilename": "readme.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eddie-Larsson/mapbox-print-pdf.git"
+  },
+  "scripts": {
+    "build": "browserify -g uglifyify js/mapbox-print-pdf.js -o dist/mapbox-print-pdf.min.js",
+    "build-demo": "browserify docs/js/index.js -o docs/build/bundle.js",
+    "start": "watchify-server docs/js/index.js --port 8000 --index index.html --dir docs",
+    "watch-dev": "watchify docs/js/index.js -v -o docs/build/bundle.js"
+  },
+  "version": "0.4.3"
+}
